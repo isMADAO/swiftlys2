@@ -360,7 +360,7 @@ public interface IMenuAPI : IDisposable
     /// <param name="player">The player who will see the menu.</param>
     /// <remarks>
     /// This method only displays the menu visually. To properly open a menu (which handles state management, 
-    /// closing other menus, and triggering events), use <see cref="IMenuManagerAPI.OpenMenuForPlayer"/> instead.
+    /// closing other menus, and triggering events), use <see cref="IMenuManagerAPI.OpenMenuForPlayer(IPlayer, IMenuAPI)"/> instead.
     /// </remarks>
     public void ShowForPlayer( IPlayer player );
 

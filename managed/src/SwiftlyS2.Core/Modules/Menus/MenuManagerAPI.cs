@@ -517,6 +517,15 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
         CloseMenuForPlayerInternal(player, menu, true);
     }
 
+    public void CloseActiveMenu( IPlayer player )
+    {
+        var menu = GetCurrentMenu(player);
+        if (menu != null)
+        {
+            CloseMenuForPlayer(player, menu);
+        }
+    }
+
     public void CloseAllMenus()
     {
         openMenus.ToList().ForEach(kvp =>

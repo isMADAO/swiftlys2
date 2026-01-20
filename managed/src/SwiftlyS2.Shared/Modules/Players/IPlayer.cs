@@ -363,6 +363,9 @@ public interface IPlayer : IEquatable<IPlayer>
     /// </summary>
     /// <param name="damage">The amount of damage to apply.</param>
     /// <param name="damageType">The type of damage to apply.</param>
+    ///     /// <param name="inflictor">The entity that is inflicting the damage. Can be null.</param>
+    /// <param name="attacker">The entity that is attacking. Can be null.</param>
+    /// <param name="ability">The ability that caused the damage. Can be null.</param>
     [ThreadUnsafe]
     public void TakeDamage( float damage, DamageTypes_t damageType, CBaseEntity? inflictor = null, CBaseEntity? attacker = null, CBaseEntity? ability = null );
 
@@ -371,8 +374,12 @@ public interface IPlayer : IEquatable<IPlayer>
     /// </summary>
     /// <param name="damage">The amount of damage to apply.</param>
     /// <param name="damageType">The type of damage to apply.</param>
+    /// <param name="inflictor">The entity that is inflicting the damage. Can be null.</param>
+    /// <param name="attacker">The entity that is attacking. Can be null.</param>
+    /// <param name="ability">The ability that caused the damage. Can be null.</param>
     public Task TakeDamageAsync( float damage, DamageTypes_t damageType, CBaseEntity? inflictor = null, CBaseEntity? attacker = null, CBaseEntity? ability = null );
 
+    /// <summary>
     /// Teleports the entity to the specified position, orientation, and velocity.
     /// 
     /// Thread unsafe, use async variant instead for non-main thread context.
@@ -383,6 +390,7 @@ public interface IPlayer : IEquatable<IPlayer>
     [ThreadUnsafe]
     public void Teleport( Vector pos, QAngle angle, Vector velocity );
 
+    /// <summary>
     /// Teleports the entity to the specified position, orientation, and velocity.
     /// 
     /// Thread unsafe, use async variant instead for non-main thread context.
