@@ -341,7 +341,7 @@ void __fastcall PreloadDLLHook(HMODULE hModule)
 
     if (hModule)
     {
-        char modulePath[MAX_PATH] = {0};
+        char modulePath[MAX_PATH] = { 0 };
         DWORD len = GetModuleFileNameA(hModule, modulePath, MAX_PATH);
         if (len > 0 && len < MAX_PATH)
         {
@@ -492,7 +492,7 @@ void* SwiftlyCore::GetInterface(const std::string& interface_name)
 
     if (ifaceptr != nullptr)
     {
-        g_mInterfacesCache.insert({interface_name, ifaceptr});
+        g_mInterfacesCache.insert({ interface_name, ifaceptr });
     }
 
     return ifaceptr;
