@@ -145,7 +145,7 @@ void CSDKSchema::Load()
     for (int i = 0; i < schemaSystem->m_TypeScopes.GetNumStrings(); i++)
     {
         auto ts = schemaSystem->m_TypeScopes[i];
-
+        
         classes_count += ts->m_DeclaredClasses.m_Map.Count();
 
         FOR_EACH_MAP(ts->m_DeclaredClasses.m_Map, iter)
