@@ -83,8 +83,8 @@
         "linux": 27
     },
     "CPlayer_MovementServices::RunCommand": {
-        "windows": 20,
-        "linux": 21
+        "windows": 21,
+        "linux": 22
     },
     /* From sdk */
     "ICvar::FindConCommand": {
