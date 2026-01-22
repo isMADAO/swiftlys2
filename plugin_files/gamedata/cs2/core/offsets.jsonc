@@ -51,36 +51,36 @@
     inside it there should be a virtual call on CSoundSystem.
     */
     "CSoundSystem::TakeGuid": {
-        "windows": 77,
-        "linux": 76
+        "windows": 76,
+        "linux": 75
     },
     "CGameRules::FindPickerEntity": {
         "windows": 25,
         "linux": 26
     },
     "CCSPlayer_ItemServices::DropActiveItem": {
-        "windows": 21,
-        "linux": 22
+        "windows": 22,
+        "linux": 23
     },
     "CCSPlayer_ItemServices::RemoveWeapons": {
-        "windows": 22,
-        "linux": 23
-    },
-    "CCSPlayer_ItemServices::GiveNamedItem": {
-        "windows": 18,
-        "linux": 19
-    },
-    "CCSPlayer_WeaponServices::CanUse": {
-        "windows": 22,
-        "linux": 23
-    },
-    "CCSPlayer_WeaponServices::DropWeapon": {
         "windows": 23,
         "linux": 24
     },
+    "CCSPlayer_ItemServices::GiveNamedItem": {
+        "windows": 19,
+        "linux": 20
+    },
+    "CCSPlayer_WeaponServices::CanUse": {
+        "windows": 23,
+        "linux": 24
+    },
+    "CCSPlayer_WeaponServices::DropWeapon": {
+        "windows": 24,
+        "linux": 25
+    },
     "CCSPlayer_WeaponServices::SelectWeapon": {
-        "windows": 25,
-        "linux": 26
+        "windows": 26,
+        "linux": 27
     },
     "CPlayer_MovementServices::RunCommand": {
         "windows": 20,
