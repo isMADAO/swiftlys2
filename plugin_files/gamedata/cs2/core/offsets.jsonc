@@ -31,8 +31,8 @@
         "linux": 9
     },
     "GetHammerUniqueID": {
-        "windows": 118,
-        "linux": 117
+        "windows": 111,
+        "linux": 110
     },
     "CEntityResourceManifest::AddResource": {
         "windows": 2,
