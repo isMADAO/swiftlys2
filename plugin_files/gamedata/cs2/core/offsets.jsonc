@@ -4,8 +4,8 @@
         "linux": 80
     },
     "CBasePlayerPawn::CommitSuicide": {
-        "windows": 408,
-        "linux": 408
+        "windows": 400,
+        "linux": 400
     },
     "CCSPlayerController::ChangeTeam": {
         "windows": 102,
@@ -16,7 +16,7 @@
     */
     "CBaseEntity::Teleport": {
         "windows": 162,
-        "linux": 163
+        "linux": 161
     },
     "CCSPlayerController::Respawn": {
         "windows": 272,
@@ -28,7 +28,7 @@
     },
     "CGameSceneNode::GetSkeletonInstance": {
         "windows": 8,
-        "linux": 8
+        "linux": 9
     },
     "GetHammerUniqueID": {
         "windows": 118,
