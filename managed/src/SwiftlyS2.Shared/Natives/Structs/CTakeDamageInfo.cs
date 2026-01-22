@@ -8,9 +8,9 @@ namespace SwiftlyS2.Shared.Natives;
 [StructLayout(LayoutKind.Sequential)]
 public struct AttackerInfo_t
 {
-    public bool NeedInit;
-    public bool IsPawn;
-    public bool IsWorld;
+    public byte NeedInit;
+    public byte IsPawn;
+    public byte IsWorld;
     public CHandle<CCSPlayerPawn> AttackerPawn;
     public int AttackerPlayerSlot;
     public int TeamChecked;
@@ -51,10 +51,10 @@ public unsafe struct CTakeDamageInfo
     public int NumObjectsPenetrated;
     public float FriendlyFireDamageReductionRatio;
     public byte StoppedBullet;
-    private fixed byte _padding3[0x58];
+    public ShootingInfo ShootingInfo;
     public void* ScriptInstance;
     public AttackerInfo_t AttackerInfo;
-    private fixed byte _padding4[0x14];
+    public CUtlVector<DestructibleHitGroupToDestroy_t> DestructibleHitGroupsToForceDestroy;
     public byte InTakeDamageFlow;
 
     private int Unknown;
@@ -102,7 +102,8 @@ public unsafe struct CTakeDamageResult
     public float PreModifiedDamage;
     public int TotalledHealthLost;
     public int TotalledDamageDealt;
-    public float TotalledDamage;
+    public float TotalledPreModifiedDamage;
     public byte WasDamageSuppressed;
-    private fixed byte _padding[0xB];
+    public byte SuppressFlinch;
+    public HitGroup_t OverrideFlinchHitGroup;
 }
