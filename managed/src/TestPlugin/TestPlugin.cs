@@ -149,6 +149,11 @@ public class TestPlugin : BasePlugin
         {
             // Console.WriteLine($"WeaponServicesCanUse: {@event.Weapon.WeaponBaseVData.AttackMovespeedFactor} {@event.OriginalResult}");
         };
+
+        Core.Event.OnItemServicesCanAcquireHook += ( @event ) =>
+        {
+            Console.WriteLine("Can Acquire called");
+        };
     }
 
     [Command("be")]
