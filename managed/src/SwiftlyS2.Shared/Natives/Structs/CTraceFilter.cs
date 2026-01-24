@@ -8,11 +8,11 @@ public struct CTraceFilter
 {
     [FieldOffset(0x0)] private nint _pVTable;
     [FieldOffset(0x8)] public RnQueryShapeAttr_t QueryShapeAttributes;
-    [FieldOffset(0x3A)] public byte bIterateEntities;
-    public bool IterateEntities {
-        get => bIterateEntities != 0;
-        set => bIterateEntities = (byte)(value ? 1 : 0);
-    }
+    
+    [FieldOffset(0x3A)] 
+    [MarshalAs(UnmanagedType.U1)]
+    public bool IterateEntities;
+
 
     public CTraceFilter( bool checkIgnoredEntities = true )
     {
