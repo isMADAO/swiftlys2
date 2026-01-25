@@ -21,7 +21,7 @@
 
 #include <entityhandle.h>
 
-typedef void (*CEntityInstance_AcceptInput)(void*, const char*, void*, void*, void*, int);
+typedef void (*CEntityInstance_AcceptInput)(void*, const char*, void*, void*, void*, int, void*);
 typedef void (*CEntitySystem_AddEntityIOEvent)(void*, void*, const char*, void*, void*, void*, float, int, void*, void*);
 
 void Bridge_EntitySystem_Spawn(void* pEntity, void* pKeyValues)
@@ -47,7 +47,7 @@ void Bridge_EntitySystem_AcceptInput(void* pEntity, const char* input, void* pAc
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
     static auto sig = gamedata->GetSignatures()->Fetch("CEntityInstance::AcceptInput");
 
-    reinterpret_cast<CEntityInstance_AcceptInput>(sig)(pEntity, input, pActivator, pCaller, variant, outputID);
+    reinterpret_cast<CEntityInstance_AcceptInput>(sig)(pEntity, input, pActivator, pCaller, variant, outputID, nullptr);
 }
 
 void Bridge_EntitySystem_AddEntityIOEvent(void* pEntity, const char* input, void* pActivator, void* pCaller, void* variant, float delay)
