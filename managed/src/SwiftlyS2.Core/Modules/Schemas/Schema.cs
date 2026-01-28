@@ -10,7 +10,7 @@ namespace SwiftlyS2.Core.Schemas;
 
 internal static class Schema
 {
-    private static readonly HashSet<ulong> dangerousFields = new() {
+    private static readonly HashSet<ulong> dangerousFields = [
     0x509D90A88DFCB984, // CMaterialAttributeAnimTag.m_flValue
     0xCB1D2D708DFCB984, // CNmConstFloatNode__CDefinition.m_flValue
     0xB6A452E28DFCB984, // MaterialParamFloat_t.m_flValue
@@ -44,18 +44,16 @@ internal static class Schema
     0xCD91F684A1B165B2, // CEconEntity.m_nFallbackSeed
     0xCD91F68486253266, // CEconEntity.m_flFallbackWear
     0xCD91F68467ECC1E7, // CEconEntity.m_nFallbackStatTrak
-  };
+    ];
 
     public static bool isFollowingServerGuidelines = NativeServerHelpers.IsFollowingServerGuidelines();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static nint GetOffset( ulong hash )
     {
-        if (isFollowingServerGuidelines && dangerousFields.Contains(hash))
-        {
-            throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
-        }
-        return NativeSchema.GetOffset(hash);
+        return isFollowingServerGuidelines && dangerousFields.Contains(hash)
+            ? throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.")
+            : NativeSchema.GetOffset(hash);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -84,7 +82,7 @@ internal static class Schema
             throw new ArgumentException("Value is too long. Max size is " + maxSize);
         }
         var bytes = pool.Rent(size + 1);
-        Encoding.UTF8.GetBytes(value, bytes);
+        _ = Encoding.UTF8.GetBytes(value, bytes);
         bytes[size] = 0;
         Unsafe.CopyBlockUnaligned(
           ref handle.AsRef<byte>(offset),

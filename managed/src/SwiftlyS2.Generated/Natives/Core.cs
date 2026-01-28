@@ -42,4 +42,12 @@ internal static class NativeCore
         var ret = _EnableProfilerByDefault();
         return ret == 1;
     }
+
+    private unsafe static delegate* unmanaged<byte> _IsMainThread;
+
+    public unsafe static bool IsMainThread()
+    {
+        var ret = _IsMainThread();
+        return ret == 1;
+    }
 }

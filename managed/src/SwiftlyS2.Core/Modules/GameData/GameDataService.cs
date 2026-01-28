@@ -169,7 +169,7 @@ internal class GameDataService : IGameDataService
   {
     if (_Patches.TryGetValue(patchName, out var patch))
     {
-      nint address = GetSignature(patch.signature);
+      var address = GetSignature(patch.signature);
       if (address == nint.Zero)
       {
         throw new Exception($"Failed to apply patch {patchName}, cannot find signature {patch.signature}.");
@@ -191,7 +191,7 @@ internal class GameDataService : IGameDataService
           .Select(x => byte.Parse(x, NumberStyles.HexNumber, CultureInfo.InvariantCulture))
           .ToArray();
       }
-      MemoryPatch.SetMemAccess(address, bytes.Length);
+      _ = MemoryPatch.SetMemAccess(address, bytes.Length);
       address.CopyFrom(bytes);
       return;
     }

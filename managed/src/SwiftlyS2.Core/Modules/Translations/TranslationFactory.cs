@@ -6,7 +6,7 @@ namespace SwiftlyS2.Core.Translations;
 
 internal class TranslationResource
 {
-    public Dictionary<Language, Dictionary<string, string>> Resources { get; set; } = new();
+    public Dictionary<Language, Dictionary<string, string>> Resources { get; set; } = [];
 }
 
 internal class TranslationFactory
@@ -38,7 +38,7 @@ internal class TranslationFactory
                 ReadCommentHandling = JsonCommentHandling.Skip,
             };
 
-            var translation = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(translationFile), options) ?? new();
+            var translation = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(translationFile), options) ?? [];
             foreach (var translationEntry in translation)
             {
                 translation[translationEntry.Key] = translationEntry.Value.Colored();
@@ -46,17 +46,11 @@ internal class TranslationFactory
             resource.Resources[new Language(language)] = translation;
         }
 
-        if (resource.Resources.Count == 0)
-        {
-            throw new Exception("No translation files found.");
-        }
-
-        if (!resource.Resources.ContainsKey(Language.English))
-        {
-            throw new Exception("English primary translation file not found.");
-        }
-
-        return resource;
+        return resource.Resources.Count == 0
+            ? throw new Exception("No translation files found.")
+            : !resource.Resources.ContainsKey(Language.English)
+            ? throw new Exception("English primary translation file not found.")
+            : resource;
     }
 
 
@@ -65,11 +59,8 @@ internal class TranslationFactory
 
         var defaultResource = resource.Resources[Language.English];
 
-        if (!resource.Resources.ContainsKey(language))
-        {
-            return new Localizer(defaultResource, defaultResource);
-        }
-
-        return new Localizer(resource.Resources[language], defaultResource);
+        return !resource.Resources.TryGetValue(language, out var value)
+            ? new Localizer(defaultResource, defaultResource)
+            : new Localizer(value, defaultResource);
     }
 }

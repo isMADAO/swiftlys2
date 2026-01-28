@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Text;
-using SwiftlyS2.Core.Natives;
 
 namespace SwiftlyS2.Core.Natives;
 
@@ -29,7 +28,7 @@ internal class StringPool
             }
 
             var byteCount = Encoding.UTF8.GetByteCount(str);
-            var neededSize = byteCount + 1; 
+            var neededSize = byteCount + 1;
 
             if (neededSize > BLOCK_SIZE / 2)
             {
@@ -60,7 +59,7 @@ internal class StringPool
     private static unsafe void WriteBytes( nint addr, string str, int length )
     {
         var span = new Span<byte>(addr.ToPointer(), length + 1);
-        Encoding.UTF8.GetBytes(str, span);
+        _ = Encoding.UTF8.GetBytes(str, span);
         span[length] = 0;
     }
 }

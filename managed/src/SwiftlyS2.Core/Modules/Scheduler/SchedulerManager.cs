@@ -2,9 +2,6 @@ using System.Collections.Concurrent;
 using Spectre.Console;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Scheduler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace SwiftlyS2.Core.Scheduler;
 
@@ -22,17 +19,17 @@ internal static class SchedulerManager
     private static long _currentTick = 0;
     private static long _currentTimeMs = 0;
 
-    private static readonly ConcurrentQueue<Action> _asyncOnTickTaskQueue = new();
-    private static readonly ConcurrentQueue<Action> _asyncOnWorldUpdateTaskQueue = new();
+    private static readonly ConcurrentQueue<Action> _asyncOnTickTaskQueue = [];
+    private static readonly ConcurrentQueue<Action> _asyncOnWorldUpdateTaskQueue = [];
 
     // Min-heap keyed by DueTick
     private static readonly PriorityQueue<Timer, long> _timerQueue = new();
     private static readonly PriorityQueue<Timer, long> _timerQueueMs = new();
 
     // Next-tick tasks keyed by guid so services can remove them before they run
-    private static readonly List<(Action action, CancellationToken ownerToken)> _nextTickTasks = new();
+    private static readonly List<(Action action, CancellationToken ownerToken)> _nextTickTasks = [];
 
-    private static readonly List<(Action action, CancellationToken ownerToken)> _nextWorldUpdateTasks = new();
+    private static readonly List<(Action action, CancellationToken ownerToken)> _nextWorldUpdateTasks = [];
 
     public static void OnWorldUpdate()
     {
@@ -42,7 +39,7 @@ internal static class SchedulerManager
 
     private static void ExecuteOnWorldUpdateAsyncTasks()
     {
-        int batchCount = _asyncOnWorldUpdateTaskQueue.Count;
+        var batchCount = _asyncOnWorldUpdateTaskQueue.Count;
         while (batchCount > 0 && _asyncOnWorldUpdateTaskQueue.TryDequeue(out var task))
         {
             batchCount--;
@@ -95,7 +92,7 @@ internal static class SchedulerManager
 
     private static void ExecuteOnTickAsyncTasks()
     {
-        int batchCount = _asyncOnTickTaskQueue.Count;
+        var batchCount = _asyncOnTickTaskQueue.Count;
         while (batchCount > 0 && _asyncOnTickTaskQueue.TryDequeue(out var task))
         {
             batchCount--;
@@ -128,7 +125,7 @@ internal static class SchedulerManager
             {
                 if (!_timerQueue.TryPeek(out var timer, out var due)) break;
                 if (due > _currentTick) break;
-                _timerQueue.Dequeue();
+                _ = _timerQueue.Dequeue();
 
                 // Skip canceled/owner-disposed timers
                 if (timer.CancellationTokenSource.IsCancellationRequested || timer.OwnerToken.IsCancellationRequested)
@@ -143,7 +140,7 @@ internal static class SchedulerManager
             {
                 if (!_timerQueueMs.TryPeek(out var timer, out var due)) break;
                 if (due > _currentTimeMs) break;
-                _timerQueueMs.Dequeue();
+                _ = _timerQueueMs.Dequeue();
 
                 // Skip canceled/owner-disposed timers
                 if (timer.CancellationTokenSource.IsCancellationRequested || timer.OwnerToken.IsCancellationRequested)
@@ -241,7 +238,8 @@ internal static class SchedulerManager
 
         var cancellationTokenSource = new CancellationTokenSource();
 
-        var _ = NextTickAsync(() => {
+        var _ = NextTickAsync(() =>
+        {
             var timer = new Timer {
                 Task = task,
                 CancellationTokenSource = cancellationTokenSource,
@@ -382,11 +380,6 @@ internal static class SchedulerManager
 
     public static Task<T> QueueOrNow<T>( Func<T> task )
     {
-        if (NativeBinding.IsMainThread)
-        {
-            return Task.FromResult(task());
-        }
-
-        return NextWorldUpdateAsync(task);
+        return NativeBinding.IsMainThread ? Task.FromResult(task()) : NextWorldUpdateAsync(task);
     }
 }

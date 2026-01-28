@@ -27,11 +27,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
 
     public string? GetString( int index )
     {
-        if (!IsStringIndexValid(index))
-        {
-            return null;
-        }
-        return NativeStringTable.GetString(handle, index);
+        return !IsStringIndexValid(index) ? null : NativeStringTable.GetString(handle, index);
     }
 
     public bool TryGetStringUserData( int index, out StringTableOutUserData result )
@@ -62,11 +58,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
 
     public StringTableOutUserData GetStringUserData( int index )
     {
-        if (!TryGetStringUserData(index, out var result))
-        {
-            return default;
-        }
-        return result;
+        return !TryGetStringUserData(index, out var result) ? default : result;
     }
 
     public bool TryGetStringUserData( string str, out StringTableOutUserData result )
@@ -82,11 +74,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
 
     public StringTableOutUserData GetStringUserData( string str )
     {
-        if (!TryGetStringUserData(str, out var result))
-        {
-            return default;
-        }
-        return result;
+        return !TryGetStringUserData(str, out var result) ? default : result;
     }
 
     public bool SetStringUserData( int index, StringTableUserData userData, bool forceOverride = true )
@@ -107,11 +95,9 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
     public bool SetStringUserData( string str, StringTableUserData userData, bool forceOverride = true )
     {
         var index = FindStringIndex(str);
-        if (index is null)
-        {
-            throw new ArgumentException("Failed to set string user data. String is not found in string table.");
-        }
-        return SetStringUserData(index!.Value, userData, forceOverride);
+        return index is null
+            ? throw new ArgumentException("Failed to set string user data. String is not found in string table.")
+            : SetStringUserData(index!.Value, userData, forceOverride);
     }
 
     public bool SetOrAddStringUserData( string str, StringTableUserData userData, bool forceOverride = true )

@@ -1,5 +1,3 @@
-using System.Text.Json;
-using Microsoft.Extensions.Logging;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Services;
 using SwiftlyS2.Shared.Players;
@@ -9,13 +7,11 @@ namespace SwiftlyS2.Core.Translations;
 
 internal class TranslationService : ITranslationService
 {
-    private ILogger<TranslationService> _Logger { get; init; }
     private CoreContext _Context { get; init; }
     private TranslationResource _TranslationResource { get; set; } = new();
 
-    public TranslationService( ILogger<TranslationService> logger, CoreContext context )
+    public TranslationService( CoreContext context )
     {
-        _Logger = logger;
         _Context = context;
 
         var translationDir = Path.Combine(_Context.BaseDirectory, "resources", "translations");

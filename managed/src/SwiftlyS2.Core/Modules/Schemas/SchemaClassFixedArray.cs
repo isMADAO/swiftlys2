@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using SwiftlyS2.Shared.Schemas;
 
 namespace SwiftlyS2.Core.Schemas;

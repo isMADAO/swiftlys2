@@ -1,38 +1,28 @@
-using SwiftlyS2.Shared.Services;
 using SwiftlyS2.Shared.Translation;
 
 namespace SwiftlyS2.Core.Translations;
 
 internal class Localizer : ILocalizer
 {
-  private Dictionary<string, string> _Resource { get; init; }
-  private Dictionary<string, string> _DefaultResource { get; init; }
+    private Dictionary<string, string> _Resource { get; init; }
+    private Dictionary<string, string> _DefaultResource { get; init; }
 
-
-
-  public Localizer( Dictionary<string, string> resource, Dictionary<string, string> defaultResource )
-  {
-    _Resource = resource;
-    _DefaultResource = defaultResource;
-  }
-
-  public string this[string key] => Get(key);
-
-  public string this[string key, params object[] args] => string.Format(this[key], args);
-
-  public string Get( string key )
-  {
-    if (_Resource.TryGetValue(key, out var value))
+    public Localizer( Dictionary<string, string> resource, Dictionary<string, string> defaultResource )
     {
-      return value;
+        _Resource = resource;
+        _DefaultResource = defaultResource;
     }
 
-    if (_DefaultResource.TryGetValue(key, out var defaultValue))
+    public string this[string key] => Get(key);
+
+    public string this[string key, params object[] args] => string.Format(this[key], args);
+
+    public string Get( string key )
     {
-      return defaultValue;
+        return _Resource.TryGetValue(key, out var value)
+        ? value
+        : _DefaultResource.TryGetValue(key, out var defaultValue)
+        ? defaultValue
+        : throw new Exception($"Translation key {key} not found.");
     }
-
-    throw new Exception($"Translation key {key} not found.");
-  }
-
 }

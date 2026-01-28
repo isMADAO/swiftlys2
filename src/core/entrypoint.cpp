@@ -53,6 +53,7 @@
 
 SwiftlyCore g_SwiftlyCore;
 InterfacesManager g_ifaceService;
+std::thread::id g_mainThreadId;
 
 INetworkMessages* networkMessages = nullptr;
 
@@ -60,16 +61,6 @@ IVFunctionHook* g_pGameServerSteamAPIActivated = nullptr;
 IVFunctionHook* g_pGameServerSteamAPIDeactivated = nullptr;
 
 IVFunctionHook* g_pLoopInitHook = nullptr;
-
-// // Simple benchmark function for P/Invoke testing
-// #ifdef _WIN32
-// extern "C" __declspec(dllexport) int32_t SwiftlyS2_Benchmark_PInvoke()
-// #else
-// extern "C" __attribute__((visibility("default"))) int32_t SwiftlyS2_Benchmark_PInvoke()
-// #endif
-// {
-//     return 1337;
-// }
 
 #ifdef _WIN32
 #include <regex>
@@ -92,6 +83,8 @@ CON_COMMAND(sw_crash, "")
 
 bool SwiftlyCore::Load(BridgeKind_t kind)
 {
+    g_mainThreadId = std::this_thread::get_id();
+
     m_iKind = kind;
     SetupConsoleColors();
 
