@@ -92,12 +92,8 @@ internal class HelpersService : IHelpers
 
     public CCSWeaponBaseVData? GetWeaponCSDataFromKey( int unknown, string key )
     {
-        nint weaponDataPtr = GameFunctions.GetWeaponCSDataFromKey(unknown, key);
-        if (weaponDataPtr == 0)
-        {
-            return null;
-        }
-        return new CCSWeaponBaseVDataImpl(weaponDataPtr);
+        var weaponDataPtr = GameFunctions.GetWeaponCSDataFromKey(unknown, key);
+        return weaponDataPtr == 0 ? null : (CCSWeaponBaseVData)new CCSWeaponBaseVDataImpl(weaponDataPtr);
     }
 
     public CCSWeaponBaseVData? GetWeaponCSDataFromKey( int itemDefinitionIndex )

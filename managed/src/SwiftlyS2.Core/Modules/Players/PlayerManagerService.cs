@@ -1,7 +1,6 @@
 ﻿using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.SchemaDefinitions;
-using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using SwiftlyS2.Shared.SteamAPI;
@@ -11,7 +10,7 @@ namespace SwiftlyS2.Core.Players;
 
 internal class PlayerManagerService : IPlayerManagerService
 {
-    private ITranslationService _translationService;
+    private readonly ITranslationService _translationService;
     public static List<IPlayer> PlayerObjects = Enumerable.Range(0, NativePlayerManager.GetPlayerCap()).Select(i => new Player(i) as IPlayer).ToList();
 
     public PlayerManagerService( ITranslationService translationService )
@@ -159,7 +158,7 @@ internal class PlayerManagerService : IPlayerManagerService
             }
             else if (target.StartsWith('#'))
             {
-                if (int.TryParse(target[1..], out int id) && targetPlayer.PlayerID == id)
+                if (int.TryParse(target[1..], out var id) && targetPlayer.PlayerID == id)
                 {
                     allPlayers = allPlayers.Append(targetPlayer);
                 }

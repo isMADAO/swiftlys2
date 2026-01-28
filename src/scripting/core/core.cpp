@@ -18,6 +18,7 @@
 
 #include <scripting/scripting.h>
 #include <api/interfaces/manager.h>
+#include <thread>
 
 extern std::thread::id g_mainThreadId;
 
