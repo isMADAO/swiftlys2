@@ -1,6 +1,6 @@
-using SwiftlyS2.Core.EntitySystem;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
+using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using SwiftlyS2.Shared.Schemas;
 
@@ -11,13 +11,28 @@ internal partial class CPlayer_WeaponServicesImpl
     public void DropWeapon( CBasePlayerWeapon weapon )
     {
         NativeBinding.ThrowIfNonMainThread();
-        GameFunctions.CCSPlayer_WeaponServices_DropWeapon(Address, weapon.Address);
+        unsafe
+        {
+            GameFunctions.CCSPlayer_WeaponServices_DropWeapon(Address, weapon.Address, null);
+        }
+    }
+
+    public void DropWeapon( CBasePlayerWeapon weapon, Vector momentum )
+    {
+        NativeBinding.ThrowIfNonMainThread();
+        unsafe
+        {
+            GameFunctions.CCSPlayer_WeaponServices_DropWeapon(Address, weapon.Address, &momentum);
+        }
     }
 
     public void RemoveWeapon( CBasePlayerWeapon weapon )
     {
         NativeBinding.ThrowIfNonMainThread();
-        GameFunctions.CCSPlayer_WeaponServices_DropWeapon(Address, weapon.Address);
+        unsafe
+        {
+            GameFunctions.CCSPlayer_WeaponServices_DropWeapon(Address, weapon.Address, null);
+        }
         weapon.Despawn();
     }
 
@@ -35,6 +50,18 @@ internal partial class CPlayer_WeaponServicesImpl
             if (weapon.Value?.As<CCSWeaponBase>().WeaponBaseVData.GearSlot == slot)
             {
                 DropWeapon(weapon.Value);
+            }
+        });
+    }
+
+    public void DropWeaponBySlot( gear_slot_t slot, Vector momentum )
+    {
+        NativeBinding.ThrowIfNonMainThread();
+        MyWeapons.ToList().ForEach(weapon =>
+        {
+            if (weapon.Value?.As<CCSWeaponBase>().WeaponBaseVData.GearSlot == slot)
+            {
+                DropWeapon(weapon.Value, momentum);
             }
         });
     }
@@ -76,6 +103,18 @@ internal partial class CPlayer_WeaponServicesImpl
         });
     }
 
+    public void DropWeaponByDesignerName( string designerName, Vector momentum )
+    {
+        NativeBinding.ThrowIfNonMainThread();
+        MyWeapons.ToList().ForEach(weapon =>
+        {
+            if (weapon.Value?.Entity?.DesignerName == designerName)
+            {
+                DropWeapon(weapon.Value, momentum);
+            }
+        });
+    }
+
     public void RemoveWeaponByDesignerName( string designerName )
     {
         NativeBinding.ThrowIfNonMainThread();
@@ -113,6 +152,19 @@ internal partial class CPlayer_WeaponServicesImpl
         DropWeaponByDesignerName(name);
     }
 
+    public void DropWeaponByClass<T>( Vector momentum ) where T : class, ISchemaClass<T>
+    {
+        NativeBinding.ThrowIfNonMainThread();
+        var name = T.ClassName;
+        if (name == null)
+        {
+            throw new ArgumentException(
+                $"Can't drop weapon with class {typeof(T).Name}, which doesn't have a designer name.");
+        }
+
+        DropWeaponByDesignerName(name, momentum);
+    }
+
     public void RemoveWeaponByClass<T>() where T : class, ISchemaClass<T>
     {
         NativeBinding.ThrowIfNonMainThread();
@@ -144,6 +196,11 @@ internal partial class CPlayer_WeaponServicesImpl
         return SchedulerManager.QueueOrNow(() => DropWeapon(weapon));
     }
 
+    public Task DropWeaponAsync( CBasePlayerWeapon weapon, Vector momentum )
+    {
+        return SchedulerManager.QueueOrNow(() => DropWeapon(weapon, momentum));
+    }
+
     public Task RemoveWeaponAsync( CBasePlayerWeapon weapon )
     {
         return SchedulerManager.QueueOrNow(() => RemoveWeapon(weapon));
@@ -157,6 +214,11 @@ internal partial class CPlayer_WeaponServicesImpl
     public Task DropWeaponBySlotAsync( gear_slot_t slot )
     {
         return SchedulerManager.QueueOrNow(() => DropWeaponBySlot(slot));
+    }
+
+    public Task DropWeaponBySlotAsync( gear_slot_t slot, Vector momentum )
+    {
+        return SchedulerManager.QueueOrNow(() => DropWeaponBySlot(slot, momentum));
     }
 
     public Task RemoveWeaponBySlotAsync( gear_slot_t slot )
@@ -174,6 +236,11 @@ internal partial class CPlayer_WeaponServicesImpl
         return SchedulerManager.QueueOrNow(() => DropWeaponByDesignerName(designerName));
     }
 
+    public Task DropWeaponByDesignerNameAsync( string designerName, Vector momentum )
+    {
+        return SchedulerManager.QueueOrNow(() => DropWeaponByDesignerName(designerName, momentum));
+    }
+
     public Task RemoveWeaponByDesignerNameAsync( string designerName )
     {
         return SchedulerManager.QueueOrNow(() => RemoveWeaponByDesignerName(designerName));
@@ -187,6 +254,11 @@ internal partial class CPlayer_WeaponServicesImpl
     public Task DropWeaponByClassAsync<T>() where T : class, ISchemaClass<T>
     {
         return SchedulerManager.QueueOrNow(() => DropWeaponByClass<T>());
+    }
+
+    public Task DropWeaponByClassAsync<T>( Vector momentum ) where T : class, ISchemaClass<T>
+    {
+        return SchedulerManager.QueueOrNow(() => DropWeaponByClass<T>(momentum));
     }
 
     public Task RemoveWeaponByClassAsync<T>() where T : class, ISchemaClass<T>

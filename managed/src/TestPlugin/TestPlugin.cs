@@ -798,6 +798,14 @@ public class TestPlugin : BasePlugin
         return HookResult.Continue;
     }
 
+    [Command("dw")]
+    public void DropWeaponTest( ICommandContext context )
+    {
+        var player = context.Sender!;
+        var weapons = player.PlayerPawn!.WeaponServices!.MyValidWeapons.First();
+        player.PlayerPawn!.WeaponServices!.DropWeapon(weapons, new(400, 400, 400));
+    }
+
     private Callback<GCMessageAvailable_t>? _authTicketResponse;
 
     [EventListener<EventDelegates.OnSteamAPIActivated>]

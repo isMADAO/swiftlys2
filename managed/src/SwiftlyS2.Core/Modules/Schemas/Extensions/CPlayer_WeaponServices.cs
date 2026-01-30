@@ -1,4 +1,5 @@
 using SwiftlyS2.Shared.Misc;
+using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Schemas;
 
 namespace SwiftlyS2.Shared.SchemaDefinitions;
@@ -19,6 +20,23 @@ public partial interface CPlayer_WeaponServices
     /// </summary>
     /// <param name="weapon">The weapon to drop.</param>
     public Task DropWeaponAsync( CBasePlayerWeapon weapon );
+
+    /// <summary>
+    /// Drop a weapon.
+    ///
+    /// Thread unsafe, use async variant instead for non-main thread context.
+    /// </summary>
+    /// <param name="weapon">The weapon to drop.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    [ThreadUnsafe]
+    public void DropWeapon( CBasePlayerWeapon weapon, Vector momentum );
+
+    /// <summary>
+    /// Drop a weapon asynchronously.
+    /// </summary>
+    /// <param name="weapon">The weapon to drop.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    public Task DropWeaponAsync( CBasePlayerWeapon weapon, Vector momentum );
 
     /// <summary>
     /// Drop and remove a weapon.
@@ -59,10 +77,27 @@ public partial interface CPlayer_WeaponServices
     public void DropWeaponBySlot( gear_slot_t slot );
 
     /// <summary>
+    /// Drop a weapon by slot.
+    /// 
+    /// Thread unsafe, use async variant instead for non-main thread context.
+    /// </summary>
+    /// <param name="slot">The slot to drop the weapon from.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    [ThreadUnsafe]
+    public void DropWeaponBySlot( gear_slot_t slot, Vector momentum );
+
+    /// <summary>
     /// Drop a weapon by slot asynchronously.
     /// </summary>
     /// <param name="slot">The slot to drop the weapon from.</param>
     public Task DropWeaponBySlotAsync( gear_slot_t slot );
+
+    /// <summary>
+    /// Drop a weapon by slot asynchronously.
+    /// </summary>
+    /// <param name="slot">The slot to drop the weapon from.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    public Task DropWeaponBySlotAsync( gear_slot_t slot, Vector momentum );
 
     /// <summary>
     /// Remove a weapon by slot.
@@ -104,10 +139,27 @@ public partial interface CPlayer_WeaponServices
     public void DropWeaponByDesignerName( string designerName );
 
     /// <summary>
+    /// Drop a weapon by designer name.
+    /// 
+    /// Thread unsafe, use async variant instead for non-main thread context.
+    /// </summary>
+    /// <param name="designerName">The designer name of the weapon to drop.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    [ThreadUnsafe]
+    public void DropWeaponByDesignerName( string designerName, Vector momentum );
+
+    /// <summary>
     /// Drop a weapon by designer name asynchronously.
     /// </summary>
     /// <param name="designerName">The designer name of the weapon to drop.</param>
     public Task DropWeaponByDesignerNameAsync( string designerName );
+
+    /// <summary>
+    /// Drop a weapon by designer name asynchronously.
+    /// </summary>
+    /// <param name="designerName">The designer name of the weapon to drop.</param>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    public Task DropWeaponByDesignerNameAsync( string designerName, Vector momentum );
 
     /// <summary>
     /// Remove a weapon by designer name.
@@ -149,10 +201,27 @@ public partial interface CPlayer_WeaponServices
     public void DropWeaponByClass<T>() where T : class, ISchemaClass<T>;
 
     /// <summary>
+    /// Drop all weapons with the specified class.
+    /// 
+    /// Thread unsafe, use async variant instead for non-main thread context.
+    /// </summary>
+    /// <typeparam name="T">The weapon class.</typeparam>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    [ThreadUnsafe]
+    public void DropWeaponByClass<T>( Vector momentum ) where T : class, ISchemaClass<T>;
+
+    /// <summary>
     /// Drop all weapons with the specified class asynchronously.
     /// </summary>
     /// <typeparam name="T">The weapon class.</typeparam>
     public Task DropWeaponByClassAsync<T>() where T : class, ISchemaClass<T>;
+
+    /// <summary>
+    /// Drop all weapons with the specified class asynchronously.
+    /// </summary>
+    /// <typeparam name="T">The weapon class.</typeparam>
+    /// <param name="momentum">The momentum to apply to the dropped weapon.</param>
+    public Task DropWeaponByClassAsync<T>( Vector momentum ) where T : class, ISchemaClass<T>;
 
     /// <summary>
     /// Drop and remove all weapons with the specified class.

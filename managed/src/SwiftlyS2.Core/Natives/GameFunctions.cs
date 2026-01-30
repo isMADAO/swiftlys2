@@ -463,7 +463,7 @@ internal static class GameFunctions
         }
     }
 
-    public static void CCSPlayer_WeaponServices_DropWeapon( nint pThis, nint pWeapon )
+    public static unsafe void CCSPlayer_WeaponServices_DropWeapon( nint pThis, nint pWeapon, Vector* momentum )
     {
         try
         {
@@ -471,8 +471,8 @@ internal static class GameFunctions
             {
                 CheckPtr(pThis, nameof(pThis));
                 CheckPtr(pWeapon, nameof(pWeapon));
-                var pDropWeapon = (delegate* unmanaged< nint, nint, nint, nint, void >)GetVirtualFunction(pThis, DropWeaponOffset);
-                pDropWeapon(pThis, pWeapon, 0, 0);
+                var pDropWeapon = (delegate* unmanaged< nint, nint, nint, Vector*, void >)GetVirtualFunction(pThis, DropWeaponOffset);
+                pDropWeapon(pThis, pWeapon, 0, momentum);
             }
         }
         catch (Exception e)
