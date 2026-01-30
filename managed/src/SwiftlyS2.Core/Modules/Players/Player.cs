@@ -10,33 +10,40 @@ using SwiftlyS2.Shared.Translation;
 
 namespace SwiftlyS2.Core.Players;
 
-internal class Player : IPlayer
+internal class Player : IPlayer, IDisposable
 {
     public Player( int pid )
     {
         Slot = pid;
+        SessionId = NativePlayer.GetSessionID(pid);
     }
 
+    ~Player()
+    {
+        Dispose();
+    }
+
+    private bool _disposed = false;
+
     public int PlayerID => Slot;
+    public ulong SessionId { get; }
 
     public int Slot { get; }
 
-    public int UserID => NativePlayer.GetUserID(Slot);
+    public int UserID { get { ThrowIfDisposed(); return NativePlayer.GetUserID(Slot); } }
 
-    public bool IsFakeClient => NativePlayer.IsFakeClient(Slot);
+    public bool IsFakeClient { get { ThrowIfDisposed(); return NativePlayer.IsFakeClient(Slot); } }
 
-    public bool IsAuthorized => NativePlayer.IsAuthorized(Slot);
+    public bool IsAuthorized { get { ThrowIfDisposed(); return NativePlayer.IsAuthorized(Slot); } }
+    public uint ConnectedTime { get { ThrowIfDisposed(); return NativePlayer.GetConnectedTime(Slot); } }
 
-    public uint ConnectedTime => NativePlayer.GetConnectedTime(Slot);
+    public Language PlayerLanguage { get { ThrowIfDisposed(); return new(NativePlayer.GetLanguage(Slot)); } }
 
-    public Language PlayerLanguage => new(NativePlayer.GetLanguage(Slot));
+    public ulong SteamID { get { ThrowIfDisposed(); return NativePlayer.GetSteamID(Slot); } }
 
-    public ulong SteamID => NativePlayer.GetSteamID(Slot);
+    public ulong UnauthorizedSteamID { get { ThrowIfDisposed(); return NativePlayer.GetUnauthorizedSteamID(Slot); } }
 
-    public ulong UnauthorizedSteamID => NativePlayer.GetUnauthorizedSteamID(Slot);
-
-    public CCSPlayerController Controller => new CCSPlayerControllerImpl(NativePlayer.GetController(Slot));
-
+    public CCSPlayerController Controller { get { ThrowIfDisposed(); return new CCSPlayerControllerImpl(NativePlayer.GetController(Slot)); } }
     public CCSPlayerController RequiredController => Controller is { IsValid: true } controller ? controller : throw new InvalidOperationException("Controller is not valid");
 
     public CBasePlayerPawn? Pawn => Controller?.Pawn.Value;
@@ -47,49 +54,54 @@ internal class Player : IPlayer
 
     public CCSPlayerPawn RequiredPlayerPawn => PlayerPawn is { IsValid: true } pawn ? pawn : throw new InvalidOperationException("PlayerPawn is not valid");
 
-    public GameButtonFlags PressedButtons => (GameButtonFlags)NativePlayer.GetPressedButtons(Slot);
+    public GameButtonFlags PressedButtons { get { ThrowIfDisposed(); return (GameButtonFlags)NativePlayer.GetPressedButtons(Slot); } }
 
-    public string IPAddress => NativePlayer.GetIPAddress(Slot);
+    public string IPAddress { get { ThrowIfDisposed(); return NativePlayer.GetIPAddress(Slot); } }
 
-    public VoiceFlagValue VoiceFlags { get => (VoiceFlagValue)NativeVoiceManager.GetClientVoiceFlags(Slot); set => NativeVoiceManager.SetClientVoiceFlags(Slot, (int)value); }
-
+    public VoiceFlagValue VoiceFlags { get { ThrowIfDisposed(); return (VoiceFlagValue)NativeVoiceManager.GetClientVoiceFlags(Slot); } set { ThrowIfDisposed(); NativeVoiceManager.SetClientVoiceFlags(Slot, (int)value); } }
     public bool IsValid =>
         Controller is { IsValid: true, IsHLTV: false, Connected: PlayerConnectedState.PlayerConnected } &&
         Pawn is { IsValid: true };
 
     public bool IsAlive => IsValid && Pawn!.LifeState == (byte)LifeState_t.LIFE_ALIVE;
 
-    public bool IsFirstSpawn => NativePlayer.IsFirstSpawn(Slot);
+    public bool IsFirstSpawn { get { ThrowIfDisposed(); return NativePlayer.IsFirstSpawn(Slot); } }
 
     Language IPlayer.PlayerLanguage => PlayerLanguage;
 
     public void ChangeTeam( Team team )
     {
+        ThrowIfDisposed();
         NativePlayer.ChangeTeam(Slot, (byte)team);
     }
 
     public Task ChangeTeamAsync( Team team )
     {
+        ThrowIfDisposed();
         return SchedulerManager.QueueOrNow(() => ChangeTeam(team));
     }
 
     public void ClearTransmitEntityBlocks()
     {
+        ThrowIfDisposed();
         NativePlayer.ClearTransmitEntityBlocked(Slot);
     }
 
     public ListenOverride GetListenOverride( int player )
     {
+        ThrowIfDisposed();
         return (ListenOverride)NativeVoiceManager.GetClientListenOverride(Slot, player);
     }
 
     public bool IsTransmitEntityBlocked( int entityid )
     {
+        ThrowIfDisposed();
         return NativePlayer.IsTransmitEntityBlocked(Slot, entityid);
     }
 
     public void Kick( string reason, ENetworkDisconnectionReason gameReason )
     {
+        ThrowIfDisposed();
         NativePlayer.Kick(Slot, reason, (int)gameReason);
     }
 
@@ -100,6 +112,7 @@ internal class Player : IPlayer
 
     public void SendMessage( MessageType kind, string message )
     {
+        ThrowIfDisposed();
         NativePlayer.SendMessage(Slot, (int)kind, message, 5000);
     }
 
@@ -110,16 +123,19 @@ internal class Player : IPlayer
 
     public void SetListenOverride( int player, ListenOverride listenOverride )
     {
+        ThrowIfDisposed();
         NativeVoiceManager.SetClientListenOverride(Slot, player, (int)listenOverride);
     }
 
     public void ShouldBlockTransmitEntity( int entityid, bool shouldBlockTransmit )
     {
+        ThrowIfDisposed();
         NativePlayer.ShouldBlockTransmitEntity(Slot, entityid, shouldBlockTransmit);
     }
 
     public void SwitchTeam( Team team )
     {
+        ThrowIfDisposed();
         NativePlayer.SwitchTeam(Slot, (byte)team);
     }
 
@@ -130,6 +146,7 @@ internal class Player : IPlayer
 
     public void TakeDamage( CTakeDamageInfo damageInfo )
     {
+        ThrowIfDisposed();
         unsafe
         {
             NativePlayer.TakeDamage(Slot, (nint)(&damageInfo));
@@ -179,6 +196,7 @@ internal class Player : IPlayer
 
     public void ExecuteCommand( string command )
     {
+        ThrowIfDisposed();
         NativePlayer.ExecuteCommand(Slot, command);
     }
 
@@ -189,7 +207,7 @@ internal class Player : IPlayer
 
     public bool Equals( IPlayer? other )
     {
-        return other is not null && PlayerID == other.PlayerID;
+        return other is not null && SessionId == other.SessionId;
     }
 
     public override bool Equals( object? obj )
@@ -204,6 +222,7 @@ internal class Player : IPlayer
 
     public void SendMessage( MessageType kind, string message, int htmlDuration = 5000 )
     {
+        ThrowIfDisposed();
         NativePlayer.SendMessage(Slot, (int)kind, message, htmlDuration);
     }
 
@@ -280,6 +299,19 @@ internal class Player : IPlayer
     public Task SendChatEOTAsync( string message )
     {
         return SendMessageAsync(MessageType.ChatEOT, message);
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+    }
+
+    public void ThrowIfDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException($"Player object (slot={Slot},sessionId={SessionId}) has been disposed.");
+        }
     }
 
     public static bool operator ==( Player? left, Player? right )

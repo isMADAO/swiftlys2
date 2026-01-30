@@ -1,6 +1,5 @@
 class PlayerManager
 
-bool IsPlayerOnline = int32 playerid
 int32 GetPlayerCount = void
 int32 GetPlayerCap = void
 sync void SendMessage = int32 kind, string message, int32 duration

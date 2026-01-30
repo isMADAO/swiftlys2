@@ -72,6 +72,7 @@ public:
     virtual bool HasMenuShown() override;
     virtual bool IsFirstSpawn() override;
     virtual void SetFirstSpawn(bool state) override;
+    virtual uint64_t GetSessionID() override;
 
 private:
     int m_iPlayerId;
@@ -98,6 +99,7 @@ private:
     IGameEvent* centerMessageEvent = nullptr;
 
     std::string centerMenuText = "";
+    uint64_t m_uSessionId = 0;
 };
 
 #endif

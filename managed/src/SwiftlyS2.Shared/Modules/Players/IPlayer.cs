@@ -41,6 +41,11 @@ public interface IPlayer : IEquatable<IPlayer>
     public int PlayerID { get; }
 
     /// <summary>
+    /// Gets the session ID for the player.
+    /// </summary>
+    public ulong SessionId { get; }
+
+    /// <summary>
     /// Gets the user ID for the player.
     /// </summary>
     public int UserID { get; }

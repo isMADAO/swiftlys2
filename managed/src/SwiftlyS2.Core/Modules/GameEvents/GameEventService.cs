@@ -1,11 +1,9 @@
-using System.Reflection;
 using Microsoft.Extensions.Logging;
 using SwiftlyS2.Core.Natives;
+using SwiftlyS2.Core.Players;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.Services;
-using SwiftlyS2.Shared.GameEventDefinitions;
 using SwiftlyS2.Shared.GameEvents;
-using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.Profiler;
 
 namespace SwiftlyS2.Core.GameEvents;
@@ -23,8 +21,8 @@ internal class GameEventService : IGameEventService, IDisposable
         _Profiler = profiler;
     }
 
-    private readonly List<GameEventCallback> _callbacks = new();
-    private Lock _lock = new();
+    private readonly List<GameEventCallback> _callbacks = [];
+    private readonly Lock _lock = new();
 
     public Guid HookPre<T>( IGameEventService.GameEventHandler<T> callback ) where T : IGameEvent<T>
     {
@@ -52,7 +50,7 @@ internal class GameEventService : IGameEventService, IDisposable
     {
         lock (_lock)
         {
-            _callbacks.RemoveAll(callback =>
+            _ = _callbacks.RemoveAll(callback =>
             {
                 if (callback.Guid == guid)
                 {
@@ -70,7 +68,7 @@ internal class GameEventService : IGameEventService, IDisposable
     {
         lock (_lock)
         {
-            _callbacks.RemoveAll(callback =>
+            _ = _callbacks.RemoveAll(callback =>
             {
                 if (callback.IsPreHook && callback is GameEventCallback<T>)
                 {
@@ -87,7 +85,7 @@ internal class GameEventService : IGameEventService, IDisposable
     {
         lock (_lock)
         {
-            _callbacks.RemoveAll(callback =>
+            _ = _callbacks.RemoveAll(callback =>
             {
                 if (!callback.IsPreHook && callback is GameEventCallback<T>)
                 {
@@ -103,9 +101,9 @@ internal class GameEventService : IGameEventService, IDisposable
     public void Fire<T>() where T : IGameEvent<T>
     {
         var handle = NativeGameEvents.CreateEvent(T.GetName());
-        for (int i = 0; i < NativePlayerManager.GetPlayerCap(); i++)
+        for (var i = 0; i < NativePlayerManager.GetPlayerCap(); i++)
         {
-            if (NativeGameEvents.IsPlayerListeningToEventName(i, T.GetName()) && NativePlayerManager.IsPlayerOnline(i))
+            if (NativeGameEvents.IsPlayerListeningToEventName(i, T.GetName()) && PlayerManagerService.PlayerObjects.ContainsKey(i))
             {
                 NativeGameEvents.FireEventToClient(handle, i);
             }
@@ -120,9 +118,9 @@ internal class GameEventService : IGameEventService, IDisposable
         var eventObj = T.Create(handle);
         configureEvent(eventObj);
         eventObj.Dispose();
-        for (int i = 0; i < NativePlayerManager.GetPlayerCap(); i++)
+        for (var i = 0; i < NativePlayerManager.GetPlayerCap(); i++)
         {
-            if (NativeGameEvents.IsPlayerListeningToEventName(i, T.GetName()) && NativePlayerManager.IsPlayerOnline(i))
+            if (NativeGameEvents.IsPlayerListeningToEventName(i, T.GetName()) && PlayerManagerService.PlayerObjects.ContainsKey(i))
             {
                 NativeGameEvents.FireEventToClient(handle, i);
             }
@@ -138,7 +136,7 @@ internal class GameEventService : IGameEventService, IDisposable
 
     public Task FireAsync<T>( Action<T> configureEvent ) where T : IGameEvent<T>
     {
-        return SchedulerManager.QueueOrNow(() => Fire<T>(configureEvent));
+        return SchedulerManager.QueueOrNow(() => Fire(configureEvent));
     }
 
     public void FireToPlayer<T>( int slot ) where T : IGameEvent<T>

@@ -307,4 +307,12 @@ internal static class NativePlayer
         var ret = _GetUserID(playerid);
         return ret;
     }
+
+    private unsafe static delegate* unmanaged<int, ulong> _GetSessionID;
+
+    public unsafe static ulong GetSessionID(int playerid)
+    {
+        var ret = _GetSessionID(playerid);
+        return ret;
+    }
 }

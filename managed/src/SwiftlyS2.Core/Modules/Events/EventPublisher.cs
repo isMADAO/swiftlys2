@@ -6,8 +6,8 @@ using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Core.ProtobufDefinitions;
-using SwiftlyS2.Shared.SchemaDefinitions;
 using SwiftlyS2.Shared.ProtobufDefinitions;
+using SwiftlyS2.Core.Players;
 
 namespace SwiftlyS2.Core.Events;
 
@@ -203,6 +203,7 @@ internal static class EventPublisher
     [UnmanagedCallersOnly]
     public static byte OnClientConnected( int playerId )
     {
+        PlayerManagerService.RegisterPlayerObject(playerId);
         if (subscribers.Count == 0)
         {
             return 1;
@@ -222,6 +223,7 @@ internal static class EventPublisher
 
                 if (@event.Result == HookResult.Stop)
                 {
+                    PlayerManagerService.UnregisterPlayerObject(playerId);
                     return 0;
                 }
             }
@@ -257,13 +259,19 @@ internal static class EventPublisher
             {
                 subscriber.InvokeOnClientDisconnected(@event);
             }
+
+            PlayerManagerService.UnregisterPlayerObject(playerId);
+
         }
         catch (Exception e)
         {
             if (!GlobalExceptionHandler.Handle(e))
             {
+                PlayerManagerService.UnregisterPlayerObject(playerId);
                 return;
             }
+
+            PlayerManagerService.UnregisterPlayerObject(playerId);
             AnsiConsole.WriteException(e);
         }
     }
@@ -305,6 +313,8 @@ internal static class EventPublisher
         {
             return;
         }
+
+        if (clientKind == (int)ClientKind.Bot) PlayerManagerService.RegisterPlayerObject(playerId);
 
         try
         {

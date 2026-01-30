@@ -1,4 +1,5 @@
-﻿using SwiftlyS2.Core.Natives;
+﻿using System.Collections.Concurrent;
+using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.Players;
@@ -11,11 +12,27 @@ namespace SwiftlyS2.Core.Players;
 internal class PlayerManagerService : IPlayerManagerService
 {
     private readonly ITranslationService _translationService;
-    public static List<IPlayer> PlayerObjects = Enumerable.Range(0, NativePlayerManager.GetPlayerCap()).Select(i => new Player(i) as IPlayer).ToList();
+    public static ConcurrentDictionary<int, IPlayer> PlayerObjects { get; } = new();
 
     public PlayerManagerService( ITranslationService translationService )
     {
         _translationService = translationService;
+    }
+
+    public static void RegisterPlayerObject( int playerid )
+    {
+        UnregisterPlayerObject(playerid);
+        _ = PlayerObjects.TryAdd(playerid, new Player(playerid));
+    }
+
+    public static void UnregisterPlayerObject( int playerid )
+    {
+        if (PlayerObjects.TryGetValue(playerid, out var player))
+        {
+            var p = (Player)player;
+            p.Dispose();
+            _ = PlayerObjects.TryRemove(playerid, out var _);
+        }
     }
 
     public int PlayerCount => NativePlayerManager.GetPlayerCount();
@@ -29,7 +46,7 @@ internal class PlayerManagerService : IPlayerManagerService
 
     public IPlayer? GetPlayer( int playerid )
     {
-        return !IsPlayerOnline(playerid) ? null : PlayerObjects[playerid];
+        return PlayerObjects.TryGetValue(playerid, out var player) ? player : null;
     }
 
     public IPlayer? GetPlayerFromController( CBasePlayerController controller )
@@ -44,7 +61,7 @@ internal class PlayerManagerService : IPlayerManagerService
 
     public bool IsPlayerOnline( int playerid )
     {
-        return NativePlayerManager.IsPlayerOnline(playerid);
+        return PlayerObjects.ContainsKey(playerid);
     }
 
     public void SendMessage( MessageType kind, string message )
@@ -64,8 +81,7 @@ internal class PlayerManagerService : IPlayerManagerService
 
     public IEnumerable<IPlayer> GetAllPlayers()
     {
-        return PlayerObjects
-            .Where(( p ) => IsPlayerOnline(p.PlayerID));
+        return PlayerObjects.Values;
     }
 
     public IEnumerable<IPlayer> GetAllValidPlayers()

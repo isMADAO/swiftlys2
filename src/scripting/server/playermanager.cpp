@@ -19,12 +19,6 @@
 #include <api/interfaces/manager.h>
 #include <scripting/scripting.h>
 
-bool Bridge_PlayerManager_IsPlayerOnline(int playerid)
-{
-    static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
-    return playerManager->IsPlayerOnline(playerid);
-}
-
 int Bridge_PlayerManager_GetPlayerCount()
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
@@ -83,7 +77,6 @@ void Bridge_PlayerManager_ClearAllBlockedTransmitEntity()
     }
 }
 
-DEFINE_NATIVE("PlayerManager.IsPlayerOnline", Bridge_PlayerManager_IsPlayerOnline);
 DEFINE_NATIVE("PlayerManager.GetPlayerCount", Bridge_PlayerManager_GetPlayerCount);
 DEFINE_NATIVE("PlayerManager.GetPlayerCap", Bridge_PlayerManager_GetPlayerCap);
 DEFINE_NATIVE("PlayerManager.SendMessage", Bridge_PlayerManager_SendMessage);

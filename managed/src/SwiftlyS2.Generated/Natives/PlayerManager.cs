@@ -11,14 +11,6 @@ namespace SwiftlyS2.Core.Natives;
 internal static class NativePlayerManager
 {
 
-    private unsafe static delegate* unmanaged<int, byte> _IsPlayerOnline;
-
-    public unsafe static bool IsPlayerOnline(int playerid)
-    {
-        var ret = _IsPlayerOnline(playerid);
-        return ret == 1;
-    }
-
     private unsafe static delegate* unmanaged<int> _GetPlayerCount;
 
     public unsafe static int GetPlayerCount()

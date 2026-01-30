@@ -106,6 +106,8 @@ static const std::vector<std::string> g_vButtons = {
     "unknown_key_63",
 };
 
+uint64_t sessionId = 1000;
+
 void CPlayer::Initialize(int playerid)
 {
     m_iPlayerId = playerid;
@@ -113,6 +115,7 @@ void CPlayer::Initialize(int playerid)
 
     m_uConnectedTimeStart = std::chrono::high_resolution_clock::now();
     m_bvBlockedTransmittingEntities.activeMasks.reserve(256);
+    m_uSessionId = sessionId++;
 }
 
 void CPlayer::Shutdown()
@@ -535,4 +538,9 @@ void CPlayer::ClearRenderMenuCenterText()
 bool CPlayer::HasMenuShown()
 {
     return !centerMenuText.empty();
+}
+
+uint64_t CPlayer::GetSessionID()
+{
+    return m_uSessionId;
 }

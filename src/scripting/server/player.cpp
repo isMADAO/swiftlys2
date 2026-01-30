@@ -361,6 +361,16 @@ int Bridge_Player_GetUserID(int playerid)
     return engine->GetPlayerUserId(CPlayerSlot(playerid)).Get();
 }
 
+uint64_t Bridge_Player_GetSessionID(int playerid)
+{
+    static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    auto player = playerManager->GetPlayer(playerid);
+    if (!player)
+        return 0;
+
+    return player->GetSessionID();
+}
+
 DEFINE_NATIVE("Player.SendMessage", Bridge_Player_SendMessage);
 DEFINE_NATIVE("Player.IsFakeClient", Bridge_Player_IsFakeClient);
 DEFINE_NATIVE("Player.IsAuthorized", Bridge_Player_IsAuthorized);
@@ -388,3 +398,4 @@ DEFINE_NATIVE("Player.HasMenuShown", Bridge_Player_HasMenuShown);
 DEFINE_NATIVE("Player.ExecuteCommand", Bridge_Player_ExecuteCommand);
 DEFINE_NATIVE("Player.IsFirstSpawn", Bridge_Player_IsFirstSpawn);
 DEFINE_NATIVE("Player.GetUserID", Bridge_Player_GetUserID);
+DEFINE_NATIVE("Player.GetSessionID", Bridge_Player_GetSessionID);

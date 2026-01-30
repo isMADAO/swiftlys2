@@ -141,7 +141,7 @@ internal class GameEventAccessor : NativeHandle, IGameEventAccessor, IDisposable
         CheckIsValid();
 
         var playerid = GetInt32(key);
-        return !NativePlayerManager.IsPlayerOnline(playerid) ? null : PlayerManagerService.PlayerObjects[playerid];
+        return PlayerManagerService.PlayerObjects.TryGetValue(playerid, out var player) ? player : null;
     }
 
     public void SetPtr( string key, nint value )

@@ -9,15 +9,15 @@ internal partial class CBasePlayerControllerImpl : CBasePlayerController
 {
     public void SetPawn( CBasePlayerPawn? pawn )
     {
-        nint? handle = pawn?.Address;
+        var handle = pawn?.Address;
         GameFunctions.SetPlayerControllerPawn(Address, handle ?? IntPtr.Zero, true, false, false, false);
     }
 
     public IPlayer? ToPlayer()
     {
         if (!IsValid) return null;
-        var player = PlayerManagerService.PlayerObjects[(int)(Index - 1)];
-        if (player is not { IsValid: true } || !NativePlayerManager.IsPlayerOnline(player.PlayerID)) return null;
-        return player;
+        if (!PlayerManagerService.PlayerObjects.TryGetValue((int)(Index - 1), out var player)) return null;
+
+        return player is { IsValid: true } ? player : null;
     }
 }
