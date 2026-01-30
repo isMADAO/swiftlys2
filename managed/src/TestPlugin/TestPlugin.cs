@@ -801,9 +801,7 @@ public class TestPlugin : BasePlugin
     [Command("dw")]
     public void DropWeaponTest( ICommandContext context )
     {
-        var player = context.Sender!;
-        var weapons = player.PlayerPawn!.WeaponServices!.MyValidWeapons.First();
-        player.PlayerPawn!.WeaponServices!.DropWeapon(weapons, new(400, 400, 400));
+        Console.WriteLine(Core.Localizer["test"]);
     }
 
     private Callback<GCMessageAvailable_t>? _authTicketResponse;

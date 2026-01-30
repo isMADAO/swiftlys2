@@ -151,6 +151,9 @@ internal class CoreCommandService
                 case "confilter" when RequireConsoleAccess():
                     ConfilterCommand(context);
                     break;
+                case "translations" when RequireConsoleAccess():
+                    TranslationsCommand(context);
+                    break;
                 default:
                     ShowHelp(context);
                     break;
@@ -180,10 +183,47 @@ internal class CoreCommandService
                 .AddRow("confilter", "Console Filter Menu")
                 .AddRow("plugins", "Plugin Management Menu")
                 .AddRow("gc", "Show garbage collection information on managed")
-                .AddRow("profiler", "Profiler Menu");
+                .AddRow("profiler", "Profiler Menu")
+                .AddRow("translations", "Translations Menu");
         }
         _ = table.AddRow("version", "Display Swiftly version");
         AnsiConsole.Write(table);
+    }
+
+    private void TranslationsCommand( ICommandContext context )
+    {
+        void ShowTranslationsHelp()
+        {
+            var table = new Table()
+                .AddColumn("Command")
+                .AddColumn("Description")
+                .AddRow("reload", "Reload all translations");
+            AnsiConsole.Write(table);
+        }
+
+        void ReloadTranslations()
+        {
+            pluginManager.RegenerateTranslations();
+
+            logger.LogInformation("Succesfully reloaded the translations");
+        }
+
+        var args = context.Args;
+        if (args.Length == 1)
+        {
+            ShowTranslationsHelp();
+            return;
+        }
+
+        switch (args[1].Trim().ToLower())
+        {
+            case "reload":
+                ReloadTranslations();
+                break;
+            default:
+                logger.LogWarning("Unknown command");
+                break;
+        }
     }
 
     private void ConfilterCommand( ICommandContext context )

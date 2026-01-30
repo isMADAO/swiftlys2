@@ -14,6 +14,11 @@ internal class TranslationService : ITranslationService
     {
         _Context = context;
 
+        CreateTranslationResource();
+    }
+
+    public void CreateTranslationResource()
+    {
         var translationDir = Path.Combine(_Context.BaseDirectory, "resources", "translations");
 
         if (!Directory.Exists(translationDir))

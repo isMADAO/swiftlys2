@@ -126,7 +126,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
             .AddSingleton<DatabaseService>()
             .AddSingleton<TranslationService>()
             .AddSingleton<PlayerManagerService>()
-            .AddSingleton<Localizer>(provider => provider.GetRequiredService<TranslationService>().GetLocalizer())
+            .AddSingleton(provider => provider.GetRequiredService<TranslationService>().GetLocalizer())
             .AddSingleton<RegistratorService>()
             // .AddSingleton<MenuManager>()
             .AddSingleton<CommandLineService>()
@@ -235,7 +235,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
     ISchedulerService ISwiftlyCore.Scheduler => SchedulerService;
     IDatabaseService ISwiftlyCore.Database => DatabaseService;
     ITranslationService ISwiftlyCore.Translation => TranslationService;
-    ILocalizer ISwiftlyCore.Localizer => Localizer;
+    ILocalizer ISwiftlyCore.Localizer => TranslationService.GetLocalizer();
     IPermissionManager ISwiftlyCore.Permission => PermissionManager;
     IRegistratorService ISwiftlyCore.Registrator => RegistratorService;
     // [Obsolete("MenuManager will be deprecared at the release of SwiftlyS2. Please use MenuManagerAPI instead")]

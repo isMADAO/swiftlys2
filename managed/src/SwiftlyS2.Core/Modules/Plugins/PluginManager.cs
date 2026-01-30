@@ -870,4 +870,13 @@ internal class PluginManager : IPluginManager
             }
         }
     }
+
+    public void RegenerateTranslations()
+    {
+        plugins.ForEach(a =>
+        {
+            if (a.Core == null) return;
+            a.Core.TranslationService.CreateTranslationResource();
+        });
+    }
 }
