@@ -113,7 +113,6 @@ internal class Player : IPlayer, IDisposable
 
     public Task KickAsync( string reason, ENetworkDisconnectionReason gameReason )
     {
-        CancellationTokenSource cts = new();
         return SchedulerManager.NextTickAsync(() =>
         {
             NativePlayer.Kick(Slot, reason, (int)gameReason);
