@@ -42,6 +42,7 @@ internal class CoreHookService : IDisposable
         HookEntityIdentityAcceptInput();
         HookEntityIOOutputFireOutputInternal();
         HookDispatchDatamapFunction();
+        HookWeaponServicesDropWeapon();
     }
 
     /*
@@ -80,6 +81,8 @@ internal class CoreHookService : IDisposable
     private delegate void CEntityIdentityAcceptInput( nint pEntityIdentity, nint inputName, nint activator, nint caller, nint variant, int outputId, nint unk1, nint unk2 );
     private delegate void CEntityIOOutputFireOutputInternal( nint pEntityIO, nint pActivator, nint pCaller, nint pVariant, float flDelay, nint unk1, nint unk2 );
     private delegate void DispatchDatamapFunction( nint a1, nint pDatamapFunc, nint a3, uint a4, nint a5, double a6 /* unknown */ );
+    private delegate byte DropWeaponWindows( nint weaponServices, nint playerWeapon, byte swapping );
+    private delegate nint DropWeaponLinux( nint weaponServices, nint playerWeapon, byte swapping );
 
     private IUnmanagedFunction<ExecuteCommand>? executeCommand;
     private Guid executeCommandGuid;
@@ -108,6 +111,9 @@ internal class CoreHookService : IDisposable
     private Guid entityIOOutputFireOutputInternalGuid;
     private IUnmanagedFunction<DispatchDatamapFunction>? dispatchDatamapFunction;
     private Guid dispatchDatamapFunctionGuid;
+    private IUnmanagedFunction<DropWeaponWindows>? dropWeaponWindows;
+    private IUnmanagedFunction<DropWeaponLinux>? dropWeaponLinux;
+    private Guid dropWeaponGuid;
 
     private void HookEntityIdentityAcceptInput()
     {
@@ -123,7 +129,8 @@ internal class CoreHookService : IDisposable
                 unsafe
                 {
                     var entityIdentity = core.Memory.ToSchemaClass<CEntityIdentity>(pEntityIdentity);
-                    if (!entityIdentity.IsValid) {
+                    if (!entityIdentity.IsValid)
+                    {
                         next()(pEntityIdentity, pInputName, pActivator, pCaller, pVariant, outputId, unk1, unk2);
                         return;
                     }
@@ -233,11 +240,62 @@ internal class CoreHookService : IDisposable
         });
     }
 
-    private void HookICvarFindConCommandTemplate()
+    private void HookWeaponServicesDropWeapon()
     {
+        var sig = core.GameData.GetSignature("CCSPlayer_WeaponServices::DropWeapon");
         if (IsWindows)
         {
-            var offset = core.GameData.GetOffset("ICvar::FindConCommand");
+            dropWeaponWindows = core.Memory.GetUnmanagedFunctionByAddress<DropWeaponWindows>(sig);
+            logger.LogInformation("Hooking CCSPlayer_WeaponServices::DropWeapon at {Address}", dropWeaponWindows.Address);
+            dropWeaponGuid = dropWeaponWindows.AddHook(next =>
+            {
+                return ( pWeaponServices, pPlayerWeapon, swapping ) =>
+                {
+                    var weaponServices = core.Memory.ToSchemaClass<CCSPlayer_WeaponServices>(pWeaponServices);
+                    var playerWeapon = pPlayerWeapon != nint.Zero ? core.Memory.ToSchemaClass<CBasePlayerWeapon>(pPlayerWeapon) : null;
+
+                    var @event = new OnWeaponServicesDropWeaponHook {
+                        WeaponServices = weaponServices,
+                        Weapon = playerWeapon,
+                        SwappingWeapon = swapping != 0,
+                        Result = HookResult.Continue
+                    };
+                    EventPublisher.InvokeOnWeaponServicesDropWeaponHook(@event);
+
+                    return @event.Result == HookResult.Stop ? (byte)0 : next()(pWeaponServices, pPlayerWeapon, swapping);
+                };
+            });
+        }
+        else
+        {
+            dropWeaponLinux = core.Memory.GetUnmanagedFunctionByAddress<DropWeaponLinux>(sig);
+            logger.LogInformation("Hooking CCSPlayer_WeaponServices::DropWeapon at {Address}", dropWeaponLinux.Address);
+            dropWeaponGuid = dropWeaponLinux.AddHook(next =>
+            {
+                return ( pWeaponServices, pPlayerWeapon, swapping ) =>
+                {
+                    var weaponServices = core.Memory.ToSchemaClass<CCSPlayer_WeaponServices>(pWeaponServices);
+                    var playerWeapon = pPlayerWeapon != nint.Zero ? core.Memory.ToSchemaClass<CBasePlayerWeapon>(pPlayerWeapon) : null;
+
+                    var @event = new OnWeaponServicesDropWeaponHook {
+                        WeaponServices = weaponServices,
+                        Weapon = playerWeapon,
+                        SwappingWeapon = swapping != 0,
+                        Result = HookResult.Continue
+                    };
+                    EventPublisher.InvokeOnWeaponServicesDropWeaponHook(@event);
+
+                    return @event.Result == HookResult.Stop ? 0 : next()(pWeaponServices, pPlayerWeapon, swapping);
+                };
+            });
+        }
+    }
+
+    private void HookICvarFindConCommandTemplate()
+    {
+        var offset = core.GameData.GetOffset("ICvar::FindConCommand");
+        if (IsWindows)
+        {
             findConCommandWindows = core.Memory.GetUnmanagedFunctionByVTable<ICvarFindConCommandWindows>(core.Memory.GetVTableAddress(Library.Tier0, "CCvar")!.Value, offset);
             logger.LogInformation("Hooking ICvar::FindConCommand at {Address}", findConCommandWindows.Address);
             findConCommandGuid = findConCommandWindows.AddHook(( next ) =>
@@ -264,7 +322,6 @@ internal class CoreHookService : IDisposable
         }
         else
         {
-            var offset = core.GameData.GetOffset("ICvar::FindConCommand");
             findConCommandLinux = core.Memory.GetUnmanagedFunctionByVTable<ICvarFindConCommandLinux>(core.Memory.GetVTableAddress(Library.Tier0, "CCvar")!.Value, offset);
             logger.LogInformation("Hooking ICvar::FindConCommand at {Address}", findConCommandLinux.Address);
             findConCommandGuid = findConCommandLinux.AddHook(( next ) =>
@@ -522,5 +579,7 @@ internal class CoreHookService : IDisposable
         entityIdentityAcceptInput?.RemoveHook(entityIdentityAcceptInputGuid);
         entityIOOutputFireOutputInternal?.RemoveHook(entityIOOutputFireOutputInternalGuid);
         dispatchDatamapFunction?.RemoveHook(dispatchDatamapFunctionGuid);
+        dropWeaponWindows?.RemoveHook(dropWeaponGuid);
+        dropWeaponLinux?.RemoveHook(dropWeaponGuid);
     }
 }

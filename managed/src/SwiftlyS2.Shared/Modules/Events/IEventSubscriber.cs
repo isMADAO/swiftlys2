@@ -125,6 +125,11 @@ public interface IEventSubscriber
     public event EventDelegates.OnWeaponServicesCanUseHook? OnWeaponServicesCanUseHook;
 
     /// <summary>
+    /// Called when a weapon services drop weapon hook is triggered.
+    /// </summary>
+    public event EventDelegates.OnWeaponServicesDropWeaponHook? OnWeaponServicesDropWeaponHook;
+
+    /// <summary>
     /// Called when the game outputs a console message.
     /// </summary>
     public event EventDelegates.OnConsoleOutput? OnConsoleOutput;

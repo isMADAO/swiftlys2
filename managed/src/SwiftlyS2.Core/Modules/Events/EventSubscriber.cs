@@ -55,6 +55,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     public event EventDelegates.OnEntityEndTouch? OnEntityEndTouch;
     public event EventDelegates.OnItemServicesCanAcquireHook? OnItemServicesCanAcquireHook;
     public event EventDelegates.OnWeaponServicesCanUseHook? OnWeaponServicesCanUseHook;
+    public event EventDelegates.OnWeaponServicesDropWeaponHook? OnWeaponServicesDropWeaponHook;
     public event EventDelegates.OnConsoleOutput? OnConsoleOutput;
     public event EventDelegates.OnCommandExecuteHook? OnCommandExecuteHook;
     public event EventDelegates.OnSteamAPIActivated? OnSteamAPIActivated;
@@ -842,6 +843,30 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
         finally
         {
             profiler.StopRecording("Event::OnEntityIdentityAcceptInput");
+        }
+    }
+
+    public void InvokeOnWeaponServicesDropWeaponHook( OnWeaponServicesDropWeaponHook @event )
+    {
+        try
+        {
+            if (OnWeaponServicesDropWeaponHook == null)
+            {
+                return;
+            }
+            profiler.StartRecording("Event::OnWeaponServicesDropWeaponHook");
+            OnWeaponServicesDropWeaponHook?.Invoke(@event);
+        }
+        catch (Exception e)
+        {
+            if (GlobalExceptionHandler.Handle(e))
+            {
+                logger.LogError(e, "Error invoking OnWeaponServicesDropWeaponHook.");
+            }
+        }
+        finally
+        {
+            profiler.StopRecording("Event::OnWeaponServicesDropWeaponHook");
         }
     }
 

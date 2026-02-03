@@ -226,5 +226,11 @@
         "lib": "server",
         "windows": "40 53 56 41 56 48 83 EC ? 44 89 44 24",
         "linux": "55 48 89 E5 41 57 49 89 D7 89 CA"
+    },
+    // Search for "#SFUI_Notice_YouDroppedWeapon"
+    "CCSPlayer_WeaponServices::DropWeapon": {
+        "lib": "server",
+        "windows": "48 89 74 24 20 57 41 54 41 57 48 83 EC 40 45",
+        "linux": "55 48 89 E5 41 57 41 56 41 55 41 89 D5 41 54 49 89 FC 48"
     }
 }

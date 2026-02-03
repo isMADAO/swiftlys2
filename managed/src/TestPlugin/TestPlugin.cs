@@ -830,6 +830,13 @@ public class TestPlugin : BasePlugin
         Console.WriteLine($"AuthResponse {param.m_nMessageSize}");
     }
 
+    [EventListener<EventDelegates.OnWeaponServicesDropWeaponHook>]
+    public void OnWeaponServicesDropWeapon( IOnWeaponServicesDropWeaponHook @event )
+    {
+        Console.WriteLine($"OnWeaponServicesDropWeapon: {@event.WeaponServices.Address:X}, {(@event.Weapon != null ? @event.Weapon.DesignerName : "no weapon")}, {@event.SwappingWeapon}");
+        @event.Result = HookResult.Stop;
+    }
+
     [Command("getip")]
     public void GetIpCommand( ICommandContext context )
     {

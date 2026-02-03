@@ -994,6 +994,30 @@ internal static class EventPublisher
         }
     }
 
+    public static void InvokeOnWeaponServicesDropWeaponHook( OnWeaponServicesDropWeaponHook @event )
+    {
+        if (subscribers.Count == 0)
+        {
+            return;
+        }
+
+        try
+        {
+            foreach (var subscriber in subscribers)
+            {
+                subscriber.InvokeOnWeaponServicesDropWeaponHook(@event);
+            }
+        }
+        catch (Exception e)
+        {
+            if (!GlobalExceptionHandler.Handle(e))
+            {
+                return;
+            }
+            AnsiConsole.WriteException(e);
+        }
+    }
+
     public static void InvokeEntityFireOutputHook( OnEntityFireOutputHookEvent @event )
     {
         if (subscribers.Count == 0)

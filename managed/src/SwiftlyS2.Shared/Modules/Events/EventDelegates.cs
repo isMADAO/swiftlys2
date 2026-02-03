@@ -143,6 +143,11 @@ public class EventDelegates
     public delegate void OnWeaponServicesCanUseHook( IOnWeaponServicesCanUseHookEvent @event );
 
     /// <summary>
+    /// Called when a weapon services drop weapon hook is triggered.
+    /// </summary>
+    public delegate void OnWeaponServicesDropWeaponHook( IOnWeaponServicesDropWeaponHook @event );
+
+    /// <summary>
     /// Called when a console output is received.
     /// </summary>
     public delegate void OnConsoleOutput( IOnConsoleOutputEvent @event );
