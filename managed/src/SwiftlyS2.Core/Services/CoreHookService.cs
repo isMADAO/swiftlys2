@@ -489,9 +489,7 @@ internal class CoreHookService : IDisposable
     private void HookCPlayerMovementServicesRunCommand()
     {
         var offset = core.GameData.GetOffset("CPlayer_MovementServices::RunCommand");
-        // CPlayer_MovementServices vtable finding is fucked up on linux
-        // finding for CPlayer_MovementServices_Humanoid instead to avoid it, which has the same function at same offset
-        movementServiceRunCommand = core.Memory.GetUnmanagedFunctionByVTable<CPlayerMovementServicesRunCommand>(core.Memory.GetVTableAddress(Library.Server, "CPlayer_MovementServices_Humanoid")!.Value, offset);
+        movementServiceRunCommand = core.Memory.GetUnmanagedFunctionByVTable<CPlayerMovementServicesRunCommand>(core.Memory.GetVTableAddress(Library.Server, "CPlayer_MovementServices")!.Value, offset);
         logger.LogInformation("Hooking CPlayer_MovementServices::RunCommand at {Address}", movementServiceRunCommand.Address);
         movementServiceRunCommandGuid = movementServiceRunCommand.AddHook(( next ) =>
         {
