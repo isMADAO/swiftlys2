@@ -797,6 +797,24 @@ internal class PluginManager : IPluginManager
         return null;
     }
 
+    public PluginStatus? GetPluginStatusByDllName( string dllName )
+    {
+        var pluginDir = FindPluginDirectoryByDllName(dllName);
+        if (string.IsNullOrWhiteSpace(pluginDir))
+        {
+            return null;
+        }
+
+        foreach (var plugin in plugins)
+        {
+            if (plugin.PluginDirectory != null && plugin.PluginDirectory == pluginDir)
+            {
+                return plugin.Status;
+            }
+        }
+        return null;
+    }
+
     public PluginMetadata? GetPluginMetadata( string pluginId )
     {
         foreach (var plugin in plugins)

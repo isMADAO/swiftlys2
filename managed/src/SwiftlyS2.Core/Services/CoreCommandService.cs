@@ -430,6 +430,13 @@ internal class CoreCommandService
                 if (ValidatePluginId(args, "load", "<dllName>"))
                 {
                     Console.WriteLine("\n");
+                    if (pluginManager.GetPluginStatusByDllName(args[2]) == PluginStatus.Loaded)
+                    {
+                        logger.LogWarning("Plugin is already loaded: {Format}", args[2]);
+                        Console.WriteLine("\n");
+                        break;
+                    }
+
                     if (pluginManager.LoadPluginByDllName(args[2], true))
                     {
                         logger.LogInformation("Loaded plugin: {Format}", args[2]);
