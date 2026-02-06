@@ -45,12 +45,6 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
     public IMenuBuilderAPI? Builder { get; init; }
 
     /// <summary>
-    /// Gets or sets the default comment text to use when a menu option's Comment is not set.
-    /// </summary>
-    [Obsolete("Use Configuration.DefaultComment instead.")]
-    public string DefaultComment { get; set; } = string.Empty;
-
-    /// <summary>
     /// Gets or sets an object that contains data about this menu.
     /// </summary>
     public object? Tag { get; set; }
@@ -459,9 +453,9 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
                 "<br>",
                 guideLine,
                 "<br>",
-                Configuration.HideComment
+                Configuration.HideComment || string.IsNullOrWhiteSpace(Configuration.DefaultComment)
                     ? string.Empty
-                    : string.IsNullOrWhiteSpace(Configuration.DefaultComment) ? $"<font class='fontSize-s'>\u00A0\u00A0\u00A0 </font><br>" : $"<font class='fontSize-s'>{Configuration.DefaultComment}</font><br>"
+                    : $"<font class='fontSize-s'>{Configuration.DefaultComment}</font><br>"
             );
 
         var claimInfo = optionBase?.InputClaimInfo ?? MenuInputClaimInfo.Empty;

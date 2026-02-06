@@ -177,7 +177,7 @@ public record class MenuConfiguration
     /// <summary>
     /// The default comment text to use when a menu option's Comment is not set.
     /// </summary>
-    public string DefaultComment { get; set; } = $"Powered by <font color='#ff3c00'>❤️</font> {HtmlGradient.GenerateGradientText("SwiftlyS2", "#ffffff", "#96d5ff")}";
+    public string DefaultComment { get; set; } = string.Empty;
 
     /// <summary>
     /// Extra buttons that can be bound to custom actions in the menu.
@@ -287,12 +287,6 @@ public interface IMenuAPI : IDisposable
     /// The builder used to construct and configure this menu.
     /// </summary>
     public IMenuBuilderAPI? Builder { get; }
-
-    /// <summary>
-    /// Gets or sets the default comment text to use when a menu option's <see cref="IMenuOption.Comment"/> is not set.
-    /// </summary>
-    [Obsolete("Use Configuration.DefaultComment instead.")]
-    public string DefaultComment { get; set; }
 
     /// <summary>
     /// Gets or sets an object that contains data about this menu.
