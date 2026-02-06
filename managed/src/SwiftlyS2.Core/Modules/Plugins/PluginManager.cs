@@ -10,7 +10,6 @@ using SwiftlyS2.Core.Services;
 using SwiftlyS2.Shared.Plugins;
 using SwiftlyS2.Core.Modules.Plugins;
 using System.Runtime.InteropServices;
-using SwiftlyS2.Core.Events;
 
 namespace SwiftlyS2.Core.Plugins;
 
@@ -100,26 +99,6 @@ internal class PluginManager : IPluginManager
                 {
                     _ = fileLastChange.AddOrUpdate(directoryName, DateTime.UtcNow, ( _, _ ) => DateTime.UtcNow);
 
-                    var context = plugins.Find(x => pluginDirectory.Equals(x.PluginDirectory, StringComparison.CurrentCultureIgnoreCase));
-                    if (context != null)
-                    {
-                        var plugin = context.Plugin;
-                        if (plugin != null)
-                        {
-                            var method = plugin.ReloadMethod;
-                            if (method == PluginReloadMethod.OnMapChange)
-                            {
-                                context.NeedReloadOnMapStart = true;
-                                logger.LogInformation("Found plugin file update, it will be reloaded on next map start: {name}", directoryName);
-                                return;
-                            }
-                            if (method == PluginReloadMethod.OnlyByCommand)
-                            {
-                                logger.LogInformation("Found plugin file update, but its auto hot-reload is disabled: {name}", directoryName);
-                                return;
-                            }
-                        }
-                    }
                     if (fileReloadTokens.TryRemove(directoryName, out var oldCts))
                     {
                         oldCts.Cancel();
@@ -305,23 +284,6 @@ internal class PluginManager : IPluginManager
             return loadingAssemblyName.Equals("SwiftlyS2.CS2", StringComparison.OrdinalIgnoreCase)
                 ? Assembly.GetExecutingAssembly()
                 : AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => loadingAssemblyName == a.GetName().Name);
-        };
-        EventPublisher.InternalOnMapLoad += () =>
-        {
-            var array = plugins.Where(x => x.NeedReloadOnMapStart).ToArray();
-            foreach (var p in array)
-            {
-                p.NeedReloadOnMapStart = false;
-                var directoryName = Path.GetFileName(p.PluginDirectory) ?? string.Empty;
-                if (ReloadPluginByDllName(directoryName, true))
-                {
-                    logger.LogInformation("Reloaded plugin on map start: {Format}", directoryName);
-                }
-                else
-                {
-                    logger.LogWarning("Failed to reload plugin: {Format}", directoryName);
-                }
-            }
         };
     }
 

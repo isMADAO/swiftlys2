@@ -14,7 +14,6 @@ namespace SwiftlyS2.Core.Events;
 
 internal static class EventPublisher
 {
-    internal static event Action? InternalOnMapLoad;
     private static readonly List<EventSubscriber> subscribers = [];
     private static readonly Lock subscribersLock = new();
 
@@ -511,19 +510,6 @@ internal static class EventPublisher
         if (subscribers.Count == 0)
         {
             return;
-        }
-
-        try
-        {
-            InternalOnMapLoad?.Invoke(); // calls before all plugins.
-        }
-        catch (Exception e)
-        {
-            if (!GlobalExceptionHandler.Handle(e))
-            {
-                return;
-            }
-            AnsiConsole.WriteException(e);
         }
 
         try
