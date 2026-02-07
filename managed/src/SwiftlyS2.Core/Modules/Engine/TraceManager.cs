@@ -14,6 +14,7 @@ internal class TraceManager : ITraceManager
         {
             fixed (CGameTrace* tracePtr = &trace)
             {
+                filter.EnsureValid();
                 GameFunctions.TracePlayerBBox(start, end, bounds, &filter, tracePtr);
             }
         }
