@@ -174,7 +174,7 @@ int CServerCommands::HandleCommand(int playerid, const std::string& text, bool d
         }
     }
 
-    if (isCommand || isSilentCommand)
+    if (!dryrun && (isCommand || isSilentCommand))
     {
         CCommand tokenizedArgs;
         tokenizedArgs.Tokenize(text.c_str());
@@ -396,6 +396,9 @@ void DispatchConCommand(void* thisPtr, ConCommandRef cmd, const CCommandContext&
     static auto playermanager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
     static auto eventmanager = g_ifaceService.FetchInterface<IEventManager>(GAMEEVENTMANAGER_INTERFACE_VERSION);
 
+    std::string gameText = "";
+    bool shouldSend = true;
+
     if (slot.Get() != -1)
     {
         if (!servercommands->HandleClientCommand(slot.Get(), args.GetCommandString()))
@@ -432,13 +435,17 @@ void DispatchConCommand(void* thisPtr, ConCommandRef cmd, const CCommandContext&
                 }
             }
 
-            int handleCommandReturn = servercommands->HandleCommand(slot.Get(), text, false);
-            if (handleCommandReturn == 2 || !servercommands->HandleClientChat(slot.Get(), text, teamonly))
+            gameText = text;
+            shouldSend = (servercommands->HandleCommand(slot.Get(), text, true) != 2);
+
+            if (!servercommands->HandleClientChat(slot.Get(), text, teamonly))
             {
                 return;
             }
         }
     }
 
-    return reinterpret_cast<decltype(&DispatchConCommand)>(dispatchConCommandHook->GetOriginal())(thisPtr, cmd, ctx, args);
+    if (shouldSend) reinterpret_cast<decltype(&DispatchConCommand)>(dispatchConCommandHook->GetOriginal())(thisPtr, cmd, ctx, args);
+
+    if (gameText != "") servercommands->HandleCommand(slot.Get(), gameText, false);
 }
