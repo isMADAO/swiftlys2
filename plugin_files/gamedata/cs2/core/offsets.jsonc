@@ -131,6 +131,10 @@
         "windows": 17,
         "linux": 17
     },
+    "IServerGameClients::ClientVoice": {
+        "windows": 27,
+        "linux": 27
+    },
     "IServerGameClients::ClientConnect": {
         "windows": 12,
         "linux": 12

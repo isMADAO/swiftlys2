@@ -63,6 +63,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     public event EventDelegates.OnEntityIdentityAcceptInputHook? OnEntityIdentityAcceptInputHook;
     public event EventDelegates.OnEntityFireOutputHookEvent? OnEntityFireOutputHook;
     public event EventDelegates.OnStartupServer? OnStartupServer;
+    public event EventDelegates.OnClientVoice? OnClientVoice;
 
     public void Dispose()
     {
@@ -289,6 +290,30 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
         finally
         {
             profiler.StopRecording("Event::OnEntityCreated");
+        }
+    }
+
+    public void InvokeOnClientVoice( OnClientVoiceEvent @event )
+    {
+        try
+        {
+            if (OnClientVoice == null)
+            {
+                return;
+            }
+            profiler.StartRecording("Event::OnClientVoice");
+            OnClientVoice?.Invoke(@event);
+        }
+        catch (Exception e)
+        {
+            if (GlobalExceptionHandler.Handle(e))
+            {
+                logger.LogError(e, "Error invoking OnClientVoice.");
+            }
+        }
+        finally
+        {
+            profiler.StopRecording("Event::OnClientVoice");
         }
     }
 

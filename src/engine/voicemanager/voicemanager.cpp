@@ -25,9 +25,11 @@
 
 IVFunctionHook* g_pSetClientListeningHook = nullptr;
 IVFunctionHook* g_pClientCommandHook = nullptr;
+IVFunctionHook* g_pClientVoiceHook = nullptr;
 
 bool SetClientListeningHook(void* _this, CPlayerSlot iReceiver, CPlayerSlot iSender, bool bListen);
 void ClientCommandHook(void* _this, CPlayerSlot slot, const CCommand& args);
+void ClientVoiceHook(void* _this, CPlayerSlot slot);
 
 #define CBaseEntity_m_iTeamNum 0x9DC483B8A5BFEFB3
 
@@ -46,6 +48,10 @@ void CVoiceManager::Initialize()
     g_pClientCommandHook = hooksmanager->CreateVFunctionHook();
     g_pClientCommandHook->SetHookFunction(gameclientsvtable, gamedata->GetOffsets()->Fetch("IServerGameClients::ClientCommand"), (void*)ClientCommandHook, true);
     g_pClientCommandHook->Enable();
+
+    g_pClientVoiceHook = hooksmanager->CreateVFunctionHook();
+    g_pClientVoiceHook->SetHookFunction(gameclientsvtable, gamedata->GetOffsets()->Fetch("IServerGameClients::ClientVoice"), (void*)ClientVoiceHook, true);
+    g_pClientVoiceHook->Enable();
 }
 
 void CVoiceManager::Shutdown()
@@ -64,6 +70,13 @@ void CVoiceManager::Shutdown()
         g_pClientCommandHook->Disable();
         hooksmanager->DestroyVFunctionHook(g_pClientCommandHook);
         g_pClientCommandHook = nullptr;
+    }
+
+    if (g_pClientVoiceHook)
+    {
+        g_pClientVoiceHook->Disable();
+        hooksmanager->DestroyVFunctionHook(g_pClientVoiceHook);
+        g_pClientVoiceHook = nullptr;
     }
 }
 
@@ -136,6 +149,16 @@ void ClientCommandHook(void* _this, CPlayerSlot slot, const CCommand& args)
     }
 
     return reinterpret_cast<decltype(&ClientCommandHook)>(g_pClientCommandHook->GetOriginal())(_this, slot, args);
+}
+
+extern void* g_pOnClientVoiceCallback;
+
+void ClientVoiceHook(void* _this, CPlayerSlot slot)
+{
+    reinterpret_cast<decltype(&ClientVoiceHook)>(g_pClientVoiceHook->GetOriginal())(_this, slot);
+
+    if (g_pOnClientVoiceCallback != nullptr)
+        reinterpret_cast<void(*)(int)>(g_pOnClientVoiceCallback)(slot.Get());
 }
 
 void CVoiceManager::SetClientListenOverride(int playerid, int targetid, ListenOverride override)

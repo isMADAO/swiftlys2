@@ -18,3 +18,4 @@ void RegisterOnEntityTakeDamageCallback = ptr callback // CBaseEntity* entity, C
 void RegisterOnPrecacheResourceCallback = ptr callback // IEntityResourceManifest* pResourceManifest
 void RegisterOnPreworldUpdateCallback = ptr callback // bool simulating
 void RegisterOnStartupServerCallback = ptr callback // void
+void RegisterOnClientVoiceCallback = ptr callback // int32 playerid

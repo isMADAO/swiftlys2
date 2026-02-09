@@ -55,6 +55,7 @@ internal static class EventPublisher
             NativeEvents.RegisterOnEntityTakeDamageCallback((nint)(delegate* unmanaged< nint, nint, nint, byte >)&OnEntityTakeDamage);
             NativeEvents.RegisterOnPrecacheResourceCallback((nint)(delegate* unmanaged< nint, void >)&OnPrecacheResource);
             NativeEvents.RegisterOnStartupServerCallback((nint)(delegate* unmanaged< void >)&OnStartupServer);
+            NativeEvents.RegisterOnClientVoiceCallback((nint)(delegate* unmanaged< int, void >)&OnClientVoice);
             _ = NativeConvars.AddConvarCreatedListener((nint)(delegate* unmanaged< nint, void >)&OnConVarCreated);
             _ = NativeConvars.AddConCommandCreatedListener((nint)(delegate* unmanaged< nint, void >)&OnConCommandCreated);
             _ = NativeConvars.AddGlobalChangeListener((nint)(delegate* unmanaged< nint, int, nint, nint, void >)&OnConVarValueChanged);
@@ -518,6 +519,32 @@ internal static class EventPublisher
             foreach (var subscriber in subscribers)
             {
                 subscriber.InvokeOnMapLoad(@event);
+            }
+        }
+        catch (Exception e)
+        {
+            if (!GlobalExceptionHandler.Handle(e))
+            {
+                return;
+            }
+            AnsiConsole.WriteException(e);
+        }
+    }
+
+    [UnmanagedCallersOnly]
+    public static void OnClientVoice( int playerId )
+    {
+        if (subscribers.Count == 0)
+        {
+            return;
+        }
+
+        try
+        {
+            OnClientVoiceEvent @event = new() { PlayerId = playerId };
+            foreach (var subscriber in subscribers)
+            {
+                subscriber.InvokeOnClientVoice(@event);
             }
         }
         catch (Exception e)

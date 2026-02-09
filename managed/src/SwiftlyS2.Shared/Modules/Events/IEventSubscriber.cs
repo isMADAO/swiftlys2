@@ -178,4 +178,9 @@ public interface IEventSubscriber
     /// Called when the server is started.
     /// </summary>
     public event EventDelegates.OnStartupServer? OnStartupServer;
+
+    /// <summary>
+    /// Called when a client sends a voice packet.
+    /// </summary>
+    public event EventDelegates.OnClientVoice? OnClientVoice;
 }

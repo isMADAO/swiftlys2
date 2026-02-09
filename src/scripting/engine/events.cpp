@@ -37,6 +37,7 @@ void* g_pOnEntityTakeDamageCallback = nullptr;
 void* g_pOnPrecacheResourceCallback = nullptr;
 void* g_pOnPreworldUpdateCallback = nullptr;
 void* g_pOnStartupServerCallback = nullptr;
+void* g_pOnClientVoiceCallback = nullptr;
 
 void Bridge_Events_RegisterOnGameTickCallback(void* callback)
 {
@@ -128,6 +129,11 @@ void Bridge_Events_RegisterOnStartupServerCallback(void* callback)
     g_pOnStartupServerCallback = callback;
 }
 
+void Bridge_Events_RegisterOnClientVoiceCallback(void* callback)
+{
+    g_pOnClientVoiceCallback = callback;
+}
+
 DEFINE_NATIVE("Events.RegisterOnGameTickCallback", Bridge_Events_RegisterOnGameTickCallback);
 DEFINE_NATIVE("Events.RegisterOnClientConnectCallback", Bridge_Events_RegisterOnClientConnectCallback);
 DEFINE_NATIVE("Events.RegisterOnClientDisconnectCallback", Bridge_Events_RegisterOnClientDisconnectCallback);
@@ -146,3 +152,4 @@ DEFINE_NATIVE("Events.RegisterOnEntityTakeDamageCallback", Bridge_Events_Registe
 DEFINE_NATIVE("Events.RegisterOnPrecacheResourceCallback", Bridge_Events_RegisterOnPrecacheResourceCallback);
 DEFINE_NATIVE("Events.RegisterOnPreworldUpdateCallback", Bridge_Events_RegisterOnPreworldUpdateCallback);
 DEFINE_NATIVE("Events.RegisterOnStartupServerCallback", Bridge_Events_RegisterOnStartupServerCallback);
+DEFINE_NATIVE("Events.RegisterOnClientVoiceCallback", Bridge_Events_RegisterOnClientVoiceCallback);

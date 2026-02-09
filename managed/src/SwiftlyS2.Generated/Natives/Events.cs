@@ -190,4 +190,14 @@ internal static class NativeEvents
     {
         _RegisterOnStartupServerCallback(callback);
     }
+
+    private unsafe static delegate* unmanaged<nint, void> _RegisterOnClientVoiceCallback;
+
+    /// <summary>
+    /// int32 playerid
+    /// </summary>
+    public unsafe static void RegisterOnClientVoiceCallback(nint callback)
+    {
+        _RegisterOnClientVoiceCallback(callback);
+    }
 }

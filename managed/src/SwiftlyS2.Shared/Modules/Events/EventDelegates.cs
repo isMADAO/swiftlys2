@@ -145,6 +145,11 @@ public class EventDelegates
     public delegate void OnWeaponServicesDropWeaponHook( IOnWeaponServicesDropWeaponHook @event );
 
     /// <summary>
+    /// Called when a client sends a voice packet.
+    /// </summary>
+    public delegate void OnClientVoice( IOnClientVoiceEvent @event );
+
+    /// <summary>
     /// Called when a console output is received.
     /// </summary>
     public delegate void OnConsoleOutput( IOnConsoleOutputEvent @event );

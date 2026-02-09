@@ -779,10 +779,16 @@ public class TestPlugin : BasePlugin
     }
 
     [GameEventHandler(HookMode.Pre)]
-    public HookResult TestGameEventHandler( EventPlayerJump @e )
+    public HookResult HandleRoundStart( EventRoundStart @event )
     {
-        Console.WriteLine(@e.UserIdController.PlayerName);
+        Core.Logger.LogInformation("EventRoundStart fired");
         return HookResult.Continue;
+    }
+
+    [EventListener<EventDelegates.OnClientVoice>]
+    public void OnClientVoice( IOnClientVoiceEvent @event )
+    {
+        Console.WriteLine($"OnClientVoice: {@event.PlayerId}");
     }
 
     [ServerNetMessageInternalHandler]
