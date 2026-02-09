@@ -315,7 +315,6 @@ void CServerCommands::UnregisterCommand(uint64_t commandId)
         conCommandCreated.erase(createdIt);
     }
 
-    free((void*)(conCommand->GetHelpText()));
     delete conCommand;
 }
 
