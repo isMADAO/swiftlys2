@@ -508,6 +508,9 @@ internal static class EventPublisher
     [UnmanagedCallersOnly]
     public static void OnMapLoad( nint mapNamePtr )
     {
+        // JIT warmup
+        var _ = ClassConvertor.ConvertEntityByDesignerName(0, "abc");
+        
         if (subscribers.Count == 0)
         {
             return;
