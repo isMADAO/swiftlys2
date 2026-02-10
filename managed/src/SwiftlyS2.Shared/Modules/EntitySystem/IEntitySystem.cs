@@ -88,7 +88,35 @@ public interface IEntitySystemService
     /// <param name="index">Entity index.</param>
     /// <returns>Entity by index. Nullable.</returns>
     /// <exception cref="InvalidOperationException">Thrown when called too early that entity system is not valid at this moment.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the entity is not of type T.</exception>
     public T? GetEntityByIndex<T>( uint index ) where T : class, ISchemaClass<T>;
+
+    /// <summary>
+    /// Get an entity by index.
+    /// The object return will have the actual type of the entity. You can cast it to the actual type.
+    /// </summary>
+    /// <param name="index">Entity index.</param>
+    /// <returns>Entity by index. Nullable.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when called too early that entity system is not valid at this moment.</exception>
+    public CEntityInstance? GetEntityByIndex( uint index );
+
+    /// <summary>
+    /// Get an entity by address.
+    /// </summary>
+    /// <typeparam name="T">Entity type.</typeparam>
+    /// <param name="address">Entity address.</param>
+    /// <returns>Entity by address. Nullable.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when called too early that entity system is not valid at this moment.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the entity is not of type T.</exception>
+    public T? GetEntityByAddress<T>( nint address ) where T : class, ISchemaClass<T>;
+
+    /// <summary>
+    /// Get an entity by address.
+    /// </summary>
+    /// <param name="address">Entity address.</param>
+    /// <returns>Entity by address. Nullable.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when called too early that entity system is not valid at this moment.</exception>
+    public CEntityInstance? GetEntityByAddress( nint address );
 
     /// <summary>
     /// Hooks an output of the specified entity type to a callback function.

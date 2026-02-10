@@ -44,13 +44,18 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
 
     public T CreateEntityByDesignerName<T>( string designerName ) where T : class, ISchemaClass<T>
     {
+        return (CreateEntityByDesignerName(designerName) as T)!;
+    }
+
+    public CEntityInstance CreateEntityByDesignerName( string designerName )
+    {
         ThrowIfEntitySystemInvalid();
         var handle = NativeEntitySystem.CreateEntityByName(designerName);
         var entity = EntityManager.OnEntityCreated(handle);
 
         return handle == nint.Zero
             ? throw new ArgumentException($"Failed to create entity by designer name: {designerName}, probably invalid designer name.")
-            : (entity as T)!;
+            : entity;
     }
 
     public CHandle<T> GetRefEHandle<T>( T entity ) where T : class, ISchemaClass<T>
@@ -90,8 +95,23 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
 
     public T? GetEntityByIndex<T>( uint index ) where T : class, ISchemaClass<T>
     {
+        var ent = GetEntityByIndex(index);
+        if (ent is null)
+        {
+            return null;
+        }
+        if (ent is T e)
+        {
+            return e;
+        } else {
+            throw new InvalidOperationException($"Invalid entity type. Requested: {typeof(T).Name}, Actual: {ent!.GetType().Name}.");
+        }
+    }
+
+    public CEntityInstance? GetEntityByIndex( uint index )
+    {
         ThrowIfEntitySystemInvalid();
-        return EntityManager.GetEntityByIndex(index) as T;
+        return EntityManager.GetEntityByIndex(index);
     }
 
     public Guid HookEntityOutput<T>( string outputName, IEntitySystemService.EntityOutputEventHandler callback ) where T : class, ISchemaClass<T>
@@ -259,6 +279,27 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
         inputHooks.Clear();
 
         GC.SuppressFinalize(this);
+    }
+
+    public T? GetEntityByAddress<T>( nint address ) where T : class, ISchemaClass<T>
+    {
+        var ent = GetEntityByAddress(address);
+        if (ent is null)
+        {
+            return null;
+        }
+        if (ent is T e)
+        {
+            return e;
+        } else {
+            throw new InvalidOperationException($"Invalid entity type. Requested: {typeof(T).Name}, Actual: {ent!.GetType().Name}.");
+        }
+    }
+
+    public CEntityInstance? GetEntityByAddress( nint address )
+    {
+        ThrowIfEntitySystemInvalid();
+        return EntityManager.GetEntityByAddress(address);
     }
 
     ~EntitySystemService()
