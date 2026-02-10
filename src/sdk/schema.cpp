@@ -31,6 +31,8 @@
 
 #include <s2binlib/s2binlib.h>
 
+#include <public/entity2/entityclass.h>
+
 #define CBaseEntity_m_nSubclassID 0x9DC483B8C02CE796
 
 std::unordered_map<uint64_t, SchemaField, FNV1aHasher64> offsets;
@@ -145,7 +147,7 @@ void CSDKSchema::Load()
     for (int i = 0; i < schemaSystem->m_TypeScopes.GetNumStrings(); i++)
     {
         auto ts = schemaSystem->m_TypeScopes[i];
-        
+
         classes_count += ts->m_DeclaredClasses.m_Map.Count();
 
         FOR_EACH_MAP(ts->m_DeclaredClasses.m_Map, iter)
@@ -184,6 +186,30 @@ void CSDKSchema::Load()
 
     WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/sdk.json", sdkJson);
     WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/datamaps.json", datamapsJson);
+}
+
+void CSDKSchema::DumpEntitySystem()
+{
+    auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
+    json entitySystemJson;
+
+    std::vector<std::pair<CEntityClass*, std::string>> entityClasses;
+
+    FOR_EACH_MAP_FAST(GameEntitySystem()->m_entClassesByClassname, i)
+    {
+        entityClasses.push_back({ GameEntitySystem()->m_entClassesByClassname[i], GameEntitySystem()->m_entClassesByClassname.Key(i) });
+    }
+
+    for (auto& entityClass : entityClasses)
+    {
+        entitySystemJson["entity_classes"].push_back({
+            {"class_name", entityClass.first->m_pClassInfo->m_pszCPPClassname},
+            {"designer_name", entityClass.second},
+            });
+    }
+
+    logger->Info("SDK", fmt::format("Mapped {} SDK classes to entity classnames.\n", entityClasses.size()));
+    WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/entitysystem.json", entitySystemJson);
 }
 
 void CSDKSchema::SetStateChanged(void* pEntity, const char* sClassName, const char* sMemberName)

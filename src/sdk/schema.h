@@ -60,6 +60,7 @@ public:
     virtual inputfunc_t* GetDatamapFunction(uint32_t uHash) override;
 
     virtual void Load() override;
+    virtual void DumpEntitySystem() override;
 };
 
 struct SchemaField
