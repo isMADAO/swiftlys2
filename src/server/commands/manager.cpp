@@ -440,9 +440,9 @@ void DispatchConCommand(void* thisPtr, ConCommandRef cmd, const CCommandContext&
             gameText = text;
             shouldSend = (servercommands->HandleCommand(slot.Get(), text, true) != 2);
 
-            if (!servercommands->HandleClientChat(slot.Get(), text, teamonly))
+            if (shouldSend && !servercommands->HandleClientChat(slot.Get(), text, teamonly))
             {
-                return;
+                shouldSend = false;
             }
         }
     }
