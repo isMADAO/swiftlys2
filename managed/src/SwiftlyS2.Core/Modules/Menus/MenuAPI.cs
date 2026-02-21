@@ -759,10 +759,13 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
 
         core.Scheduler.NextTick(() =>
         {
-            var moveType = freeze ? MoveType_t.MOVETYPE_NONE : MoveType_t.MOVETYPE_WALK;
-            player.PlayerPawn.MoveType = moveType;
-            player.PlayerPawn.ActualMoveType = moveType;
-            player.PlayerPawn.MoveTypeUpdated();
+            if (freeze)
+            {
+                var moveType = MoveType_t.MOVETYPE_NONE;
+                player.PlayerPawn.MoveType = moveType;
+                player.PlayerPawn.ActualMoveType = moveType;
+                player.PlayerPawn.MoveTypeUpdated();
+            }
         });
     }
 
