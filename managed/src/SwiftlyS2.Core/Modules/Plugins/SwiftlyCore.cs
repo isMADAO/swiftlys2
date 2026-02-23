@@ -248,4 +248,5 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
     string ISwiftlyCore.PluginDataDirectory => PluginDataDirectory;
     string ISwiftlyCore.CSGODirectory => NativeEngineHelpers.GetCSGODirectoryPath();
     string ISwiftlyCore.GameDirectory => NativeEngineHelpers.GetGameDirectoryPath();
+    bool ISwiftlyCore.IsGameThread => NativeCore.IsMainThread();
 }

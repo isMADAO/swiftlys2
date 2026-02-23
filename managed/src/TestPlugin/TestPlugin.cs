@@ -210,10 +210,16 @@ public class TestPlugin : BasePlugin
     [GameEventHandler(HookMode.Pre)]
     public HookResult OnPlayerDeath( EventPlayerDeath @event )
     {
-        foreach (var record in @event.AttackerPlayer!.Controller!.DamageServices!.DamageList)
+        Console.WriteLine($"Is main thread?: {Core.IsGameThread}");
+        if (@event.AttackerPlayer == null) return HookResult.Continue;
+        if (@event.AttackerPlayer.Controller == null) return HookResult.Continue;
+        if (@event.AttackerPlayer.Controller.DamageServices == null) return HookResult.Continue;
+
+        foreach (var record in @event.AttackerPlayer.Controller.DamageServices.DamageList)
         {
             Console.WriteLine($"Damage service: {record.Damage} {record.DamagerXuid} {record.PlayerDamagerName}");
         }
+
         return HookResult.Continue;
     }
 

@@ -199,4 +199,9 @@ public interface ISwiftlyCore
     /// This directory is ensured to exist by the framework.
     /// </summary>
     public string PluginDataDirectory { get; }
+
+    /// <summary>
+    /// Checks whether or not this code section runs on the game thread.
+    /// </summary>
+    public bool IsGameThread { get; }
 }

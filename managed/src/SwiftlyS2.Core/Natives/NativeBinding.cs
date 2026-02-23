@@ -6,8 +6,6 @@ namespace SwiftlyS2.Core.Natives;
 
 internal class NativeBinding
 {
-    public static int MainThreadID { get; private set; }
-
     public static bool IsMainThread => NativeCore.IsMainThread();
 
     public static void ThrowIfNonMainThread()
@@ -20,7 +18,6 @@ internal class NativeBinding
 
     public static void BindNatives( IntPtr nativeTable, int nativeTableSize )
     {
-        MainThreadID = Environment.CurrentManagedThreadId;
         unsafe
         {
             try
