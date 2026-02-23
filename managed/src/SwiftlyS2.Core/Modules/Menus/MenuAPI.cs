@@ -49,6 +49,8 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
     /// </summary>
     public object? Tag { get; set; }
 
+    private bool WasFrozen { get; set; } = false;
+
     /// <summary>
     /// The parent hierarchy information in a hierarchical menu structure.
     /// </summary>
@@ -599,7 +601,7 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
         if (keyExists)
         {
             NativePlayer.ClearCenterMenuRender(player.PlayerID);
-            core.Scheduler.NextWorldUpdate(() => NativePlayer.ClearCenterMenuRender(player.PlayerID));
+            _ = core.Scheduler.Delay(5, () => NativePlayer.ClearCenterMenuRender(player.PlayerID));
 
             // Remove viewer, pause animations if no viewers left
             lock (viewersLock)
@@ -769,6 +771,15 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
                 player.PlayerPawn.MoveType = moveType;
                 player.PlayerPawn.ActualMoveType = moveType;
                 player.PlayerPawn.MoveTypeUpdated();
+                WasFrozen = true;
+            }
+            else if (WasFrozen && !freeze)
+            {
+                var moveType = MoveType_t.MOVETYPE_WALK;
+                player.PlayerPawn.MoveType = moveType;
+                player.PlayerPawn.ActualMoveType = moveType;
+                player.PlayerPawn.MoveTypeUpdated();
+                WasFrozen = false;
             }
         });
     }
