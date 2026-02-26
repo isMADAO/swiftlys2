@@ -5,6 +5,7 @@ using System.Text;
 using System.Buffers;
 using System.Runtime.InteropServices;
 using SwiftlyS2.Shared.Natives;
+using SwiftlyS2.Core.Scheduler;
 
 namespace SwiftlyS2.Core.Schemas;
 
@@ -63,7 +64,7 @@ internal static class Schema
         {
             throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
         }
-        NativeSchema.SetStateChanged(handle, hash);
+        _ = SchedulerManager.QueueOrNow(() => NativeSchema.SetStateChanged(handle, hash));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
