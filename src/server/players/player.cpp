@@ -417,11 +417,15 @@ std::string CPlayer::GetIPAddress()
     auto engine = g_ifaceService.FetchInterface<IVEngineServer2>(INTERFACEVERSION_VENGINESERVER);
     if (!engine)
         return "";
+
+    if (m_iPlayerId < 0 || m_iPlayerId > 63)
+        return "";
+
     auto pNetChan = engine->GetPlayerNetInfo(m_iPlayerId);
     if (!pNetChan)
         return "";
 
-    return explode(pNetChan->GetAddress(), ":")[0];
+    return pNetChan->GetRemoteAddress().ToString(true);
 }
 
 void CPlayer::Kick(const std::string& sReason, int uReason)
@@ -495,7 +499,7 @@ void CPlayer::Think()
     auto pawn = GetPawn();
 
     static auto sdkschema = g_ifaceService.FetchInterface<ISDKSchema>(SDKSCHEMA_INTERFACE_VERSION);
-    static auto vgui = g_ifaceService.FetchInterface<IVGUI>(VGUI_INTERFACE_VERSION);
+    // static auto vgui = g_ifaceService.FetchInterface<IVGUI>(VGUI_INTERFACE_VERSION);
 
     if (pawn)
     {
@@ -528,12 +532,12 @@ void CPlayer::Think()
             }
         }
 
-        auto& observerServices = *(void**)sdkschema->GetPropPtr(pawn, 14568842447348147577); // CBasePlayerPawn::m_pObserverServices
-        if (observerServices)
-        {
-            CHandle<CEntityInstance>& observerTarget = *(CHandle<CEntityInstance>*)sdkschema->GetPropPtr(observerServices, 1590106406667131980); // CPlayer_ObserverServices::m_hObserverTarget
-            vgui->CheckRenderForPlayer(this, observerTarget);
-        }
+        // auto& observerServices = *(void**)sdkschema->GetPropPtr(pawn, 14568842447348147577); // CBasePlayerPawn::m_pObserverServices
+        // if (observerServices)
+        // {
+        //     CHandle<CEntityInstance>& observerTarget = *(CHandle<CEntityInstance>*)sdkschema->GetPropPtr(observerServices, 1590106406667131980); // CPlayer_ObserverServices::m_hObserverTarget
+        //     vgui->CheckRenderForPlayer(this, observerTarget);
+        // }
     }
 }
 
