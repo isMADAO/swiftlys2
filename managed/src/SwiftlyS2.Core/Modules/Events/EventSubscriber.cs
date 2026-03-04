@@ -86,11 +86,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnTick");
-            OnTick?.Invoke();
+            OnTick.Invoke();
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnTick.");
             }
@@ -110,11 +110,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnWorldUpdate");
-            OnWorldUpdate?.Invoke();
+            OnWorldUpdate.Invoke();
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnWorldUpdate.");
             }
@@ -134,11 +134,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientConnected");
-            OnClientConnected?.Invoke(@event);
+            OnClientConnected.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientConnected.");
             }
@@ -158,11 +158,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientDisconnected");
-            OnClientDisconnected?.Invoke(@event);
+            OnClientDisconnected.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientDisconnected.");
             }
@@ -182,11 +182,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientKeyStateChanged");
-            OnClientKeyStateChanged?.Invoke(@event);
+            OnClientKeyStateChanged.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientKeyStateChanged.");
             }
@@ -206,11 +206,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientPutInServer");
-            OnClientPutInServer?.Invoke(@event);
+            OnClientPutInServer.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientPutInServer.");
             }
@@ -230,11 +230,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientSteamAuthorize");
-            OnClientSteamAuthorize?.Invoke(@event);
+            OnClientSteamAuthorize.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientSteamAuthorize.");
             }
@@ -254,11 +254,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientSteamAuthorizeFail");
-            OnClientSteamAuthorizeFail?.Invoke(@event);
+            OnClientSteamAuthorizeFail.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientSteamAuthorizeFail.");
             }
@@ -278,11 +278,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityCreated");
-            OnEntityCreated?.Invoke(@event);
+            OnEntityCreated.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityCreated.");
             }
@@ -302,11 +302,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientVoice");
-            OnClientVoice?.Invoke(@event);
+            OnClientVoice.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientVoice.");
             }
@@ -326,11 +326,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityDeleted");
-            OnEntityDeleted?.Invoke(@event);
+            OnEntityDeleted.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityDeleted.");
             }
@@ -350,11 +350,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityParentChanged");
-            OnEntityParentChanged?.Invoke(@event);
+            OnEntityParentChanged.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityParentChanged.");
             }
@@ -374,11 +374,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntitySpawned");
-            OnEntitySpawned?.Invoke(@event);
+            OnEntitySpawned.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntitySpawned.");
             }
@@ -398,11 +398,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnMapLoad");
-            OnMapLoad?.Invoke(@event);
+            OnMapLoad.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnMapLoad.");
             }
@@ -422,11 +422,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnMapUnload");
-            OnMapUnload?.Invoke(@event);
+            OnMapUnload.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnMapUnload.");
             }
@@ -446,11 +446,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnClientProcessUsercmds");
-            OnClientProcessUsercmds?.Invoke(@event);
+            OnClientProcessUsercmds.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnClientProcessUsercmds.");
             }
@@ -470,11 +470,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityTakeDamage");
-            OnEntityTakeDamage?.Invoke(@event);
+            OnEntityTakeDamage.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityTakeDamage.");
             }
@@ -494,11 +494,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnPrecacheResource");
-            OnPrecacheResource?.Invoke(@event);
+            OnPrecacheResource.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnPrecacheResource.");
             }
@@ -518,11 +518,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityStartTouch");
-            OnEntityStartTouch?.Invoke(@event);
+            OnEntityStartTouch.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityStartTouch.");
             }
@@ -542,11 +542,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityTouch");
-            OnEntityTouch?.Invoke(@event);
+            OnEntityTouch.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityTouch.");
             }
@@ -566,11 +566,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityEndTouch");
-            OnEntityEndTouch?.Invoke(@event);
+            OnEntityEndTouch.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityEndTouch.");
             }
@@ -590,11 +590,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnSteamAPIActivatedHook");
-            OnSteamAPIActivated?.Invoke();
+            OnSteamAPIActivated.Invoke();
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnSteamAPIActivatedHook.");
             }
@@ -614,11 +614,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnItemServicesCanAcquireHook");
-            OnItemServicesCanAcquireHook?.Invoke(@event);
+            OnItemServicesCanAcquireHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnItemServicesCanAcquireHook.");
             }
@@ -638,11 +638,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnWeaponServicesCanUseHook");
-            OnWeaponServicesCanUseHook?.Invoke(@event);
+            OnWeaponServicesCanUseHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnWeaponServicesCanUseHook.");
             }
@@ -662,11 +662,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnConsoleOutput");
-            OnConsoleOutput?.Invoke(@event);
+            OnConsoleOutput.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnConsoleOutput.");
             }
@@ -686,11 +686,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnConVarValueChanged");
-            OnConVarValueChanged?.Invoke(@event);
+            OnConVarValueChanged.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnConVarValueChanged.");
             }
@@ -710,11 +710,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnConCommandCreated");
-            OnConCommandCreated?.Invoke(@event);
+            OnConCommandCreated.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnConCommandCreated.");
             }
@@ -734,11 +734,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnConVarCreated");
-            OnConVarCreated?.Invoke(@event);
+            OnConVarCreated.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnConVarCreated.");
             }
@@ -758,11 +758,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnCommandExecuteHook");
-            OnCommandExecuteHook?.Invoke(@event);
+            OnCommandExecuteHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnCommandExecuteHook.");
             }
@@ -782,11 +782,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnMovementServicesRunCommandHook");
-            OnMovementServicesRunCommandHook?.Invoke(@event);
+            OnMovementServicesRunCommandHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnMovementServicesRunCommandHook.");
             }
@@ -806,11 +806,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnPlayerPawnPostThink");
-            OnPlayerPawnPostThink?.Invoke(@event);
+            OnPlayerPawnPostThink.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnPlayerPawnPostThink.");
             }
@@ -830,11 +830,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityIdentityAcceptInput");
-            OnEntityIdentityAcceptInputHook?.Invoke(@event);
+            OnEntityIdentityAcceptInputHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityIdentityAcceptInput.");
             }
@@ -854,11 +854,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnWeaponServicesDropWeaponHook");
-            OnWeaponServicesDropWeaponHook?.Invoke(@event);
+            OnWeaponServicesDropWeaponHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnWeaponServicesDropWeaponHook.");
             }
@@ -878,11 +878,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnEntityFireOutputHook");
-            OnEntityFireOutputHook?.Invoke(@event);
+            OnEntityFireOutputHook.Invoke(@event);
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnEntityFireOutputHook.");
             }
@@ -902,11 +902,11 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
                 return;
             }
             profiler.StartRecording("Event::OnStartupServer");
-            OnStartupServer?.Invoke();
+            OnStartupServer.Invoke();
         }
         catch (Exception e)
         {
-            if (GlobalExceptionHandler.Handle(e))
+            if (GlobalExceptionHandler.Handle(ref e))
             {
                 logger.LogError(e, "Error invoking OnStartupServer.");
             }

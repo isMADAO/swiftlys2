@@ -44,7 +44,7 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged function by address {0}.", address);
+      if (GlobalExceptionHandler.Handle(ref e)) _Logger.LogError(e, "Failed to get unmanaged function by address {0}.", address);
       throw new Exception($"Failed to get unmanaged function by address {address}.");
     }
   }
@@ -58,7 +58,7 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged function by vtable {0} and index {1}.", pVTable, index);
+      if (GlobalExceptionHandler.Handle(ref e)) _Logger.LogError(e, "Failed to get unmanaged function by vtable {0} and index {1}.", pVTable, index);
       throw new Exception($"Failed to get unmanaged function by vtable {pVTable} and index {index}.");
     }
   }
@@ -77,7 +77,7 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged memory by address {0}.", address);
+      if (GlobalExceptionHandler.Handle(ref e)) _Logger.LogError(e, "Failed to get unmanaged memory by address {0}.", address);
       throw new Exception($"Failed to get unmanaged memory by address {address}.");
     }
   }

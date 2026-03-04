@@ -15,7 +15,7 @@ internal class Entrypoint
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }

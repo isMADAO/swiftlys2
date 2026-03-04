@@ -73,7 +73,7 @@ internal class CommandCallback : CommandCallbackBase
             }
             catch (Exception e)
             {
-                if (!GlobalExceptionHandler.Handle(e)) return;
+                if (!GlobalExceptionHandler.Handle(ref e)) return;
                 logger.LogError(e, "Failed to handle command {CommandName}.", commandName);
             }
         };
@@ -115,7 +115,7 @@ internal class ClientCommandListenerCallback : CommandCallbackBase
             }
             catch (Exception e)
             {
-                if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+                if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
                 logger.LogError(e, "Failed to handle client command listener.");
                 return HookResult.Continue;
             }
@@ -158,7 +158,7 @@ internal class ClientChatListenerCallback : CommandCallbackBase
             }
             catch (Exception e)
             {
-                if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+                if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
                 logger.LogError(e, "Failed to handle client chat listener.");
                 return HookResult.Continue;
             }

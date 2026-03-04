@@ -77,7 +77,7 @@ internal class GameDataService : IGameDataService
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return;
+            if (!GlobalExceptionHandler.Handle(ref e)) return;
             logger.LogError(e, "Failed to load game data.");
         }
     }

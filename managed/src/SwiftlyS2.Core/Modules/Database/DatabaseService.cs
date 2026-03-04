@@ -46,7 +46,7 @@ internal class DatabaseService : IDatabaseService
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 throw;
             }

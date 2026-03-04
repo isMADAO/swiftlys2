@@ -169,7 +169,7 @@ public sealed class SliderMenuOption : MenuOptionBase
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return ValueTask.CompletedTask;
+            if (!GlobalExceptionHandler.Handle(ref e)) return ValueTask.CompletedTask;
             AnsiConsole.WriteException(e);
         }
 
@@ -199,7 +199,7 @@ public sealed class SliderMenuOption : MenuOptionBase
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return ValueTask.CompletedTask;
+            if (!GlobalExceptionHandler.Handle(ref e)) return ValueTask.CompletedTask;
             AnsiConsole.WriteException(e);
         }
 

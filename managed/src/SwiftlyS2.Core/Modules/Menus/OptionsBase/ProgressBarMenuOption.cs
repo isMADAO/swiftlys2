@@ -113,7 +113,7 @@ public sealed class ProgressBarMenuOption : MenuOptionBase
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return string.Empty;
+            if (!GlobalExceptionHandler.Handle(ref e)) return string.Empty;
             AnsiConsole.WriteException(e);
         }
 

@@ -40,7 +40,7 @@ internal static class SchedulerManager
         }
         catch (Exception ex)
         {
-            if (GlobalExceptionHandler.Handle(ex)) AnsiConsole.WriteException(ex);
+            if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
         }
     }
 
@@ -82,7 +82,7 @@ internal static class SchedulerManager
                 }
                 catch (Exception ex)
                 {
-                    if (!GlobalExceptionHandler.Handle(ex)) return;
+                    if (!GlobalExceptionHandler.Handle(ref ex)) return;
                     AnsiConsole.WriteException(ex);
                 }
             }
@@ -100,7 +100,7 @@ internal static class SchedulerManager
         }
         catch (Exception ex)
         {
-            if (GlobalExceptionHandler.Handle(ex)) AnsiConsole.WriteException(ex);
+            if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
         }
     }
 
@@ -116,7 +116,7 @@ internal static class SchedulerManager
             }
             catch (Exception ex)
             {
-                if (GlobalExceptionHandler.Handle(ex)) AnsiConsole.WriteException(ex);
+                if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
             }
         }
     }
@@ -178,7 +178,7 @@ internal static class SchedulerManager
                 }
                 catch (Exception ex)
                 {
-                    if (GlobalExceptionHandler.Handle(ex)) AnsiConsole.WriteException(ex);
+                    if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
                 }
             }
         }
@@ -194,7 +194,7 @@ internal static class SchedulerManager
                 }
                 catch (Exception ex)
                 {
-                    if (GlobalExceptionHandler.Handle(ex)) AnsiConsole.WriteException(ex);
+                    if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
                 }
             }
         }

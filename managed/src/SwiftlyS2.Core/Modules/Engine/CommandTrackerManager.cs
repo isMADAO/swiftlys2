@@ -153,7 +153,7 @@ internal sealed class CommandTrackerManager : IDisposable
                 }
                 catch (Exception ex)
                 {
-                    if (!GlobalExceptionHandler.Handle(ex))
+                    if (!GlobalExceptionHandler.Handle(ref ex))
                     {
                         return;
                     }

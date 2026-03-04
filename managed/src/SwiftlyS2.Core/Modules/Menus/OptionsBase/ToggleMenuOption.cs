@@ -119,7 +119,7 @@ public sealed class ToggleMenuOption : MenuOptionBase
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return false;
+            if (!GlobalExceptionHandler.Handle(ref e)) return false;
             AnsiConsole.WriteException(e);
         }
         return true;

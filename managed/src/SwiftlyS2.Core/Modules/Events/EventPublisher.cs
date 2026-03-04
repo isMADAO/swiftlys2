@@ -81,7 +81,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -107,7 +107,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -138,7 +138,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -166,7 +166,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -193,7 +193,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -233,7 +233,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return 1;
             }
@@ -266,7 +266,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 PlayerManagerService.UnregisterPlayerObject(playerId);
                 return;
@@ -299,7 +299,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -330,7 +330,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -356,7 +356,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -382,7 +382,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -409,7 +409,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -438,7 +438,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -471,7 +471,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -497,7 +497,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -523,7 +523,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -549,7 +549,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -575,7 +575,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -616,7 +616,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -660,7 +660,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return 1;
             }
@@ -687,7 +687,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -712,7 +712,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -736,7 +736,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -760,7 +760,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -784,7 +784,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -808,7 +808,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -836,7 +836,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -860,7 +860,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -886,7 +886,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -910,7 +910,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -934,7 +934,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -958,7 +958,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -982,7 +982,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -1006,7 +1006,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }
@@ -1030,7 +1030,7 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e))
+            if (!GlobalExceptionHandler.Handle(ref e))
             {
                 return;
             }

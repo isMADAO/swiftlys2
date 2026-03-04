@@ -99,7 +99,7 @@ internal class GameEventCallback<T> : GameEventCallback, IDisposable where T : I
             }
             catch (Exception e)
             {
-                if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+                if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
                 _Logger.LogError(e, "Error in event {EventName} callback from context {ContextName}", EventName, Context.Name);
                 return HookResult.Continue;
             }

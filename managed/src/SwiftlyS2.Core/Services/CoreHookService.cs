@@ -433,9 +433,12 @@ internal class CoreHookService : IDisposable
         {
             return ( pBaseEntity, pOtherEntity ) =>
             {
-                var entity = core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity);
-                var otherEntity = core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity);
-                using var @event = new OnEntityStartTouchEvent { Entity = entity, OtherEntity = otherEntity };
+                var entity = EntityManager.GetEntityByAddress(pBaseEntity) as CBaseEntity;
+                var otherEntity = EntityManager.GetEntityByAddress(pOtherEntity) as CBaseEntity;
+                using var @event = new OnEntityStartTouchEvent {
+                    Entity = entity ?? core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity),
+                    OtherEntity = otherEntity ?? core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity)
+                };
                 EventPublisher.InvokeOnEntityStartTouch(@event);
                 return next()(pBaseEntity, pOtherEntity);
             };
@@ -445,9 +448,12 @@ internal class CoreHookService : IDisposable
         {
             return ( pBaseEntity, pOtherEntity ) =>
             {
-                var entity = core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity);
-                var otherEntity = core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity);
-                using var @event = new OnEntityTouchEvent { Entity = entity, OtherEntity = otherEntity };
+                var entity = EntityManager.GetEntityByAddress(pBaseEntity) as CBaseEntity;
+                var otherEntity = EntityManager.GetEntityByAddress(pOtherEntity) as CBaseEntity;
+                using var @event = new OnEntityTouchEvent {
+                    Entity = entity ?? core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity),
+                    OtherEntity = otherEntity ?? core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity)
+                };
                 EventPublisher.InvokeOnEntityTouch(@event);
                 return next()(pBaseEntity, pOtherEntity);
             };
@@ -457,9 +463,12 @@ internal class CoreHookService : IDisposable
         {
             return ( pBaseEntity, pOtherEntity ) =>
             {
-                var entity = core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity);
-                var otherEntity = core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity);
-                using var @event = new OnEntityEndTouchEvent { Entity = entity, OtherEntity = otherEntity };
+                var entity = EntityManager.GetEntityByAddress(pBaseEntity) as CBaseEntity;
+                var otherEntity = EntityManager.GetEntityByAddress(pOtherEntity) as CBaseEntity;
+                using var @event = new OnEntityEndTouchEvent {
+                    Entity = entity ?? core.Memory.ToSchemaClass<CBaseEntity>(pBaseEntity),
+                    OtherEntity = otherEntity ?? core.Memory.ToSchemaClass<CBaseEntity>(pOtherEntity)
+                };
                 EventPublisher.InvokeOnEntityEndTouch(@event);
                 return next()(pBaseEntity, pOtherEntity);
             };
@@ -524,10 +533,10 @@ internal class CoreHookService : IDisposable
         {
             return ( pPlayerPawn ) =>
             {
-                var playerPawn = core.Memory.ToSchemaClass<CCSPlayerPawn>(pPlayerPawn);
+                var playerPawn = EntityManager.GetEntityByAddress(pPlayerPawn) as CCSPlayerPawn;
 
                 using var @event = new OnPlayerPawnPostThinkHookEvent {
-                    PlayerPawn = playerPawn
+                    PlayerPawn = playerPawn ?? core.Memory.ToSchemaClass<CCSPlayerPawn>(pPlayerPawn)
                 };
                 EventPublisher.InvokeOnPlayerPawnPostThinkHook(@event);
 
@@ -555,7 +564,7 @@ internal class CoreHookService : IDisposable
                 }
                 catch (Exception e)
                 {
-                    if (!GlobalExceptionHandler.Handle(e)) return;
+                    if (!GlobalExceptionHandler.Handle(ref e)) return;
                     AnsiConsole.WriteException(e);
                 }
             };

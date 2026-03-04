@@ -68,7 +68,7 @@ internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T 
       }
       catch (Exception e)
       {
-        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+        if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
         _logger.LogError(e, "Error in net message client hook callback for {MessageType}", typeof(T).Name);
         return HookResult.Continue;
       }
@@ -118,7 +118,7 @@ internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T 
       }
       catch (Exception e)
       {
-        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+        if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
         _logger.LogError(e, "Error in net message server hook callback for {MessageType}", typeof(T).Name);
         return HookResult.Continue;
       }
@@ -166,7 +166,7 @@ internal class NetMessageServerInternalHookCallback<T> : NetMessageHookCallback 
       }
       catch (Exception e)
       {
-        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
+        if (!GlobalExceptionHandler.Handle(ref e)) return HookResult.Continue;
         _logger.LogError(e, "Error in net message server internal hook callback for {MessageType}", typeof(T).Name);
         return HookResult.Continue;
       }

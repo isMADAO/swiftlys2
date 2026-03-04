@@ -36,7 +36,7 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return Guid.Empty;
+            if (!GlobalExceptionHandler.Handle(ref e)) return Guid.Empty;
             logger.LogError(e, "Failed to add midhook to function {Address}.", Address);
             return Guid.Empty;
         }
@@ -63,7 +63,7 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(e)) return;
+            if (!GlobalExceptionHandler.Handle(ref e)) return;
             logger.LogError(e, "Failed to remove midhook {Id} from function {Address}.", id, Address);
         }
     }

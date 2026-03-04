@@ -1,6 +1,6 @@
 internal static class GlobalExceptionHandler
 {
-    public static bool Handle( Exception ex )
+    public static bool Handle( ref Exception ex )
     {
         return true;
     }

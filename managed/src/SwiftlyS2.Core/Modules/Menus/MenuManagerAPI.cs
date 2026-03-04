@@ -236,7 +236,7 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
                     }
                     catch (Exception ex)
                     {
-                        if (GlobalExceptionHandler.Handle(ex))
+                        if (GlobalExceptionHandler.Handle(ref ex))
                         {
                             Spectre.Console.AnsiConsole.WriteException(ex);
                         }
@@ -373,7 +373,7 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
                     }
                     catch (Exception ex)
                     {
-                        if (GlobalExceptionHandler.Handle(ex))
+                        if (GlobalExceptionHandler.Handle(ref ex))
                         {
                             Spectre.Console.AnsiConsole.WriteException(ex);
                         }
