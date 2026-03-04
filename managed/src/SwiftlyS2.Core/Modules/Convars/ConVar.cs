@@ -20,7 +20,8 @@ internal class ConVar : IConVar
     protected nint MinValuePtrPtr => NativeConvars.GetMinValuePtrPtr(Name);
     protected nint MaxValuePtrPtr => NativeConvars.GetMaxValuePtrPtr(Name);
 
-    public EConVarType Type => (EConVarType)NativeConvars.GetConvarType(Name);
+    public EConVarType Type { get; } = EConVarType.EConVarType_Invalid;
+    public nint ValuePtr { get; } = 0;
     public string Name { get; set; }
     public string HelpText => NativeConvars.GetDescription(Name);
     public bool HasDefaultValue => NativeConvars.HasDefaultValue(Name);
@@ -56,6 +57,8 @@ internal class ConVar : IConVar
     {
         callbacks.Clear();
         Name = name;
+        Type = (EConVarType)NativeConvars.GetConvarType(Name);
+        ValuePtr = NativeConvars.GetValuePtr(Name);
     }
 
     public void SetInternalAsString( string value )
@@ -326,9 +329,10 @@ internal class ConVar<T> : ConVar, IConVar<T>
 
     public T GetValue()
     {
+        ValidateType();
         unsafe
         {
-            return Type != EConVarType.EConVarType_String ? *(T*)NativeConvars.GetValuePtr(Name) : (T)(object)(*(CUtlString*)NativeConvars.GetValuePtr(Name)).Value;
+            return Type != EConVarType.EConVarType_String ? *(T*)ValuePtr : (T)(object)(*(CUtlString*)ValuePtr).Value;
         }
     }
 
@@ -342,9 +346,11 @@ internal class ConVar<T> : ConVar, IConVar<T>
             }
             else
             {
-
-                CUtlString str = new() { Value = (string)(object)value };
-                NativeConvars.SetValuePtr(Name, (nint)(&str));
+                if (value is string v)
+                {
+                    CUtlString str = new() { Value = v };
+                    NativeConvars.SetValuePtr(Name, (nint)(&str));
+                }
             }
         }
     }

@@ -24,6 +24,25 @@
 #include <optional>
 #include <variant>
 
+std::map<std::string, ConVarRefAbstract> convarRefCache;
+extern bool bypassConvarCallbacks;
+
+ConVarRefAbstract& GetConVarRef(const char* cvarName)
+{
+    std::string name(cvarName);
+    auto it = convarRefCache.find(name);
+    if (it != convarRefCache.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        ConVarRefAbstract ref(cvarName);
+        convarRefCache[name] = ref;
+        return convarRefCache[name];
+    }
+}
+
 void Bridge_Convars_QueryClientConvar(int playerid, const char* cvarName)
 {
     static auto convarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
@@ -192,13 +211,13 @@ void Bridge_Convars_SetClientConvarValueString(int playerid, const char* convarN
 
 uint64_t Bridge_Convars_GetFlags(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return cvar.GetConVarData()->m_nFlags;
 }
 
 void Bridge_Convars_SetFlags(const char* cvarName, uint64_t flags)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     cvar.GetConVarData()->m_nFlags = flags;
 }
 
@@ -246,37 +265,37 @@ void Bridge_Convars_RemoveConCommandCreatedListener(uint64_t listenerID)
 
 void* Bridge_Convars_GetMinValuePtrPtr(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return &cvar.GetConVarData()->m_minValue;
 }
 
 void* Bridge_Convars_GetMaxValuePtrPtr(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return &cvar.GetConVarData()->m_maxValue;
 }
 
 bool Bridge_Convars_HasDefaultValue(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return cvar.HasDefault();
 }
 
 void* Bridge_Convars_GetDefaultValuePtr(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return cvar.GetConVarData()->DefaultValue();
 }
 
 void Bridge_Convars_SetDefaultValue(const char* cvarName, void* defaultValue)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     cvar.GetConVarData()->SetDefaultValue((CVValue_t*)defaultValue);
 }
 
 void Bridge_Convars_SetDefaultValueString(const char* cvarName, const char* defaultValue)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CUtlString string(defaultValue);
     CVValue_t value(string);
     cvar.GetConVarData()->SetDefaultValue(&value);
@@ -284,32 +303,39 @@ void Bridge_Convars_SetDefaultValueString(const char* cvarName, const char* defa
 
 void* Bridge_Convars_GetValuePtr(const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     return cvar.GetConVarData()->Value(0);
 }
 
 void Bridge_Convars_SetValuePtr(const char* cvarName, void* value)
 {
-    ConVarRefAbstract cvar(cvarName);
+    bypassConvarCallbacks = true;
+    auto& cvar = GetConVarRef(cvarName);
     cvar.SetOrQueueValueInternal(0, (CVValue_t*)value);
+    bypassConvarCallbacks = false;
 }
-
 
 void Bridge_Convars_SetValueInternalPtr(const char* cvarName, void* value)
 {
-    ConVarRefAbstract cvar(cvarName);
+    bypassConvarCallbacks = true;
+    auto& cvar = GetConVarRef(cvarName);
     cvar.SetValueInternal(0, (CVValue_t*)value);
+    bypassConvarCallbacks = false;
 }
 
 bool Bridge_Convars_SetValueAsString(const char* cvarName, const char* value)
 {
-    ConVarRefAbstract cvar(cvarName);
-    return cvar.SetString(CUtlString(value), CSplitScreenSlot(0));
+    bypassConvarCallbacks = true;
+    auto& cvar = GetConVarRef(cvarName);
+    bool result = cvar.SetString(CUtlString(value), CSplitScreenSlot(0));
+    bypassConvarCallbacks = false;
+
+    return result;
 }
 
 int Bridge_Convars_GetValueAsString(char* out, const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetValueAsString(buf, CSplitScreenSlot(0));
 
@@ -322,7 +348,7 @@ int Bridge_Convars_GetValueAsString(char* out, const char* cvarName)
 
 bool Bridge_Convars_SetDefaultValueAsString(const char* cvarName, const char* defaultValue)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     auto data = cvar.GetConVarData();
     if (!data->m_defaultValue)
     {
@@ -333,7 +359,7 @@ bool Bridge_Convars_SetDefaultValueAsString(const char* cvarName, const char* de
 
 int Bridge_Convars_GetDefaultValueAsString(char* out, const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->DefaultValueToString(buf);
 
@@ -346,7 +372,7 @@ int Bridge_Convars_GetDefaultValueAsString(char* out, const char* cvarName)
 
 int Bridge_Convars_GetMinValueAsString(char* out, const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->MinValueToString(buf);
 
@@ -359,7 +385,7 @@ int Bridge_Convars_GetMinValueAsString(char* out, const char* cvarName)
 
 bool Bridge_Convars_SetMinValueAsString(const char* cvarName, const char* minValue)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     auto data = cvar.GetConVarData();
     if (!data->m_minValue)
     {
@@ -370,7 +396,7 @@ bool Bridge_Convars_SetMinValueAsString(const char* cvarName, const char* minVal
 
 int Bridge_Convars_GetMaxValueAsString(char* out, const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->MaxValueToString(buf);
 
@@ -383,7 +409,7 @@ int Bridge_Convars_GetMaxValueAsString(char* out, const char* cvarName)
 
 bool Bridge_Convars_SetMaxValueAsString(const char* cvarName, const char* maxValue)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     auto data = cvar.GetConVarData();
     if (!data->m_maxValue)
     {
@@ -394,7 +420,7 @@ bool Bridge_Convars_SetMaxValueAsString(const char* cvarName, const char* maxVal
 
 void Bridge_Convars_SetValueInternalAsString(const char* cvarName, const char* value)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     CVValue_t v;
     cvar.GetConVarData()->TypeTraits()->StringToValue(value, &v);
     cvar.SetValueInternal(0, &v);
@@ -402,7 +428,7 @@ void Bridge_Convars_SetValueInternalAsString(const char* cvarName, const char* v
 
 int Bridge_Convars_GetDescription(char* out, const char* cvarName)
 {
-    ConVarRefAbstract cvar(cvarName);
+    auto& cvar = GetConVarRef(cvarName);
     std::string s = cvar.GetHelpText();
 
     if (out != nullptr) strcpy(out, s.c_str());
