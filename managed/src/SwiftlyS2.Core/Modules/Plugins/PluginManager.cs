@@ -864,6 +864,10 @@ internal class PluginManager : IPluginManager
         foreach (var plugin in loadedPlugins)
         {
             plugin.Plugin!.UseSharedInterface(_interfaceManager);
+        }
+
+        foreach (var plugin in loadedPlugins)
+        {
             plugin.Plugin!.OnSharedInterfaceInjected(_interfaceManager);
         }
     }
