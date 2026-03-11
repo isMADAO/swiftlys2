@@ -3,13 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace SwiftlyS2.Shared.Natives;
 
-[StructLayout(LayoutKind.Explicit, Pack = 8, Size = 72)]
+[StructLayout(LayoutKind.Explicit, Pack = 8, Size = 64)]
 public struct CTraceFilter
 {
     [FieldOffset(0x0)] private nint _pVTable;
     [FieldOffset(0x8)] public RnQueryShapeAttr_t QueryShapeAttributes;
-    
-    [FieldOffset(0x40)] 
+
+    [FieldOffset(0x3A)]
     [MarshalAs(UnmanagedType.U1)]
     public bool IterateEntities;
 

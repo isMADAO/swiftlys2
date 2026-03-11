@@ -17,16 +17,11 @@ public class Program
 {
     public static void Main()
     {
-        var s1 = SemVersion.Parse("1.1.6", SemVersionStyles.AllowV);
-        Console.WriteLine(s1);
-
-        var s2 = SemVersion.Parse("1.1.5-beta.55", SemVersionStyles.AllowV);
-        Console.WriteLine(s2);
-
-        Console.WriteLine($"s1 > s2: {SemVersion.CompareSortOrder(s1, s2)}");
+        PrintStructInfo<CTraceFilter>(0);
+        PrintStructInfo<RnQueryShapeAttr_t>(0);
     }
 
-    private static void PrintStructInfo<T>() where T : struct
+    private static void PrintStructInfo<T>( int baseOffset ) where T : struct
     {
         var fields = typeof(T).GetFields(
             System.Reflection.BindingFlags.Public |
@@ -36,7 +31,7 @@ public class Program
 
         foreach (var field in fields)
         {
-            var offset = Marshal.OffsetOf<T>(field.Name);
+            var offset = Marshal.OffsetOf<T>(field.Name) + baseOffset;
             var size = GetFieldSize(field.FieldType);
             Console.WriteLine($"{field.Name,-40} Offset: 0x{offset:X4} ({offset,4})  Size: {size,4} bytes");
         }

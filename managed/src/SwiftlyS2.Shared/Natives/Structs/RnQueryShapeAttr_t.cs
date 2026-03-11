@@ -201,7 +201,7 @@ public enum RnQueryObjectSet : byte
     All = Static | AllGameEntities,
 };
 
-[StructLayout(LayoutKind.Sequential, Pack = 8)]
+[StructLayout(LayoutKind.Sequential, Pack = 8, Size = 56)]
 public unsafe struct RnQueryShapeAttr_t
 {
     public MaskTrace InteractsWith;
