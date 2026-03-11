@@ -78,7 +78,7 @@ internal class CoreHookService : IDisposable
     private delegate nint CBaseEntityTouchTemplate( nint pBaseEntity, nint pOtherEntity );
     private delegate void SteamServerAPIActivated( nint pServer );
     private delegate nint CPlayerMovementServicesRunCommand( nint pMovementServices, nint pUserCmd );
-    private delegate void CCSPlayerPawnPostThink( nint pPlayerPawn );
+    private delegate nint CCSPlayerPawnPostThink( nint pPlayerPawn );
     private delegate void CEntityIdentityAcceptInput( nint pEntityIdentity, nint inputName, nint activator, nint caller, nint variant, int outputId, nint unk1, nint unk2 );
     private delegate void CEntityIOOutputFireOutputInternal( nint pEntityIO, nint pActivator, nint pCaller, nint pVariant, float flDelay, nint unk1, nint unk2 );
     private delegate void DispatchDatamapFunction( nint a1, nint pDatamapFunc, nint a3, uint a4, nint a5, double a6 /* unknown */ );
@@ -540,7 +540,7 @@ internal class CoreHookService : IDisposable
                 };
                 EventPublisher.InvokeOnPlayerPawnPostThinkHook(@event);
 
-                next()(pPlayerPawn);
+                return next()(pPlayerPawn);
             };
         });
     }
