@@ -329,7 +329,6 @@ internal class ConVar<T> : ConVar, IConVar<T>
 
     public T GetValue()
     {
-        ValidateType();
         unsafe
         {
             return Type != EConVarType.EConVarType_String ? *(T*)ValuePtr : (T)(object)(*(CUtlString*)ValuePtr).Value;
