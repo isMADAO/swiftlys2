@@ -53,14 +53,14 @@ internal class NetMessage<T> : TypedProtobuf<T>, INativeHandle, IDisposable
     public void Send()
     {
         CheckIsManuallyAllocated();
-        bool success = false;
+        var success = false;
         this._allocatedHandle!.DangerousAddRef(ref success);
         if (!success)
         {
             throw new Exception("Failed to add reference to net message. Might already been disposed.");
         }
 
-        SchedulerManager.QueueOrNow(() =>
+        _ = SchedulerManager.QueueOrNow(() =>
         {
             NativeNetMessages.SendMessageToPlayers(_allocatedHandle!.Address, T.MessageId, _filter.ToMask());
             this._allocatedHandle!.DangerousRelease();
