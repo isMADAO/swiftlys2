@@ -30,22 +30,21 @@ internal enum EConVarType : int
 internal class ConVarService : IConVarService
 {
 
-    private INetMessageService _netMessageService;  
+    private INetMessageService _netMessageService;
 
-    public ConVarService(INetMessageService netMessageService)
+    public ConVarService( INetMessageService netMessageService )
     {
         _netMessageService = netMessageService;
     }
 
     public IConVar<T>? Find<T>( string name )
     {
-
-        return !NativeConvars.ExistsConvar(name) ? null : (IConVar<T>)new ConVar<T>(name);
+        return !NativeConvars.ExistsConvar(name) ? null : (IConVar<T>)new ConVar<T>(name, _netMessageService);
     }
 
     public IConVar? FindAsString( string name )
     {
-        return !NativeConvars.ExistsConvar(name) ? null : (IConVar)new ConVar(name);
+        return !NativeConvars.ExistsConvar(name) ? null : (IConVar)new ConVar(name, _netMessageService);
     }
 
     public IConVar<T> Create<T>( string name, string helpMessage, T defaultValue, ConvarFlags flags = ConvarFlags.NONE )
@@ -120,7 +119,7 @@ internal class ConVarService : IConVarService
             throw new Exception($"Unsupported type {typeof(T)}.");
         }
 
-        return new ConVar<T>(name);
+        return new ConVar<T>(name, _netMessageService);
     }
 
     public IConVar<T> Create<T>( string name, string helpMessage, T defaultValue, T? minValue, T? maxValue, ConvarFlags flags = ConvarFlags.NONE ) where T : unmanaged
@@ -267,22 +266,23 @@ internal class ConVarService : IConVarService
             }
         }
 
-        return new ConVar<T>(name);
+        return new ConVar<T>(name, _netMessageService);
     }
 
     public IConVar<T> CreateOrFind<T>( string name, string helpMessage, T defaultValue, ConvarFlags flags = ConvarFlags.NONE )
     {
-        return NativeConvars.ExistsConvar(name) ? new ConVar<T>(name) : Create(name, helpMessage, defaultValue, flags);
+        return NativeConvars.ExistsConvar(name) ? new ConVar<T>(name, _netMessageService) : Create(name, helpMessage, defaultValue, flags);
     }
 
     public IConVar<T> CreateOrFind<T>( string name, string helpMessage, T defaultValue, T? minValue, T? maxValue, ConvarFlags flags = ConvarFlags.NONE ) where T : unmanaged
     {
-        return NativeConvars.ExistsConvar(name) ? new ConVar<T>(name) : Create(name, helpMessage, defaultValue, minValue, maxValue, flags);
+        return NativeConvars.ExistsConvar(name) ? new ConVar<T>(name, _netMessageService) : Create(name, helpMessage, defaultValue, minValue, maxValue, flags);
     }
 
-    public void ReplicateToClient(int clientId, string name, string value)
+    public void ReplicateToClient( int clientId, string name, string value )
     {
-        _netMessageService.Send<CNETMsg_SetConVar>(msg => { 
+        _netMessageService.Send<CNETMsg_SetConVar>(msg =>
+        {
             var cvar = msg.Convars.Cvars.Add();
             cvar.Name = name;
             cvar.Value = value;
@@ -290,16 +290,14 @@ internal class ConVarService : IConVarService
         });
     }
 
-    public void ReplicateToAll(string name, string value)
+    public void ReplicateToAll( string name, string value )
     {
-        _netMessageService.Send<CNETMsg_SetConVar>(msg => { 
+        _netMessageService.Send<CNETMsg_SetConVar>(msg =>
+        {
             var cvar = msg.Convars.Cvars.Add();
             cvar.Name = name;
             cvar.Value = value;
             msg.Recipients.AddAllPlayers();
         });
     }
-
-    
-    
 }

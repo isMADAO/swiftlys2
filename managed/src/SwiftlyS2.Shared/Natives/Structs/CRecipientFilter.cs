@@ -22,7 +22,8 @@ public struct CRecipientFilter
     public bool DisabledPrediction;
 
 
-    public CRecipientFilter( ) : this(NetChannelBufType_t.BUF_RELIABLE, false) {
+    public CRecipientFilter() : this(NetChannelBufType_t.BUF_RELIABLE, false)
+    {
 
     }
 
@@ -89,8 +90,8 @@ public struct CRecipientFilter
 
     public int GetRecipientCount()
     {
-        int count = 0;
-        for (int i = 0; i < 64; i++)
+        var count = 0;
+        for (var i = 0; i < 64; i++)
         {
             if ((RecipientsMask & (1UL << i)) != 0)
             {

@@ -1,12 +1,13 @@
 using System.Reflection;
-using SwiftlyS2.Core.GameEvents;
 using SwiftlyS2.Shared.GameEvents;
 using SwiftlyS2.Shared.Misc;
 
 namespace SwiftlyS2.Core.AttributeParsers;
 
-internal static class GameEventAttributeParser {
-  public static void ParseFromObject(this IGameEventService self, object instance) {
+internal static class GameEventAttributeParser
+{
+  public static void ParseFromObject( this IGameEventService self, object instance )
+  {
     var type = instance.GetType();
     var methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
     foreach (var method in methods)
@@ -31,7 +32,7 @@ internal static class GameEventAttributeParser {
           throw new InvalidOperationException($"Invalid hook mode: {gameEventHandlerAttribute.HookMode}");
         }
         var hookMethodGeneric = hookMethod.MakeGenericMethod(eventType);
-        hookMethodGeneric.Invoke(self, new object[] { eventHandler });
+        _ = hookMethodGeneric.Invoke(self, [eventHandler]);
       }
     }
   }

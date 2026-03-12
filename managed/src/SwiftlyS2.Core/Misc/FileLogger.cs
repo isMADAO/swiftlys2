@@ -15,7 +15,7 @@ internal static class FileLogger
 
     if (!Directory.Exists(directory))
     {
-      Directory.CreateDirectory(directory);
+      _ = Directory.CreateDirectory(directory);
     }
 
     var time = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
