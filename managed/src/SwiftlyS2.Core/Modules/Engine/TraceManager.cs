@@ -1,8 +1,8 @@
 ﻿using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Services;
-using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.SchemaDefinitions;
+using SwiftlyS2.Core.EntitySystem;
 
 namespace SwiftlyS2.Core.Services;
 
@@ -54,12 +54,12 @@ internal class TraceManager : ITraceManager
         {
             if (filterEntity != nint.Zero)
             {
-                var entity = new CBaseEntityImpl(filterEntity);
+                var entity = EntityManager.GetEntityByAddress(filterEntity) ?? throw new InvalidCastException("Invalid entity.");
                 filter.QueryShapeAttributes.EntityIdsToIgnore[0] = entity.Index;
             }
             if (filterSecondEntity != nint.Zero)
             {
-                var entity = new CBaseEntityImpl(filterSecondEntity);
+                var entity = EntityManager.GetEntityByAddress(filterSecondEntity) ?? throw new InvalidCastException("Invalid entity.");
                 filter.QueryShapeAttributes.EntityIdsToIgnore[1] = entity.Index;
             }
 

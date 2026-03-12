@@ -1,9 +1,9 @@
 using System.Runtime.InteropServices;
-using SwiftlyS2.Core.Players;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.SchemaDefinitions;
+using SwiftlyS2.Core.EntitySystem;
 
 namespace SwiftlyS2.Shared.Natives;
 
@@ -54,7 +54,7 @@ public unsafe struct CGameTrace
     public bool StartInSolid;
     public bool ExactHitPoint;
 
-    public readonly CEntityInstance Entity => new CEntityInstanceImpl((nint)pEntity);
+    public readonly CEntityInstance Entity => EntityManager.GetEntityByAddress((nint)pEntity) ?? new CEntityInstanceImpl((nint)pEntity);
 
     public readonly bool DidHit => Fraction < 1.0f || StartInSolid;
     public readonly float Distance => EndPos.Distance(StartPos);

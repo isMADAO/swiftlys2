@@ -1,4 +1,5 @@
-﻿using SwiftlyS2.Core.Natives;
+﻿using SwiftlyS2.Core.EntitySystem;
+using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.Events;
@@ -45,7 +46,7 @@ internal class Player : IPlayer, IDisposable
 
     public ulong UnauthorizedSteamID { get { ThrowIfDisposed(); return NativePlayer.GetUnauthorizedSteamID(Slot); } }
 
-    public CCSPlayerController Controller { get { ThrowIfDisposed(); return new CCSPlayerControllerImpl(NativePlayer.GetController(Slot)); } }
+    public CCSPlayerController Controller { get { ThrowIfDisposed(); var controllerPtr = NativePlayer.GetController(Slot); return EntityManager.GetEntityByAddress(controllerPtr) as CCSPlayerControllerImpl ?? new CCSPlayerControllerImpl(controllerPtr); } }
     public CCSPlayerController RequiredController => Controller is { IsValid: true } controller ? controller : throw new InvalidOperationException("Controller is not valid");
 
     public CBasePlayerPawn? Pawn => Controller?.Pawn.Value;

@@ -461,8 +461,8 @@ internal static class EventPublisher
         try
         {
             OnEntityParentChangedEvent @event = new() {
-                Entity = new CEntityInstanceImpl(entityPtr),
-                NewParent = newParentPtr != 0 ? new CEntityInstanceImpl(newParentPtr) : null
+                Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr),
+                NewParent = newParentPtr != 0 ? EntityManager.GetEntityByAddress(newParentPtr) ?? new CEntityInstanceImpl(newParentPtr) : null
             };
             foreach (var subscriber in subscribers)
             {
@@ -489,7 +489,7 @@ internal static class EventPublisher
 
         try
         {
-            OnEntitySpawnedEvent @event = new() { Entity = new CEntityInstanceImpl(entityPtr) };
+            OnEntitySpawnedEvent @event = new() { Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr) };
             foreach (var subscriber in subscribers)
             {
                 subscriber.InvokeOnEntitySpawned(@event);
@@ -637,7 +637,7 @@ internal static class EventPublisher
             unsafe
             {
                 OnEntityTakeDamageEvent @event = new() {
-                    Entity = new CEntityInstanceImpl(entityPtr),
+                    Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr),
                     _infoPtr = takeDamageInfoPtr,
                     _resultPtr = takeDamageResultPtr
                 };

@@ -1,3 +1,4 @@
+using SwiftlyS2.Core.EntitySystem;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Natives.NativeObjects;
 using SwiftlyS2.Core.Players;
@@ -128,13 +129,15 @@ internal class GameEventAccessor : NativeHandle, IGameEventAccessor, IDisposable
     public CCSPlayerController GetPlayerController( string key )
     {
         CheckIsValid();
-        return new CCSPlayerControllerImpl(NativeGameEvents.GetPlayerController(Address, key));
+        var controllerPtr = NativeGameEvents.GetPlayerController(Address, key);
+        return EntityManager.GetEntityByAddress(controllerPtr) as CCSPlayerControllerImpl ?? new CCSPlayerControllerImpl(controllerPtr);
     }
 
     public CCSPlayerPawn GetPlayerPawn( string key )
     {
         CheckIsValid();
-        return new CCSPlayerPawnImpl(NativeGameEvents.GetPlayerPawn(Address, key));
+        var pawnPtr = NativeGameEvents.GetPlayerPawn(Address, key);
+        return EntityManager.GetEntityByAddress(pawnPtr) as CCSPlayerPawnImpl ?? new CCSPlayerPawnImpl(pawnPtr);
     }
 
     public IPlayer? GetPlayer( string key )

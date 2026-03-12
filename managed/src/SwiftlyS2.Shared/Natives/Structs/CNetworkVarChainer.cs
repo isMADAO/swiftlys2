@@ -1,4 +1,5 @@
-﻿using SwiftlyS2.Core.SchemaDefinitions;
+﻿using SwiftlyS2.Core.EntitySystem;
+using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using System.Runtime.InteropServices;
 
@@ -18,5 +19,5 @@ public unsafe struct CNetworkVarChainer
     public ChangeAccessorFieldPathIndex_t PathIndex;
     private fixed byte _padding2[4];
 
-    public readonly CEntityInstance Entity => new CEntityInstanceImpl((nint)pEntity);
+    public readonly CEntityInstance Entity => EntityManager.GetEntityByAddress((nint)pEntity) ?? new CEntityInstanceImpl((nint)pEntity);
 }

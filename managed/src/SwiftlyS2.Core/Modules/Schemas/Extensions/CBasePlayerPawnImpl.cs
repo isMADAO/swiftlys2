@@ -78,7 +78,9 @@ internal partial class CBasePlayerPawnImpl : CBasePlayerPawn
             return false;
         }
 
-        var playerPawn = new CCSPlayerPawnImpl(this.Address);
+        var playerPawn = this as CCSPlayerPawn;
+        if (playerPawn == null) return false;
+
         if (!(playerPawn.OriginalController.Value?.IsValid ?? false))
         {
             return false;

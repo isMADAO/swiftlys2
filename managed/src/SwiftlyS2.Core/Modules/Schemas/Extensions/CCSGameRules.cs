@@ -13,7 +13,7 @@ public partial interface CCSGameRules
     /// </summary>
     /// <typeparam name="T">Entity Class</typeparam>
     /// <param name="controller">Player Controller</param>
-    public T? FindPickerEntity<T>( CBasePlayerController controller ) where T : ISchemaClass<T>;
+    public T? FindPickerEntity<T>( CBasePlayerController controller ) where T : class, ISchemaClass<T>;
 
     /// <summary>
     /// Ends the current round with the specified reason after an optional delay
