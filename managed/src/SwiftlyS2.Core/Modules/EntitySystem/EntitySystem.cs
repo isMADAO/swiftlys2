@@ -8,7 +8,6 @@ using SwiftlyS2.Core.Extensions;
 using SwiftlyS2.Shared.EntitySystem;
 using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.SchemaDefinitions;
-using System.Diagnostics;
 
 namespace SwiftlyS2.Core.EntitySystem;
 
@@ -18,7 +17,7 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
 
     private readonly ConcurrentDictionary<Guid, EventDelegates.OnEntityFireOutputHookEvent> outputHooks = new();
     private readonly ConcurrentDictionary<Guid, EventDelegates.OnEntityIdentityAcceptInputHook> inputHooks = new();
-
+    private CCSGameRulesImpl cachedGameRules = new(0);
     private volatile bool disposed;
 
     public EntitySystemService( IEventSubscriber eventSubscriber )
@@ -69,8 +68,8 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
     public CCSGameRules? GetGameRules()
     {
         ThrowIfEntitySystemInvalid();
-        var handle = NativeEntitySystem.GetGameRules();
-        return handle.IsValidPtr() ? new CCSGameRulesImpl(handle) : null;
+        cachedGameRules.DangerousSetHandle(NativeEntitySystem.GetGameRules());
+        return cachedGameRules;
     }
 
     public IEnumerable<CEntityInstance> GetAllEntities()
