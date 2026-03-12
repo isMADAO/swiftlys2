@@ -257,7 +257,7 @@ void Bridge_GameEvents_FireEventToClient(void* event, int playerid)
     static auto eventmanager = g_ifaceService.FetchInterface<IEventManager>(GAMEEVENTMANAGER_INTERFACE_VERSION);
     static auto crashreporter = g_ifaceService.FetchInterface<ICrashReporter>(CRASHREPORTER_INTERFACE_VERSION);
 
-    auto pListenerSig = gamedata->GetSignatures()->Fetch("LegacyGameEventListener");
+    static auto pListenerSig = gamedata->GetSignatures()->Fetch("LegacyGameEventListener");
     if (!pListenerSig) return;
 
     auto listener = reinterpret_cast<GetLegacyGameEventListener>(pListenerSig)(playerid);

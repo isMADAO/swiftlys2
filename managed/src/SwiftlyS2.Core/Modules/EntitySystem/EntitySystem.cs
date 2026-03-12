@@ -51,12 +51,10 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
     {
         ThrowIfEntitySystemInvalid();
         var handle = NativeEntitySystem.CreateEntityByName(designerName);
+        if (handle == nint.Zero) throw new ArgumentException($"Failed to create entity by designer name: {designerName}, probably invalid designer name.");
 
         var entity = EntityManager.OnEntityCreated(handle);
-
-        return handle == nint.Zero
-            ? throw new ArgumentException($"Failed to create entity by designer name: {designerName}, probably invalid designer name.")
-            : entity;
+        return entity;
     }
 
     public CHandle<T> GetRefEHandle<T>( T entity ) where T : class, ISchemaClass<T>
