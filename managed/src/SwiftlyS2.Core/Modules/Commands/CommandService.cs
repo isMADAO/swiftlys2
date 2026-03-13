@@ -18,7 +18,7 @@ internal class CommandService : ICommandService, IDisposable
 
     private readonly List<CommandCallbackBase> commandCallbacks = [];
     private readonly List<ulong> commandAliases = [];
-    private readonly Dictionary<string, List<CommandCallbackBase>> commandsByPlugin = [];
+    private static readonly Dictionary<string, List<CommandCallbackBase>> commandsByPlugin = [];
     private readonly Lock commandLock = new();
 
     public CommandService( ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, CoreContext coreContext )
@@ -256,8 +256,7 @@ internal class CommandService : ICommandService, IDisposable
         lock (commandLock)
         {
             return commandsByPlugin.TryGetValue(pluginName, out var callbacks)
-                ? callbacks.OfType<CommandCallback>().Select(c => new CommandInfo
-                {
+                ? callbacks.OfType<CommandCallback>().Select(c => new CommandInfo {
                     CommandName = c.CommandName,
                     RegisterRaw = c.RegisterRaw,
                     Permission = c.Permission,
@@ -275,8 +274,7 @@ internal class CommandService : ICommandService, IDisposable
                 kvp => kvp.Key,
                 kvp => kvp.Value
                     .OfType<CommandCallback>()
-                    .Select(c => new CommandInfo
-                    {
+                    .Select(c => new CommandInfo {
                         CommandName = c.CommandName,
                         RegisterRaw = c.RegisterRaw,
                         Permission = c.Permission,
@@ -284,6 +282,22 @@ internal class CommandService : ICommandService, IDisposable
                     })
                     .ToList()
             );
+        }
+    }
+
+    public List<CommandInfo> GetAllCommandsInfo()
+    {
+        lock (commandLock)
+        {
+            return commandCallbacks
+                .OfType<CommandCallback>()
+                .Select(c => new CommandInfo {
+                    CommandName = c.CommandName,
+                    RegisterRaw = c.RegisterRaw,
+                    Permission = c.Permission,
+                    HelpText = c.HelpText
+                })
+                .ToList();
         }
     }
 }
