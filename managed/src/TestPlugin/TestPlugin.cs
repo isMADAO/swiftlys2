@@ -182,6 +182,7 @@ public class TestPlugin : BasePlugin
             if (controller is null) continue;
 
             Console.WriteLine($"PawnIsAlive: {controller.PawnIsAlive}");
+            Console.WriteLine($"PawnHealth: {controller.As<CBasePlayerController>().PlayerName}");
         }
     }
 
@@ -209,22 +210,6 @@ public class TestPlugin : BasePlugin
         {
             Core.Logger.LogError(ex, "[Database] Connection failed: {Message}", ex.Message);
         }
-    }
-
-    [GameEventHandler(HookMode.Pre)]
-    public HookResult OnPlayerDeath( EventPlayerDeath @event )
-    {
-        Console.WriteLine($"Is main thread?: {Core.IsGameThread}");
-        if (@event.AttackerPlayer == null) return HookResult.Continue;
-        if (@event.AttackerPlayer.Controller == null) return HookResult.Continue;
-        if (@event.AttackerPlayer.Controller.DamageServices == null) return HookResult.Continue;
-
-        foreach (var record in @event.AttackerPlayer.Controller.DamageServices.DamageList)
-        {
-            Console.WriteLine($"Damage service: {record.Damage} {record.DamagerXuid} {record.PlayerDamagerName}");
-        }
-
-        return HookResult.Continue;
     }
 
     [GameEventHandler(HookMode.Pre)]

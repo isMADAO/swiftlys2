@@ -9,9 +9,9 @@ public interface ISchemaClass : INativeHandle
     /// </summary>
     /// <typeparam name="K">The type to convert to.</typeparam>
     /// <returns>The converted handle.</returns>
-    public K As<K>() where K : ISchemaClass<K>
+    public K As<K>() where K : class, ISchemaClass<K>
     {
-        return K.From(Address);
+        return (this is K ? this as K : K.From(Address))!;
     }
 }
 

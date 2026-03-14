@@ -66,7 +66,7 @@ public unsafe struct CGameTrace
         }
     }
 
-    public readonly bool HitEntityByDesignerName<T>( string designerName, out T outEntity, NameMatchType matchType = NameMatchType.StartsWith ) where T : ISchemaClass<T>
+    public readonly bool HitEntityByDesignerName<T>( string designerName, out T outEntity, NameMatchType matchType = NameMatchType.StartsWith ) where T : class, ISchemaClass<T>
     {
         outEntity = T.From(IntPtr.Zero);
 
@@ -102,7 +102,7 @@ public unsafe struct CGameTrace
         return isMatch;
     }
 
-    public readonly bool HitEntityByDesignerName<T>( string designerName, NameMatchType matchType = NameMatchType.StartsWith ) where T : ISchemaClass<T>
+    public readonly bool HitEntityByDesignerName<T>( string designerName, NameMatchType matchType = NameMatchType.StartsWith ) where T : class, ISchemaClass<T>
     {
         return HitEntityByDesignerName<T>(designerName, out _, matchType);
     }
@@ -142,13 +142,13 @@ public unsafe struct CGameTrace
         return HitPlayer(out _);
     }
 
-    public readonly bool HitEntity<T>( out T entity ) where T : ISchemaClass<T>
+    public readonly bool HitEntity<T>( out T entity ) where T : class, ISchemaClass<T>
     {
         entity = T.From(IntPtr.Zero);
         return T.ClassName != null && HitEntityByDesignerName(T.ClassName, out entity, NameMatchType.Exact);
     }
 
-    public readonly bool HitEntity<T>() where T : ISchemaClass<T>
+    public readonly bool HitEntity<T>() where T : class, ISchemaClass<T>
     {
         return HitEntity<T>(out _);
     }
