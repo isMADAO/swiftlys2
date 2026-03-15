@@ -1197,6 +1197,7 @@ static bool BreakpadDumpCallback(const google_breakpad::MinidumpDescriptor& desc
         sys_write(STDOUT_FILENO, "[CrashReporter] Failed to write minidump to: ", 45);
         sys_write(STDOUT_FILENO, descriptor.path(), my_strlen(descriptor.path()));
         sys_write(STDOUT_FILENO, "\n", 1);
+        _exit(1);
     }
     return succeeded;
 }
