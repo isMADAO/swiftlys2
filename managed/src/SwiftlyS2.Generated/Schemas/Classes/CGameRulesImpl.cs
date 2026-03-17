@@ -44,6 +44,22 @@ internal partial class CGameRulesImpl : SchemaClass, CGameRules
             return ref _Handle.AsRef<int>(_QuestPhaseOffset!.Value);
         }
     }
+    private static nint? _LastMatchTimeOffset;
+
+    public ref uint LastMatchTime {
+        get {
+            _LastMatchTimeOffset = _LastMatchTimeOffset ?? Schema.GetOffset(0x4807DA773C44A9EF);
+            return ref _Handle.AsRef<uint>(_LastMatchTimeOffset!.Value);
+        }
+    }
+    private static nint? _LastMatchTime_MatchID64Offset;
+
+    public ref ulong LastMatchTime_MatchID64 {
+        get {
+            _LastMatchTime_MatchID64Offset = _LastMatchTime_MatchID64Offset ?? Schema.GetOffset(0x4807DA77A1DCA866);
+            return ref _Handle.AsRef<ulong>(_LastMatchTime_MatchID64Offset!.Value);
+        }
+    }
     private static nint? _TotalPausedTicksOffset;
 
     public ref int TotalPausedTicks {

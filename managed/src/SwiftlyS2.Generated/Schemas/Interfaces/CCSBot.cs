@@ -11,7 +11,7 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 public partial interface CCSBot : CBot, ISchemaClass<CCSBot>
 {
     static CCSBot ISchemaClass<CCSBot>.From(nint handle) => new CCSBotImpl(handle);
-    static int ISchemaClass<CCSBot>.Size => 28152;
+    static int ISchemaClass<CCSBot>.Size => 28200;
     static string? ISchemaClass<CCSBot>.ClassName => null;
 
 
@@ -134,6 +134,8 @@ public partial interface CCSBot : CBot, ISchemaClass<CCSBot>
     public ref float LookAroundStateTimestamp { get; }
 
     public ref float LookAheadAngle { get; }
+
+    public ref float LookUpAngle { get; }
 
     public ref float ForwardAngle { get; }
 

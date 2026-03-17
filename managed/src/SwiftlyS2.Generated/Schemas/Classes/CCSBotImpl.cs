@@ -496,6 +496,14 @@ internal partial class CCSBotImpl : CBotImpl, CCSBot
             return ref _Handle.AsRef<float>(_LookAheadAngleOffset!.Value);
         }
     }
+    private static nint? _LookUpAngleOffset;
+
+    public ref float LookUpAngle {
+        get {
+            _LookUpAngleOffset = _LookUpAngleOffset ?? Schema.GetOffset(0x1CFE165D23247B1A);
+            return ref _Handle.AsRef<float>(_LookUpAngleOffset!.Value);
+        }
+    }
     private static nint? _ForwardAngleOffset;
 
     public ref float ForwardAngle {

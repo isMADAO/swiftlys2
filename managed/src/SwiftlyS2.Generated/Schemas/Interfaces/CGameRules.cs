@@ -11,7 +11,7 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 public partial interface CGameRules : ISchemaClass<CGameRules>
 {
     static CGameRules ISchemaClass<CGameRules>.From(nint handle) => new CGameRulesImpl(handle);
-    static int ISchemaClass<CGameRules>.Size => 192;
+    static int ISchemaClass<CGameRules>.Size => 208;
     static string? ISchemaClass<CGameRules>.ClassName => null;
 
 
@@ -20,6 +20,10 @@ public partial interface CGameRules : ISchemaClass<CGameRules>
     public string QuestName { get; set; }
 
     public ref int QuestPhase { get; }
+
+    public ref uint LastMatchTime { get; }
+
+    public ref ulong LastMatchTime_MatchID64 { get; }
 
     public ref int TotalPausedTicks { get; }
 
