@@ -1,3 +1,4 @@
+
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.SchemaDefinitions;
 
@@ -17,6 +18,7 @@ public interface ITraceManager
     /// <param name="trace">A reference to a CGameTrace object that receives the results of the trace, including collision information and
     /// hit details.</param>
     public void TracePlayerBBox( Vector start, Vector end, BBox_t bounds, CTraceFilter filter, ref CGameTrace trace );
+
     /// <summary>
     /// Performs a trace operation from the specified start point to the end point using the given ray and filter, and
     /// populates the trace result with collision information.

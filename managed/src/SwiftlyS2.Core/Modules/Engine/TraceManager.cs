@@ -1,8 +1,9 @@
-﻿using SwiftlyS2.Core.Natives;
+﻿
+using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Services;
+using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Shared.SchemaDefinitions;
-using SwiftlyS2.Core.EntitySystem;
 
 namespace SwiftlyS2.Core.Services;
 
@@ -16,6 +17,7 @@ internal class TraceManager : ITraceManager
             {
                 filter.EnsureValid();
                 GameFunctions.TracePlayerBBox(start, end, bounds, &filter, tracePtr);
+                filter.Dispose();
             }
         }
     }
@@ -28,6 +30,7 @@ internal class TraceManager : ITraceManager
             {
                 filter.EnsureValid();
                 GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), &ray, start, end, &filter, tracePtr);
+                filter.Dispose();
             }
         }
     }
@@ -54,12 +57,12 @@ internal class TraceManager : ITraceManager
         {
             if (filterEntity != nint.Zero)
             {
-                var entity = EntityManager.GetEntityByAddress(filterEntity) ?? throw new InvalidCastException("Invalid entity.");
+                var entity = new CBaseEntityImpl(filterEntity);
                 filter.QueryShapeAttributes.EntityIdsToIgnore[0] = entity.Index;
             }
             if (filterSecondEntity != nint.Zero)
             {
-                var entity = EntityManager.GetEntityByAddress(filterSecondEntity) ?? throw new InvalidCastException("Invalid entity.");
+                var entity = new CBaseEntityImpl(filterSecondEntity);
                 filter.QueryShapeAttributes.EntityIdsToIgnore[1] = entity.Index;
             }
 
@@ -68,6 +71,8 @@ internal class TraceManager : ITraceManager
                 GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), &ray, start, end, &filter, tracePtr);
             }
         }
+
+        filter.Dispose();
     }
 
     public void SimpleTrace( Vector start, Vector end, RayType_t rayKind, RnQueryObjectSet objectQuery, MaskTrace interactWith, MaskTrace interactExclude, MaskTrace interactAs, CollisionGroup collision, ref CGameTrace trace, CBaseEntity? filterEntity = null, CBaseEntity? filterSecondEntity = null )
