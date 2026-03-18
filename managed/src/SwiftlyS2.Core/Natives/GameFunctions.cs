@@ -19,8 +19,8 @@ internal static class GameFunctions
     public static unsafe delegate* unmanaged< nint, nint, float, void > pSetOrAddAttribute;
     public static unsafe delegate* unmanaged< int, nint, nint > pGetWeaponCSDataFromKey;
     public static unsafe delegate* unmanaged< nint, uint, nint, byte, CUtlSymbolLarge, byte, int, nint, nint, void > pDispatchParticleEffect;
-    public static unsafe delegate* unmanaged< nint, float, uint, nint, uint, void > pTerminateRoundWindows;
-    public static unsafe delegate* unmanaged< nint, uint, nint, uint, float, void > pTerminateRoundLinux;
+    public static unsafe delegate* unmanaged< nint, float, uint, nint, void > pTerminateRoundWindows;
+    public static unsafe delegate* unmanaged< nint, uint, nint, float, void > pTerminateRoundLinux;
     public static unsafe delegate* unmanaged< nint, Vector*, QAngle*, Vector*, void > pTeleport;
     public static unsafe delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, int, nint > pCSmokeGrenadeProjectileEmitGrenade;
     public static unsafe delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint > pCFlashbangProjectileEmitGrenade;
@@ -90,11 +90,11 @@ internal static class GameFunctions
             pCMolotovProjectileEmitGrenade = (delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint >)NativeSignatures.Fetch("CMolotovProjectile::EmitGrenade");
             if (IsWindows)
             {
-                pTerminateRoundWindows = (delegate* unmanaged< nint, float, uint, nint, uint, void >)NativeSignatures.Fetch("CGameRules::TerminateRound");
+                pTerminateRoundWindows = (delegate* unmanaged< nint, float, uint, nint, void >)NativeSignatures.Fetch("CGameRules::TerminateRound");
             }
             else
             {
-                pTerminateRoundLinux = (delegate* unmanaged< nint, uint, nint, uint, float, void >)NativeSignatures.Fetch("CGameRules::TerminateRound");
+                pTerminateRoundLinux = (delegate* unmanaged< nint, uint, nint, float, void >)NativeSignatures.Fetch("CGameRules::TerminateRound");
             }
         }
     }
@@ -117,7 +117,7 @@ internal static class GameFunctions
         }
     }
 
-    public static void TerminateRound( nint gameRules, uint reason, float delay, uint teamId, uint unk01 )
+    public static void TerminateRound( nint gameRules, uint reason, float delay, uint teamId )
     {
         try
         {
@@ -126,11 +126,11 @@ internal static class GameFunctions
             {
                 if (IsWindows)
                 {
-                    pTerminateRoundWindows(gameRules, delay, reason, teamId > 0 ? (nint)(&teamId) : 0, unk01);
+                    pTerminateRoundWindows(gameRules, delay, reason, teamId > 0 ? (nint)(&teamId) : 0);
                 }
                 else
                 {
-                    pTerminateRoundLinux(gameRules, reason, teamId > 0 ? (nint)(&teamId) : 0, unk01, delay);
+                    pTerminateRoundLinux(gameRules, reason, teamId > 0 ? (nint)(&teamId) : 0, delay);
                 }
             }
         }

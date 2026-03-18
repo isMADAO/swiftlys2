@@ -23,12 +23,12 @@ internal partial class CCSGameRulesImpl : CCSGameRules
 
     public void TerminateRound( EndReason reason, float delay )
     {
-        GameFunctions.TerminateRound(Address, (uint)reason, delay, 0, 0);
+        GameFunctions.TerminateRound(Address, (uint)reason, delay, 0);
     }
 
     public void TerminateRound( EndReason reason, float delay, uint teamId, uint unk01 )
     {
-        GameFunctions.TerminateRound(Address, (uint)reason, delay, teamId, unk01);
+        GameFunctions.TerminateRound(Address, (uint)reason, delay, teamId);
     }
 
     public ref CViewVectors GetViewVectors()

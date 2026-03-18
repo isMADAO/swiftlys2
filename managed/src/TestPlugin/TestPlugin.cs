@@ -729,6 +729,12 @@ public class TestPlugin : BasePlugin
         Core.Engine.ExecuteCommandWithBuffer("@ping", ( buffer ) => { Console.WriteLine($"pong: {buffer}"); });
     }
 
+    [Command("tround")]
+    public void TestRoundCommand( ICommandContext context )
+    {
+        Core.EntitySystem.GetGameRules()!.TerminateRound(RoundEndReason.BombDefused, 10.0f);
+    }
+
     [Command("tt8")]
     public unsafe void TestCommand8( ICommandContext context )
     {
