@@ -798,6 +798,13 @@ public class TestPlugin : BasePlugin
             IterateEntities = true,
         };
         var trace = new CGameTrace();
+
+        unsafe
+        {
+            var filterRef = &filter;
+            Console.WriteLine($"Filter at: {(nint)filterRef:X}");
+        }
+
         Core.Trace.TracePlayerBBox(start, end, bbox, filter, ref trace);
 
         var filter2 = new CTraceFilter() {
