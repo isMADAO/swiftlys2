@@ -809,11 +809,11 @@ public class TestPlugin : BasePlugin
 
         var filter2 = new CTraceFilter() {
             IterateEntities = true,
-            ShouldHitEntity = ( ent ) =>
-            {
-                Console.WriteLine($"ShouldHitEntity: {(ent != null ? ent.DesignerName : "null")}");
-                return true;
-            }
+            // ShouldHitEntity = ( ent ) =>
+            // {
+            // Console.WriteLine($"ShouldHitEntity: {(ent != null ? ent.DesignerName : "null")}");
+            // return true;
+            // }
         };
 
         Core.Trace.TracePlayerBBox(start, end, bbox, filter2, ref trace);

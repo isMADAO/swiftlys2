@@ -17,7 +17,6 @@ internal class TraceManager : ITraceManager
             {
                 filter.EnsureValid();
                 GameFunctions.TracePlayerBBox(start, end, bounds, &filter, tracePtr);
-                if (!filter.GetTraceFilterData().ManualDispose) filter.Dispose();
             }
         }
     }
@@ -30,7 +29,6 @@ internal class TraceManager : ITraceManager
             {
                 filter.EnsureValid();
                 GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), &ray, start, end, &filter, tracePtr);
-                if (!filter.GetTraceFilterData().ManualDispose) filter.Dispose();
             }
         }
     }
@@ -71,8 +69,6 @@ internal class TraceManager : ITraceManager
                 GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), &ray, start, end, &filter, tracePtr);
             }
         }
-
-        if (!filter.GetTraceFilterData().ManualDispose) filter.Dispose();
     }
 
     public void SimpleTrace( Vector start, Vector end, RayType_t rayKind, RnQueryObjectSet objectQuery, MaskTrace interactWith, MaskTrace interactExclude, MaskTrace interactAs, CollisionGroup collision, ref CGameTrace trace, CBaseEntity? filterEntity = null, CBaseEntity? filterSecondEntity = null )

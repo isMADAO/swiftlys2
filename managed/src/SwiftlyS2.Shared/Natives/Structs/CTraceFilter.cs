@@ -1,207 +1,111 @@
-﻿using System.Collections.Concurrent;
-using System.Runtime.InteropServices;
-using SwiftlyS2.Core.EntitySystem;
-using SwiftlyS2.Core.Natives;
+﻿using SwiftlyS2.Core.EntitySystem;
 using SwiftlyS2.Shared.SchemaDefinitions;
+using System.Runtime.InteropServices;
 
 namespace SwiftlyS2.Shared.Natives;
 
-public delegate bool ShouldHitEntityDelegate( CEntityInstance entity );
-
-public static class CTraceFilterPreset
+[StructLayout(LayoutKind.Explicit, Pack = 8, Size = 72)]
+public struct CTraceFilter
 {
-    public static CTraceFilter Default => new();
-    public static CTraceFilter CheckIgnoredEntities => new(checkIgnoredEntities: true);
-    public static CTraceFilter WalkableEntities => new("CTraceFilterWalkableEntities");
-    public static CTraceFilter NoPlayersAndFlashbangPassableAnims => new("CTraceFilterNoPlayersAndFlashbangPassableAnims");
-    public static CTraceFilter IgnoreGrenades => new("CTraceFilterIgnoreGrenades");
-    public static CTraceFilter KnifeIgnoreTeammates => new("CTraceFilterKnifeIgnoreTeammates");
-    public static CTraceFilter TaserIgnoreTeammates => new("CTraceFilterTaserIgnoreTeammates");
-    public static CTraceFilter PlayerMovementCS => new("CTraceFilterPlayerMovementCS");
-    public static CTraceFilter ForPlayerHeadCollision => new("CTraceFilterForPlayerHeadCollision");
-    public static CTraceFilter LOS => new("CTraceFilterLOS");
-    public static CTraceFilter List => new("CTraceFilterList");
-    public static CTraceFilter EntitySweep => new("CTraceFilterEntitySweep");
-    public static CTraceFilter EntityPush => new("CTraceFilterEntityPush");
-    public static CTraceFilter PushMove => new("CTraceFilterPushMove");
-    public static CTraceFilter PushFinal => new("CTraceFilterPushFinal");
-    public static CTraceFilter Door => new("CTraceFilterDoor");
-    public static CTraceFilter QueryCache => new("CTraceFilterQueryCache");
-    public static CTraceFilter GroundEntities => new("CTraceFilterGroundEntities");
-}
+    private static bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-internal class TraceFilterData
-{
-    public ShouldHitEntityDelegate? CustomShouldHitEntityFunc;
-    public string VTableName = "CTraceFilter";
-    public bool CheckIgnoredEntities = true;
-    public unsafe delegate* unmanaged< CTraceFilter*, nint, byte > OriginalShouldHitEntityFuncPtr;
-    public bool ManualDispose = false;
-    public nint VTablePtr = 0;
-}
-
-internal static class CTraceFilterData
-{
-    public static ConcurrentDictionary<uint, TraceFilterData> CTraceFilterDataMap = [];
-    private static uint TraceFilterID = 1;
-    public static uint GetTraceFilterID()
-    {
-        if (TraceFilterID % 1_000_000 == 0) TraceFilterID = 1;
-
-        return TraceFilterID++;
-    }
-}
-
-[StructLayout(LayoutKind.Explicit, Pack = 8, Size = 0x48)]
-public unsafe struct CTraceFilter
-{
-    private static readonly bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-    private static readonly int ShouldHitEntityVTableIndex = IsWindows ? 1 : 2;
-    private static readonly int VTableSize = IsWindows ? 2 : 3;
-
-    [FieldOffset(0x0)]
-    private nint* _pVTable;
-
-    [FieldOffset(0x8)]
-    public RnQueryShapeAttr_t QueryShapeAttributes;
+    [FieldOffset(0x0)] private nint _pVTable;
+    [FieldOffset(0x8)] public RnQueryShapeAttr_t QueryShapeAttributes;
 
     [FieldOffset(0x3A)]
     [MarshalAs(UnmanagedType.U1)]
-    private bool _IterateEntities_Linux;
+    internal bool _IterateEntitiesLinux;
 
     [FieldOffset(0x40)]
     [MarshalAs(UnmanagedType.U1)]
     public bool IterateEntities;
 
-    [FieldOffset(0x44)]
-    [MarshalAs(UnmanagedType.U4)]
-    public uint TraceFilterID;
-
-    public ShouldHitEntityDelegate? ShouldHitEntity {
-        set {
-            var data = GetTraceFilterData();
-            data.CustomShouldHitEntityFunc = value;
-        }
-    }
-
-    public bool ManualDispose {
-        get {
-            var data = GetTraceFilterData();
-            return data.ManualDispose;
-        }
-        set {
-            var data = GetTraceFilterData();
-            data.ManualDispose = value;
-        }
-    }
-
-    public CTraceFilter() : this(true) { }
-
-    public CTraceFilter( bool checkIgnoredEntities = true ) : this("CTraceFilter")
+    public CTraceFilter()
     {
-        EnsureTraceFilterData();
-        var data = GetTraceFilterData();
-        data.CheckIgnoredEntities = checkIgnoredEntities;
-    }
-
-    public CTraceFilter( string? vTableName )
-    {
-        EnsureTraceFilterData();
-        var data = GetTraceFilterData();
-        data.VTableName = vTableName ?? "CTraceFilter";
-        data.VTablePtr = NativeMemoryHelpers.GetVirtualTableAddress("server", vTableName ?? "CTraceFilter");
-
-        EnsureValid();
+        _pVTable = CTraceFilterVTable.pCTraceFilterShouldHitFunctionCall;
         QueryShapeAttributes = new RnQueryShapeAttr_t();
     }
-
-    internal void EnsureTraceFilterData()
+    public CTraceFilter( bool checkIgnoredEntities = true )
     {
-        if (!CTraceFilterData.CTraceFilterDataMap.ContainsKey(TraceFilterID))
-        {
-            var traceFilterId = CTraceFilterData.GetTraceFilterID();
-            TraceFilterID = traceFilterId;
-            _ = CTraceFilterData.CTraceFilterDataMap.TryAdd(TraceFilterID, new TraceFilterData());
-        }
-    }
-
-    internal TraceFilterData GetTraceFilterData()
-    {
-        if (!CTraceFilterData.CTraceFilterDataMap.ContainsKey(TraceFilterID))
-        {
-            EnsureTraceFilterData();
-        }
-
-        return CTraceFilterData.CTraceFilterDataMap.TryGetValue(TraceFilterID, out var data) ? data : new TraceFilterData();
+        _pVTable = checkIgnoredEntities ? CTraceFilterVTable.pCTraceFilterShouldHitFunctionCall : CTraceFilterVTable.pCTraceFilterVTable;
+        QueryShapeAttributes = new RnQueryShapeAttr_t();
     }
 
     internal void EnsureValid()
     {
-        if (this._pVTable == null)
+        if (this._pVTable == 0)
         {
-            var traceFilterData = GetTraceFilterData();
-            _pVTable = (nint*)NativeMemory.Alloc((nuint)(VTableSize * sizeof(nint)));
-
-            var vTable = (nint*)traceFilterData.VTablePtr;
-            for (var i = 0; i < VTableSize; i++)
-            {
-                _pVTable[i] = vTable[i];
-            }
-
-            traceFilterData.OriginalShouldHitEntityFuncPtr = (delegate* unmanaged< CTraceFilter*, nint, byte >)_pVTable[ShouldHitEntityVTableIndex];
-            unsafe
-            {
-                _pVTable[ShouldHitEntityVTableIndex] = (nint)(delegate* unmanaged< CTraceFilter*, nint, byte >)&ShouldHitEntityHook;
-            }
+            _pVTable = CTraceFilterVTable.pCTraceFilterShouldHitFunctionCall;
         }
 
         if (!IsWindows)
         {
-            _IterateEntities_Linux = IterateEntities;
+            _IterateEntitiesLinux = IterateEntities;
         }
     }
+}
 
-    public bool ShouldIgnoreEntity( CEntityInstance ent )
+internal static class CTraceFilterVTable
+{
+    public static nint pCTraceFilterVTable;
+    public static nint pCTraceFilterShouldHitFunctionCall;
+
+    [UnmanagedCallersOnly]
+    public unsafe static void Destructor( CTraceFilter* filter, byte unk01 )
     {
-        if (ent == null || !ent.IsValid) return false;
-
-        var entityIndex = ent.Index;
-        return QueryShapeAttributes.EntityIdsToIgnore[0] == entityIndex || QueryShapeAttributes.EntityIdsToIgnore[1] == entityIndex;
-    }
-
-    internal void Dispose()
-    {
-        if (this._pVTable != null)
-        {
-            NativeMemory.Free(this._pVTable);
-            this._pVTable = null;
-        }
-
-        _ = CTraceFilterData.CTraceFilterDataMap.TryRemove(TraceFilterID, out _);
+        // do nothing
     }
 
     [UnmanagedCallersOnly]
-    private static byte ShouldHitEntityHook( CTraceFilter* filter, nint entityPtr )
+    public unsafe static nint SomeLinuxFunction( CTraceFilter* filter )
     {
-        var entity = EntityManager.GetEntityByAddress(entityPtr) ?? Helper.AsSchema<CEntityInstance>(entityPtr);
-        var traceFilterData = filter->GetTraceFilterData();
+        return 0;
+    }
 
-        if (traceFilterData.CheckIgnoredEntities)
+    [UnmanagedCallersOnly]
+    public static byte ShouldHitEntity()
+    {
+        return 1;
+    }
+
+    [UnmanagedCallersOnly]
+    public unsafe static byte ShouldHitEntity( CTraceFilter* filter, nint entity )
+    {
+        var ent = EntityManager.GetEntityByAddress(entity) as CBaseEntity ?? Helper.AsSchema<CBaseEntity>(entity);
+        var entityIndex = ent.Index;
+
+        return ent == null || !ent.IsValid
+            ? (byte)0
+            : filter->QueryShapeAttributes.EntityIdsToIgnore[0] != entityIndex && filter->QueryShapeAttributes.EntityIdsToIgnore[1] != entityIndex ? (byte)1 : (byte)0;
+    }
+
+    static unsafe CTraceFilterVTable()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            if (!entity.IsValid) return 0;
+            pCTraceFilterVTable = Marshal.AllocHGlobal(sizeof(nint) * 2);
+            Span<nint> vtable = new((void*)pCTraceFilterVTable, 2);
+            vtable[0] = (nint)(delegate* unmanaged< CTraceFilter*, byte, void >)(&Destructor);
+            vtable[1] = (nint)(delegate* unmanaged< byte >)(&ShouldHitEntity);
 
-            var entityIndex = entity.Index;
-            if (filter->QueryShapeAttributes.EntityIdsToIgnore[0] == entityIndex || filter->QueryShapeAttributes.EntityIdsToIgnore[1] == entityIndex)
-            {
-                return 0;
-            }
+            pCTraceFilterShouldHitFunctionCall = Marshal.AllocHGlobal(sizeof(nint) * 2);
+            Span<nint> funcTable = new((void*)pCTraceFilterShouldHitFunctionCall, 2);
+            funcTable[0] = (nint)(delegate* unmanaged< CTraceFilter*, byte, void >)(&Destructor);
+            funcTable[1] = (nint)(delegate* unmanaged< CTraceFilter*, nint, byte >)(&ShouldHitEntity);
         }
-
-        if (traceFilterData.CustomShouldHitEntityFunc != null)
+        else
         {
-            return traceFilterData.CustomShouldHitEntityFunc(entity) ? (byte)1 : (byte)0;
-        }
+            pCTraceFilterVTable = Marshal.AllocHGlobal(sizeof(nint) * 3);
+            Span<nint> vtable = new((void*)pCTraceFilterVTable, 3);
+            vtable[0] = (nint)(delegate* unmanaged< CTraceFilter*, byte, void >)(&Destructor);
+            vtable[1] = (nint)(delegate* unmanaged< CTraceFilter*, nint >)(&SomeLinuxFunction);
+            vtable[2] = (nint)(delegate* unmanaged< byte >)(&ShouldHitEntity);
 
-        return traceFilterData.OriginalShouldHitEntityFuncPtr(filter, entityPtr);
+            pCTraceFilterShouldHitFunctionCall = Marshal.AllocHGlobal(sizeof(nint) * 3);
+            Span<nint> funcTable = new((void*)pCTraceFilterShouldHitFunctionCall, 3);
+            funcTable[0] = (nint)(delegate* unmanaged< CTraceFilter*, byte, void >)(&Destructor);
+            funcTable[1] = (nint)(delegate* unmanaged< CTraceFilter*, nint >)(&SomeLinuxFunction);
+            funcTable[2] = (nint)(delegate* unmanaged< CTraceFilter*, nint, byte >)(&ShouldHitEntity);
+        }
     }
 }

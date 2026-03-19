@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Semver;
 using SwiftlyS2.Shared.Natives;
@@ -13,30 +14,60 @@ public struct CGcBanInformation_t
     public uint AccountId;
 }
 
+[StructLayout(LayoutKind.Explicit, Pack = 8, Size = 0x48)]
+public unsafe struct TraceFilters
+{
+    [FieldOffset(0x0)]
+    private nint* _pVTable;
+
+    [FieldOffset(0x8)]
+    public RnQueryShapeAttr_t QueryShapeAttributes;
+
+    [FieldOffset(0x3A)]
+    [MarshalAs(UnmanagedType.U1)]
+    private bool _IterateEntities_Linux;
+
+    [FieldOffset(0x40)]
+    [MarshalAs(UnmanagedType.U1)]
+    public bool IterateEntities;
+
+}
+
 public class Program
 {
     public static void Main()
     {
-        PrintStructInfo<CTraceFilter>(0);
-        PrintStructInfo<RnQueryShapeAttr_t>(0);
+        PrintPadding<TraceFilters>();
     }
 
-    private static void PrintStructInfo<T>( int baseOffset ) where T : struct
+    public static void PrintPadding<T>()
     {
-        var fields = typeof(T).GetFields(
-            System.Reflection.BindingFlags.Public |
-            System.Reflection.BindingFlags.NonPublic |
-            System.Reflection.BindingFlags.Instance
-        );
+        var fields = typeof(T).GetFields(BindingFlags.Instance |
+                                         BindingFlags.Public |
+                                         BindingFlags.NonPublic);
+
+        Array.Sort(fields, ( a, b ) =>
+            Marshal.OffsetOf<T>(a.Name).ToInt32()
+            .CompareTo(Marshal.OffsetOf<T>(b.Name).ToInt32()));
+
+        var current = 0;
 
         foreach (var field in fields)
         {
-            var offset = Marshal.OffsetOf<T>(field.Name) + baseOffset;
-            var size = GetFieldSize(field.FieldType);
-            Console.WriteLine($"{field.Name,-40} Offset: 0x{offset:X4} ({offset,4})  Size: {size,4} bytes");
+            var offset = Marshal.OffsetOf<T>(field.Name).ToInt32();
+
+            if (offset > current)
+                Console.WriteLine($"Padding: {current} - {offset - 1}");
+
+            Console.WriteLine($"{field.Name}: {offset}");
+
+            current = offset + Marshal.SizeOf(field.FieldType);
         }
 
-        Console.WriteLine($"\nTotal struct size: {Marshal.SizeOf(typeof(T))} bytes (0x{Marshal.SizeOf(typeof(T)):X} hex)");
+        var total = Marshal.SizeOf<T>();
+
+        if (current < total)
+            Console.WriteLine($"Padding: {current} - {total - 1}");
     }
 
     private static int GetFieldSize( Type type )
