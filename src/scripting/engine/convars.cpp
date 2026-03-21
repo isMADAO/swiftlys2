@@ -309,10 +309,8 @@ void* Bridge_Convars_GetValuePtr(const char* cvarName)
 
 void Bridge_Convars_SetValuePtr(const char* cvarName, void* value)
 {
-    bypassConvarCallbacks = true;
     auto& cvar = GetConVarRef(cvarName);
     cvar.SetOrQueueValueInternal(0, (CVValue_t*)value);
-    bypassConvarCallbacks = false;
 }
 
 void Bridge_Convars_SetValueInternalPtr(const char* cvarName, void* value)
