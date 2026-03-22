@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SwiftlyS2.Core.Commands;
 using SwiftlyS2.Core.ConsoleOutput;
 using SwiftlyS2.Core.Events;
@@ -47,6 +48,7 @@ using SwiftlyS2.Core.Datamaps;
 using SwiftlyS2.Shared.Datamaps;
 using SwiftlyS2.Core.StringTable;
 using SwiftlyS2.Shared.StringTable;
+using SwiftlyS2.Core.Models;
 
 namespace SwiftlyS2.Core.Services;
 
@@ -100,6 +102,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
             .AddSingleton(coreProvider.GetRequiredService<ProfileService>())
             .AddSingleton(coreProvider.GetRequiredService<PluginManager>())
             .AddSingleton(coreProvider.GetRequiredService<ConfigurationService>())
+            .AddSingleton(coreProvider.GetRequiredService<IOptionsMonitor<CommandOverrideConfig>>())
             .AddSingleton(coreProvider.GetRequiredService<HookManager>())
             .AddSingleton(coreProvider.GetRequiredService<TraceManager>())
             .AddSingleton(coreProvider.GetRequiredService<PermissionManager>())

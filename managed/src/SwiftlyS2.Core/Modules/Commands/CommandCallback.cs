@@ -6,7 +6,8 @@ using SwiftlyS2.Shared.Profiler;
 using SwiftlyS2.Shared.Commands;
 using SwiftlyS2.Shared.Permissions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using SwiftlyS2.Core.Models;
 using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Commands;
@@ -46,7 +47,7 @@ internal class CommandCallback : CommandCallbackBase
     private readonly ulong nativeListenerId;
     private readonly ILogger<CommandCallback> logger;
 
-    public CommandCallback( string commandName, bool registerRaw, ICommandService.CommandListener handler, string permission, string helpText, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, IConfiguration configuration, ILoggerFactory loggerFactory, IContextedProfilerService profiler, string pluginName ) : base(loggerFactory, profiler, pluginName)
+    public CommandCallback( string commandName, bool registerRaw, ICommandService.CommandListener handler, string permission, string helpText, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, IOptionsMonitor<CommandOverrideConfig> commandOverrideOptions, ILoggerFactory loggerFactory, IContextedProfilerService profiler, string pluginName ) : base(loggerFactory, profiler, pluginName)
     {
         this.logger = LoggerFactory.CreateLogger<CommandCallback>();
 
@@ -70,7 +71,8 @@ internal class CommandCallback : CommandCallbackBase
                 var args = argsString.Split('\x01').ToArray();
                 if (args.Length < 2) args = [.. args.Where(s => !string.IsNullOrWhiteSpace(s))];
                 var context = new CommandContext(playerId, args, commandNameString, prefixString, slient == 1);
-                var requiredPermission = configuration.GetValue<string?>($"CommandOverrides:Permissions:{commandNameString}") ?? Permission;
+                var hasOverride = commandOverrideOptions.CurrentValue.Permissions.TryGetValue(commandNameString, out var overriddenPermission);
+                var requiredPermission = hasOverride ? overriddenPermission : Permission;
                 if (!context.IsSentByPlayer || string.IsNullOrWhiteSpace(requiredPermission) || permissionManager.PlayerHasPermission(playerManagerService.GetPlayer(playerId)?.SteamID ?? 0, requiredPermission))
                 {
                     commandHandle(context);

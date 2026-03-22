@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Services;
+using SwiftlyS2.Core.Models;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Commands;
 using SwiftlyS2.Shared.Profiler;
@@ -15,7 +16,7 @@ internal class CommandService : ICommandService, IDisposable
     private readonly IContextedProfilerService profiler;
     private readonly IPlayerManagerService playerManagerService;
     private readonly IPermissionManager permissionManager;
-    private readonly IConfiguration configuration;
+    private readonly IOptionsMonitor<CommandOverrideConfig> commandOverrideOptions;
     private readonly CoreContext coreContext;
 
     private readonly List<CommandCallbackBase> commandCallbacks = [];
@@ -23,13 +24,13 @@ internal class CommandService : ICommandService, IDisposable
     private static readonly Dictionary<string, List<CommandCallbackBase>> commandsByPlugin = [];
     private readonly Lock commandLock = new();
 
-    public CommandService( ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, IConfiguration configuration, CoreContext coreContext )
+    public CommandService( ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, IOptionsMonitor<CommandOverrideConfig> commandOverrideOptions, CoreContext coreContext )
     {
         this.loggerFactory = loggerFactory;
         this.profiler = profiler;
         this.playerManagerService = playerManagerService;
         this.permissionManager = permissionManager;
-        this.configuration = configuration;
+        this.commandOverrideOptions = commandOverrideOptions;
         this.coreContext = coreContext;
 
         lock (commandLock)
@@ -46,7 +47,7 @@ internal class CommandService : ICommandService, IDisposable
 
     public Guid RegisterCommand( string commandName, ICommandService.CommandListener handler, bool registerRaw = false, string permission = "", string helpText = "SwiftlyS2 registered command" )
     {
-        var callback = new CommandCallback(commandName, registerRaw, handler, permission, helpText, playerManagerService, permissionManager, configuration, loggerFactory, profiler, coreContext.Name);
+        var callback = new CommandCallback(commandName, registerRaw, handler, permission, helpText, playerManagerService, permissionManager, commandOverrideOptions, loggerFactory, profiler, coreContext.Name);
         lock (commandLock)
         {
             commandCallbacks.Add(callback);
