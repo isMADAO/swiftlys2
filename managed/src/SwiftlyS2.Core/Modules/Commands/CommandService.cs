@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Services;
 using SwiftlyS2.Shared.Players;
@@ -14,6 +15,7 @@ internal class CommandService : ICommandService, IDisposable
     private readonly IContextedProfilerService profiler;
     private readonly IPlayerManagerService playerManagerService;
     private readonly IPermissionManager permissionManager;
+    private readonly IConfiguration configuration;
     private readonly CoreContext coreContext;
 
     private readonly List<CommandCallbackBase> commandCallbacks = [];
@@ -21,12 +23,13 @@ internal class CommandService : ICommandService, IDisposable
     private static readonly Dictionary<string, List<CommandCallbackBase>> commandsByPlugin = [];
     private readonly Lock commandLock = new();
 
-    public CommandService( ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, CoreContext coreContext )
+    public CommandService( ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, IConfiguration configuration, CoreContext coreContext )
     {
         this.loggerFactory = loggerFactory;
         this.profiler = profiler;
         this.playerManagerService = playerManagerService;
         this.permissionManager = permissionManager;
+        this.configuration = configuration;
         this.coreContext = coreContext;
 
         lock (commandLock)
@@ -43,7 +46,7 @@ internal class CommandService : ICommandService, IDisposable
 
     public Guid RegisterCommand( string commandName, ICommandService.CommandListener handler, bool registerRaw = false, string permission = "", string helpText = "SwiftlyS2 registered command" )
     {
-        var callback = new CommandCallback(commandName, registerRaw, handler, permission, helpText, playerManagerService, permissionManager, loggerFactory, profiler, coreContext.Name);
+        var callback = new CommandCallback(commandName, registerRaw, handler, permission, helpText, playerManagerService, permissionManager, configuration, loggerFactory, profiler, coreContext.Name);
         lock (commandLock)
         {
             commandCallbacks.Add(callback);
