@@ -6,6 +6,7 @@ using SwiftlyS2.Shared.Profiler;
 using SwiftlyS2.Shared.Commands;
 using SwiftlyS2.Shared.Permissions;
 using Microsoft.Extensions.Logging;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Commands;
 
@@ -74,7 +75,7 @@ internal class CommandCallback : CommandCallbackBase
                 }
                 else
                 {
-                    context.Reply("You do not have permission to use this command.");
+                    context.Reply(GlobalLocalization.PermissionCommandDenied());
                 }
                 Profiler.StopRecording(category);
             }

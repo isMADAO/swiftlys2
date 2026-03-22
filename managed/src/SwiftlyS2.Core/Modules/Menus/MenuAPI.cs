@@ -5,6 +5,7 @@ using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Core.Menus.OptionsBase;
 using SwiftlyS2.Shared.SchemaDefinitions;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus;
 
@@ -12,7 +13,7 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
 {
     private (IMenuAPI? ParentMenu, IMenuOption? TriggerOption) parent;
 
-    internal static readonly IMenuOption defaultOption = new TextMenuOption("No options");
+    internal static readonly IMenuOption defaultOption = new TextMenuOption(GlobalLocalization.MenuDefaultOption());
 
     /// <summary>
     /// The menu manager that this menu belongs to.
@@ -64,7 +65,7 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
 
             if (value.ParentMenu == this)
             {
-                Spectre.Console.AnsiConsole.WriteException(new ArgumentException($"Parent cannot be self.", nameof(value)));
+                Spectre.Console.AnsiConsole.WriteException(new ArgumentException("Parent cannot be self.", nameof(value)));
             }
             else
             {
@@ -149,6 +150,10 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
     public MenuAPI( ISwiftlyCore core, MenuConfiguration configuration, MenuKeybindOverrides keybindOverrides, IMenuBuilderAPI? builder = null/*, IMenuAPI? parent = null*/, MenuOptionScrollStyle optionScrollStyle = MenuOptionScrollStyle.CenterFixed/*, MenuOptionTextStyle optionTextStyle = MenuOptionTextStyle.TruncateEnd*/ )
     {
         disposed = false;
+        if (defaultOption is TextMenuOption defaultTextOption)
+        {
+            defaultTextOption.Text = GlobalLocalization.MenuDefaultOption();
+        }
 
         this.core = core;
 
@@ -476,25 +481,25 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
             core.MenusAPI.Configuration.InputMode switch {
                 "wasd" => string.Concat(
                     "<font class='fontSize-s' color='#FFFFFF'>",
-                    $"<font color='{footerColor}'>Move:</font> W/S",
+                    $"<font color='{footerColor}'>{GlobalLocalization.MenuMoveLabel()}:</font> W/S",
                     claimInfo.ClaimsUse
-                        ? $" | <font color='{footerColor}'>{claimInfo.UseLabel ?? "Use"}:</font> D"
-                        : $" | <font color='{footerColor}'>Use:</font> D",
+                        ? $" | <font color='{footerColor}'>{claimInfo.UseLabel ?? GlobalLocalization.MenuUseLabel()}:</font> D"
+                        : $" | <font color='{footerColor}'>{GlobalLocalization.MenuUseLabel()}:</font> D",
                     claimInfo.ClaimsExit
-                        ? $" | <font color='{footerColor}'>{claimInfo.ExitLabel ?? "Exit"}:</font> A"
-                        : (Configuration.DisableExit ? string.Empty : $" | <font color='{footerColor}'>Exit:</font> A"),
+                        ? $" | <font color='{footerColor}'>{claimInfo.ExitLabel ?? GlobalLocalization.MenuExitLabel()}:</font> A"
+                        : (Configuration.DisableExit ? string.Empty : $" | <font color='{footerColor}'>{GlobalLocalization.MenuExitLabel()}:</font> A"),
                     extraButtonsHtml,
                     "</font>"
                 ),
                 _ => string.Concat(
                     "<font class='fontSize-s' color='#FFFFFF'>",
-                    $"<font color='{footerColor}'>Move:</font> {KeybindOverrides.Move?.ToString() ?? core.MenusAPI.Configuration.ButtonsScroll.ToUpper()}/{KeybindOverrides.MoveBack?.ToString() ?? core.MenusAPI.Configuration.ButtonsScrollBack.ToUpper()}",
+                    $"<font color='{footerColor}'>{GlobalLocalization.MenuMoveLabel()}:</font> {KeybindOverrides.Move?.ToString() ?? core.MenusAPI.Configuration.ButtonsScroll.ToUpper()}/{KeybindOverrides.MoveBack?.ToString() ?? core.MenusAPI.Configuration.ButtonsScrollBack.ToUpper()}",
                     claimInfo.ClaimsUse
-                        ? $" | <font color='{footerColor}'>{claimInfo.UseLabel ?? "Use"}:</font> {KeybindOverrides.Select?.ToString() ?? core.MenusAPI.Configuration.ButtonsUse.ToUpper()}"
-                        : $" | <font color='{footerColor}'>Use:</font> {KeybindOverrides.Select?.ToString() ?? core.MenusAPI.Configuration.ButtonsUse.ToUpper()}",
+                        ? $" | <font color='{footerColor}'>{claimInfo.UseLabel ?? GlobalLocalization.MenuUseLabel()}:</font> {KeybindOverrides.Select?.ToString() ?? core.MenusAPI.Configuration.ButtonsUse.ToUpper()}"
+                        : $" | <font color='{footerColor}'>{GlobalLocalization.MenuUseLabel()}:</font> {KeybindOverrides.Select?.ToString() ?? core.MenusAPI.Configuration.ButtonsUse.ToUpper()}",
                     claimInfo.ClaimsExit
-                        ? $" | <font color='{footerColor}'>{claimInfo.ExitLabel ?? "Exit"}:</font> {KeybindOverrides.Exit?.ToString() ?? core.MenusAPI.Configuration.ButtonsExit.ToUpper()}"
-                        : (Configuration.DisableExit ? string.Empty : $" | <font color='{footerColor}'>Exit:</font> {KeybindOverrides.Exit?.ToString() ?? core.MenusAPI.Configuration.ButtonsExit.ToUpper()}"),
+                        ? $" | <font color='{footerColor}'>{claimInfo.ExitLabel ?? GlobalLocalization.MenuExitLabel()}:</font> {KeybindOverrides.Exit?.ToString() ?? core.MenusAPI.Configuration.ButtonsExit.ToUpper()}"
+                        : (Configuration.DisableExit ? string.Empty : $" | <font color='{footerColor}'>{GlobalLocalization.MenuExitLabel()}:</font> {KeybindOverrides.Exit?.ToString() ?? core.MenusAPI.Configuration.ButtonsExit.ToUpper()}"),
                     extraButtonsHtml,
                     "</font>"
                 )

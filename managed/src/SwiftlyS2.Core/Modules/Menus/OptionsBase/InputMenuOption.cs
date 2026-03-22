@@ -3,6 +3,7 @@ using Spectre.Console;
 using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus.OptionsBase;
 
@@ -48,7 +49,7 @@ public sealed class InputMenuOption : MenuOptionBase
     {
         if (maxLength <= 0)
         {
-            Spectre.Console.AnsiConsole.WriteException(new ArgumentOutOfRangeException(nameof(maxLength), $"Max length must be greater than 0. Value {maxLength} clamped to 16."));
+            AnsiConsole.WriteException(new ArgumentOutOfRangeException(nameof(maxLength), $"Max length must be greater than 0. Value {maxLength} clamped to 16."));
             maxLength = 16;
         }
 
@@ -56,7 +57,7 @@ public sealed class InputMenuOption : MenuOptionBase
         this.maxLength = maxLength;
         this.validator = validator;
         this.defaultValue = defaultValue;
-        this.hintMessage = hintMessage ?? $"Please type your input (max {maxLength} characters)";
+        this.hintMessage = hintMessage ?? GlobalLocalization.MenuInputHint(maxLength);
 
         values.Clear();
         Click += OnInputClick;
@@ -93,7 +94,7 @@ public sealed class InputMenuOption : MenuOptionBase
 
         var text = base.GetDisplayText(player, displayLine);
         var value = values.GetOrAdd(player.PlayerID, defaultValue);
-        var displayValue = string.IsNullOrEmpty(value) ? $"<font color='{Menu?.Configuration.DisabledColor ?? "#666666"}'>(empty)</font>" : $"<font color='#FFFFFF'>{value}</font>";
+        var displayValue = string.IsNullOrEmpty(value) ? $"<font color='{Menu?.Configuration.DisabledColor ?? "#666666"}'>({GlobalLocalization.MenuInputEmptyValue()})</font>" : $"<font color='#FFFFFF'>{value}</font>";
         return $"{text}: {displayValue}";
     }
 
@@ -167,8 +168,9 @@ public sealed class InputMenuOption : MenuOptionBase
             return ValueTask.CompletedTask;
         }
 
-        _ = inputStates.AddOrUpdate(args.Player.PlayerID, $"<font color='#C0FF3E'>Waiting</font> (click again to cancel)", ( _, _ ) => $"<font color='#C0FF3E'>Waiting</font> (click again to cancel)");
-        args.Player.SendMessageAsync(MessageType.Chat, hintMessage);
+        var waitingState = $"<font color='#C0FF3E'>{GlobalLocalization.MenuInputWaiting()}</font> ({GlobalLocalization.MenuInputCancelHint()})";
+        _ = inputStates.AddOrUpdate(args.Player.PlayerID, waitingState, ( _, _ ) => waitingState);
+        _ = args.Player.SendMessageAsync(MessageType.Chat, hintMessage);
 
         _ = waitingForInput.AddOrUpdate(args.Player.PlayerID, true, ( _, _ ) => true);
 
@@ -187,7 +189,9 @@ public sealed class InputMenuOption : MenuOptionBase
 
         _ = waitingForInput.TryRemove(player.PlayerID, out _);
 
-        var statusMessage = string.IsNullOrWhiteSpace(input) || !SetValue(player, input) ? "<font color='#FF0000'>Invalid input</font>" : $"<font color='#00FF00'>Accepted</font>";
+        var statusMessage = string.IsNullOrWhiteSpace(input) || !SetValue(player, input)
+            ? $"<font color='#FF0000'>{GlobalLocalization.MenuInputInvalid()}</font>"
+            : $"<font color='#00FF00'>{GlobalLocalization.MenuInputAccepted()}</font>";
 
         _ = inputStates.AddOrUpdate(player.PlayerID, statusMessage, ( _, _ ) => statusMessage);
 

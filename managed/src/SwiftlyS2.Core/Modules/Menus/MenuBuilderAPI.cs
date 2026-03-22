@@ -1,6 +1,7 @@
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus;
 
@@ -22,6 +23,7 @@ internal sealed class MenuBuilderAPI : IMenuBuilderAPI
     public MenuBuilderAPI( ISwiftlyCore core )
     {
         this.core = core;
+        configuration.Title = GlobalLocalization.MenuDefaultTitle();
         options.Clear();
     }
 

@@ -13,25 +13,19 @@ internal class TranslationService : ITranslationService
     public TranslationService( CoreContext context )
     {
         _Context = context;
-
         CreateTranslationResource();
     }
 
     public void CreateTranslationResource()
     {
-        var translationDir = Path.Combine(_Context.BaseDirectory, "resources", "translations");
+        var translationDir = ResolveTranslationDirectory();
 
-        if (!Directory.Exists(translationDir))
+        if (translationDir == null)
         {
             return;
         }
 
-        if (!File.Exists(Path.Combine(translationDir, NativeServerHelpers.GetServerLanguage() + ".jsonc")))
-        {
-            return;
-        }
-
-        _TranslationResource = TranslationFactory.Create(translationDir)!;
+        _TranslationResource = TranslationFactory.Create(translationDir);
     }
 
     public Language GetServerLanguage()
@@ -56,4 +50,11 @@ internal class TranslationService : ITranslationService
         var language = NativeServerHelpers.UsePlayerLanguage() ? player.PlayerLanguage : GetServerLanguage();
         return TranslationFactory.CreateLocalizer(_TranslationResource, language);
     }
+
+    private string? ResolveTranslationDirectory()
+    {
+        var pluginTranslationDir = Path.Combine(_Context.BaseDirectory, "resources", "translations");
+        return Directory.Exists(pluginTranslationDir) ? pluginTranslationDir : null;
+    }
+
 }

@@ -1,4 +1,5 @@
 using SwiftlyS2.Shared.Menus;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus;
 
@@ -19,7 +20,7 @@ internal sealed class MenuDesignAPI : IMenuDesignAPI
 
     public IMenuBuilderAPI SetMenuTitle( string? title = null )
     {
-        configuration.Title = title ?? "Menu";
+        configuration.Title = title ?? GlobalLocalization.MenuDefaultTitle();
         return builder;
     }
 

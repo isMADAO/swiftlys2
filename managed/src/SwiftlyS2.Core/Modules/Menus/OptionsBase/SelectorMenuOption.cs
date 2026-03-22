@@ -4,6 +4,7 @@ using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Core.Menus.OptionsBase.Helpers;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus.OptionsBase;
 
@@ -71,7 +72,7 @@ public sealed class SelectorMenuOption<T> : MenuOptionBase
 
         if (this.Choices.Count == 0)
         {
-            Spectre.Console.AnsiConsole.WriteException(new ArgumentException("Choices cannot be empty.", nameof(choices)));
+            AnsiConsole.WriteException(new ArgumentException("Choices cannot be empty.", nameof(choices)));
         }
 
         this.defaultIndex = Math.Clamp(defaultIndex, 0, Math.Max(0, this.Choices.Count - 1));
@@ -98,8 +99,8 @@ public sealed class SelectorMenuOption<T> : MenuOptionBase
 
         InputClaimInfo = new MenuInputClaimInfo {
             Claims = MenuInputClaim.Exit | MenuInputClaim.Use,
-            ExitLabel = "L",
-            UseLabel = "R"
+            ExitLabel = GlobalLocalization.MenuSelectorClaimLeft(),
+            UseLabel = GlobalLocalization.MenuSelectorClaimRight()
         };
     }
 
@@ -151,7 +152,7 @@ public sealed class SelectorMenuOption<T> : MenuOptionBase
     {
         if (Choices.Count == 0)
         {
-            return $"<font color='#666666'>[Empty]</font>";
+            return $"<font color='#666666'>[{GlobalLocalization.MenuSelectorEmptyValue()}]</font>";
         }
 
         var currentIndex = selectedIndices.GetOrAdd(player.PlayerID, defaultIndex);

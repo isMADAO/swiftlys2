@@ -10,6 +10,7 @@ using SwiftlyS2.Core.Events;
 using SwiftlyS2.Core.Hosting;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Services;
+using SwiftlyS2.Core.Translations;
 using SwiftlyS2.Shared.SteamAPI;
 
 namespace SwiftlyS2.Core;
@@ -58,6 +59,7 @@ internal static class Bootstrap
         Environment.SetEnvironmentVariable("SWIFTLY_MANAGED_LOG", logPath);
         NativeBinding.BindNatives(nativeTable, nativeTableSize);
         NativeLibrary.SetDllImportResolver(typeof(NativeMethods).Assembly, SteamAPIDLLResolver);
+        GlobalLocalization.InitializeFromCore(basePath);
 
         EventPublisher.Register();
         GameFunctions.Initialize();

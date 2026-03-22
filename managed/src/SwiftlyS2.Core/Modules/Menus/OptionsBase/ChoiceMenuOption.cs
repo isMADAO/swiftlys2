@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using Spectre.Console;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Core.Translations;
 
 namespace SwiftlyS2.Core.Menus.OptionsBase;
 
@@ -45,8 +46,8 @@ public sealed class ChoiceMenuOption : MenuOptionBase
 
         if (this.choices.Count == 0)
         {
-            Spectre.Console.AnsiConsole.WriteException(new ArgumentException("Choices list cannot be empty. Adding a default choice.", nameof(choices)));
-            this.choices.Add("Default");
+            AnsiConsole.WriteException(new ArgumentException("Choices list cannot be empty. Adding a default choice.", nameof(choices)));
+            this.choices.Add(GlobalLocalization.MenuChoiceDefaultValue());
         }
 
         this.defaultIndex = defaultChoice != null && this.choices.Contains(defaultChoice) ? this.choices.IndexOf(defaultChoice) : 0;
