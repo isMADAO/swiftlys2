@@ -47,7 +47,7 @@ internal class GameDataService : IGameDataService
                 foreach (var signature in signatures)
                 {
                     var value = memoryService.GetAddressBySignature(signature.Value.lib, _Platform == OSPlatform.Windows ? signature.Value.windows : signature.Value.linux);
-                    if (value is null)
+                    if (value == null)
                     {
                         logger.LogError("Failed to load signature {Signature}!", signature.Key);
                         continue;

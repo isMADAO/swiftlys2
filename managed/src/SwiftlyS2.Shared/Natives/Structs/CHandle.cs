@@ -25,7 +25,7 @@ public struct CHandle<T>( uint raw ) : ICHandle where T : class, ISchemaClass<T>
             }
         }
         set {
-            Raw = value is null ? 0xFFFFFFFF : NativeEntitySystem.GetEntityHandleFromEntity(value.Address);
+            Raw = value == null ? 0xFFFFFFFF : NativeEntitySystem.GetEntityHandleFromEntity(value.Address);
         }
     }
 

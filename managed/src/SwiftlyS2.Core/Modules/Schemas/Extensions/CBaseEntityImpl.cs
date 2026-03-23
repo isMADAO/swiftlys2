@@ -84,7 +84,7 @@ internal partial class CBaseEntityImpl : CBaseEntity
     public void TakeDamage( float damage, DamageTypes_t damageType, CBaseEntity? inflictor = null, CBaseEntity? attacker = null, CBaseEntity? ability = null )
     {
         var info = new CTakeDamageInfo(damage, damageType, inflictor, attacker, ability);
-        if (inflictor is null)
+        if (inflictor == null)
         {
             info.Inflictor.Value = Entity!.EntityHandle.Value;
         }

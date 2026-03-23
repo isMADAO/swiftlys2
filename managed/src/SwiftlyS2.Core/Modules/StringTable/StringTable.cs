@@ -46,7 +46,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
         unsafe
         {
             var ptr = (StringUserData_t*)userData;
-            if (ptr->m_pRawData is null)
+            if (ptr->m_pRawData == null)
             {
                 result = default;
                 return false;
@@ -64,7 +64,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
     public bool TryGetStringUserData( string str, out StringTableOutUserData result )
     {
         var index = FindStringIndex(str);
-        if (index is null)
+        if (index == null)
         {
             result = default;
             return false;
@@ -95,7 +95,7 @@ internal class StringTable( nint handle, INetMessageService netMessageService ) 
     public bool SetStringUserData( string str, StringTableUserData userData, bool forceOverride = true )
     {
         var index = FindStringIndex(str);
-        return index is null
+        return index == null
             ? throw new ArgumentException("Failed to set string user data. String is not found in string table.")
             : SetStringUserData(index!.Value, userData, forceOverride);
     }

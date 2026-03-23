@@ -90,7 +90,7 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
     {
         var ent = GetEntityByIndex(index);
 
-        return ent is null
+        return ent == null
             ? null
             : ent is T e
             ? e
@@ -272,7 +272,7 @@ internal class EntitySystemService : IEntitySystemService, IDisposable
     public T? GetEntityByAddress<T>( nint address ) where T : class, ISchemaClass<T>
     {
         var ent = GetEntityByAddress(address);
-        return ent is null
+        return ent == null
             ? null
             : ent is T e
             ? e

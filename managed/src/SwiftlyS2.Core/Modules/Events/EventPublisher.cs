@@ -74,9 +74,9 @@ internal static class EventPublisher
         try
         {
             OnConVarCreated @event = new() { ConVarName = Marshal.PtrToStringUTF8(convarNamePtr) ?? string.Empty };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnConVarCreated(@event);
+                subscribers[i].InvokeOnConVarCreated(ref @event);
             }
         }
         catch (Exception e)
@@ -100,9 +100,9 @@ internal static class EventPublisher
         try
         {
             OnConCommandCreated @event = new() { CommandName = Marshal.PtrToStringUTF8(commandNamePtr) ?? string.Empty };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnConCommandCreated(@event);
+                subscribers[i].InvokeOnConCommandCreated(ref @event);
             }
         }
         catch (Exception e)
@@ -131,9 +131,9 @@ internal static class EventPublisher
                 NewValue = Marshal.PtrToStringUTF8(newValuePtr) ?? string.Empty,
                 OldValue = Marshal.PtrToStringUTF8(oldValuePtr) ?? string.Empty,
             };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnConVarValueChanged(@event);
+                subscribers[i].InvokeOnConVarValueChanged(ref @event);
             }
         }
         catch (Exception e)
@@ -159,9 +159,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnTick();
+                subscribers[i].InvokeOnTick();
             }
         }
         catch (Exception e)
@@ -186,9 +186,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnWorldUpdate();
+                subscribers[i].InvokeOnWorldUpdate();
             }
         }
         catch (Exception e)
@@ -213,9 +213,9 @@ internal static class EventPublisher
         try
         {
             OnClientConnectedEvent @event = new() { PlayerId = playerId };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientConnected(@event);
+                subscribers[i].InvokeOnClientConnected(ref @event);
 
                 if (@event.Result == HookResult.Handled)
                 {
@@ -256,9 +256,9 @@ internal static class EventPublisher
                 PlayerId = playerId,
                 Reason = (ENetworkDisconnectionReason)reason
             };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientDisconnected(@event);
+                subscribers[i].InvokeOnClientDisconnected(ref @event);
             }
 
             PlayerManagerService.UnregisterPlayerObject(playerId);
@@ -292,9 +292,9 @@ internal static class EventPublisher
                 Key = key.ToKeyKind(),
                 Pressed = pressed != 0
             };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientKeyStateChanged(@event);
+                subscribers[i].InvokeOnClientKeyStateChanged(ref @event);
             }
         }
         catch (Exception e)
@@ -323,9 +323,9 @@ internal static class EventPublisher
                 PlayerId = playerId,
                 Kind = (ClientKind)clientKind
             };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientPutInServer(@event);
+                subscribers[i].InvokeOnClientPutInServer(ref @event);
             }
         }
         catch (Exception e)
@@ -349,9 +349,9 @@ internal static class EventPublisher
         try
         {
             OnClientSteamAuthorizeEvent @event = new() { PlayerId = playerId };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientSteamAuthorize(@event);
+                subscribers[i].InvokeOnClientSteamAuthorize(ref @event);
             }
         }
         catch (Exception e)
@@ -375,9 +375,9 @@ internal static class EventPublisher
         try
         {
             OnClientSteamAuthorizeFailEvent @event = new() { PlayerId = playerId };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientSteamAuthorizeFail(@event);
+                subscribers[i].InvokeOnClientSteamAuthorizeFail(ref @event);
             }
         }
         catch (Exception e)
@@ -402,9 +402,9 @@ internal static class EventPublisher
         try
         {
             OnEntityCreatedEvent @event = new() { Entity = entity };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityCreated(@event);
+                subscribers[i].InvokeOnEntityCreated(ref @event);
             }
         }
         catch (Exception e)
@@ -431,9 +431,9 @@ internal static class EventPublisher
         try
         {
             OnEntityDeletedEvent @event = new() { Entity = entity! };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityDeleted(@event);
+                subscribers[i].InvokeOnEntityDeleted(ref @event);
             }
         }
         catch (Exception e)
@@ -464,9 +464,9 @@ internal static class EventPublisher
                 Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr),
                 NewParent = newParentPtr != 0 ? EntityManager.GetEntityByAddress(newParentPtr) ?? new CEntityInstanceImpl(newParentPtr) : null
             };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityParentChanged(@event);
+                subscribers[i].InvokeOnEntityParentChanged(ref @event);
             }
         }
         catch (Exception e)
@@ -490,9 +490,9 @@ internal static class EventPublisher
         try
         {
             OnEntitySpawnedEvent @event = new() { Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr) };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntitySpawned(@event);
+                subscribers[i].InvokeOnEntitySpawned(ref @event);
             }
         }
         catch (Exception e)
@@ -516,9 +516,9 @@ internal static class EventPublisher
         try
         {
             OnMapLoadEvent @event = new() { MapName = Marshal.PtrToStringUTF8(mapNamePtr) ?? string.Empty };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnMapLoad(@event);
+                subscribers[i].InvokeOnMapLoad(ref @event);
             }
         }
         catch (Exception e)
@@ -542,9 +542,9 @@ internal static class EventPublisher
         try
         {
             OnClientVoiceEvent @event = new() { PlayerId = playerId };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnClientVoice(@event);
+                subscribers[i].InvokeOnClientVoice(ref @event);
             }
         }
         catch (Exception e)
@@ -568,9 +568,9 @@ internal static class EventPublisher
         try
         {
             OnMapUnloadEvent @event = new() { MapName = Marshal.PtrToStringUTF8(mapNamePtr) ?? string.Empty };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnMapUnload(@event);
+                subscribers[i].InvokeOnMapUnload(ref @event);
             }
         }
         catch (Exception e)
@@ -608,9 +608,9 @@ internal static class EventPublisher
                     Paused = paused != 0,
                     Margin = margin
                 };
-                foreach (var subscriber in subscribers)
+                for (var i = 0; i < subscribers.Count; i++)
                 {
-                    subscriber.InvokeOnClientProcessUsercmds(@event);
+                    subscribers[i].InvokeOnClientProcessUsercmds(ref @event);
                 }
             }
         }
@@ -641,9 +641,9 @@ internal static class EventPublisher
                     _infoPtr = takeDamageInfoPtr,
                     _resultPtr = takeDamageResultPtr
                 };
-                foreach (var subscriber in subscribers)
+                for (var i = 0; i < subscribers.Count; i++)
                 {
-                    subscriber.InvokeOnEntityTakeDamage(@event);
+                    subscribers[i].InvokeOnEntityTakeDamage(ref @event);
 
                     if (@event.Result == HookResult.Handled)
                     {
@@ -680,9 +680,9 @@ internal static class EventPublisher
         try
         {
             OnPrecacheResourceEvent @event = new() { pResourceManifest = pResourceManifest };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnPrecacheResource(@event);
+                subscribers[i].InvokeOnPrecacheResource(ref @event);
             }
         }
         catch (Exception e)
@@ -705,9 +705,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnStartupServer();
+                subscribers[i].InvokeOnStartupServer();
             }
         }
         catch (Exception e)
@@ -729,9 +729,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityStartTouch(@event);
+                subscribers[i].InvokeOnEntityStartTouch(ref @event);
             }
         }
         catch (Exception e)
@@ -753,9 +753,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityTouch(@event);
+                subscribers[i].InvokeOnEntityTouch(ref @event);
             }
         }
         catch (Exception e)
@@ -777,9 +777,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityEndTouch(@event);
+                subscribers[i].InvokeOnEntityEndTouch(ref @event);
             }
         }
         catch (Exception e)
@@ -801,9 +801,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnSteamAPIActivatedHook();
+                subscribers[i].InvokeOnSteamAPIActivatedHook();
             }
         }
         catch (Exception e)
@@ -825,9 +825,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnItemServicesCanAcquireHook(@event);
+                subscribers[i].InvokeOnItemServicesCanAcquireHook(ref @event);
                 if (@event.Intercepted)
                 {
                     break;
@@ -853,9 +853,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnWeaponServicesCanUseHook(@event);
+                subscribers[i].InvokeOnWeaponServicesCanUseHook(ref @event);
             }
         }
         catch (Exception e)
@@ -879,9 +879,9 @@ internal static class EventPublisher
         try
         {
             OnConsoleOutputEvent @event = new() { Message = Marshal.PtrToStringUTF8(messagePtr) ?? string.Empty };
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnConsoleOutput(@event);
+                subscribers[i].InvokeOnConsoleOutput(ref @event);
             }
         }
         catch (Exception e)
@@ -903,9 +903,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnCommandExecuteHook(@event);
+                subscribers[i].InvokeOnCommandExecuteHook(ref @event);
             }
         }
         catch (Exception e)
@@ -927,9 +927,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnMovementServicesRunCommandHook(@event);
+                subscribers[i].InvokeOnMovementServicesRunCommandHook(ref @event);
             }
         }
         catch (Exception e)
@@ -951,9 +951,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnPlayerPawnPostThinkHook(@event);
+                subscribers[i].InvokeOnPlayerPawnPostThinkHook(ref @event);
             }
         }
         catch (Exception e)
@@ -975,9 +975,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityIdentityAcceptInputHook(@event);
+                subscribers[i].InvokeOnEntityIdentityAcceptInputHook(ref @event);
             }
         }
         catch (Exception e)
@@ -999,9 +999,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnWeaponServicesDropWeaponHook(@event);
+                subscribers[i].InvokeOnWeaponServicesDropWeaponHook(ref @event);
             }
         }
         catch (Exception e)
@@ -1023,9 +1023,9 @@ internal static class EventPublisher
 
         try
         {
-            foreach (var subscriber in subscribers)
+            for (var i = 0; i < subscribers.Count; i++)
             {
-                subscriber.InvokeOnEntityFireOutputHook(@event);
+                subscribers[i].InvokeOnEntityFireOutputHook(ref @event);
             }
         }
         catch (Exception e)
