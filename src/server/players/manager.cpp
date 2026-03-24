@@ -28,6 +28,13 @@
 
 #include <s2binlib/s2binlib.h>
 
+#include <api/shared/string.h>
+#include <api/sdk/recipientfilter.h>
+#include <public/engine/igameeventsystem.h>
+#include <public/networksystem/inetworkmessages.h>
+#include <public/networksystem/netmessage.h>
+#include "usermessages.pb.h"
+
 class CUserCmd
 {
 public:
@@ -418,13 +425,87 @@ int CPlayerManager::GetPlayerCap()
     return g_SwiftlyCore.GetMaxGameClients();
 }
 
+extern INetworkMessages* networkMessages;
+extern bool bypassPostEventAbstractHook;
+
 void CPlayerManager::SendMsg(MessageType type, const std::string& message, int duration)
 {
-    for (int i = 0; i < g_SwiftlyCore.GetMaxGameClients(); i++)
+    if(type == MessageType::CenterHTML)
     {
-        IPlayer* player = GetPlayer(i);
-        if (player)
-            player->SendMsg(type, message, duration);
+        for (int i = 0; i < g_SwiftlyCore.GetMaxGameClients(); i++)
+        {
+            IPlayer* player = GetPlayer(i);
+            if (player) player->SendMsg(type, message, duration);
+        }
+    } 
+    else {
+        auto msg = RemoveHtmlTags(message);
+        if (type == MessageType::Console)
+        {
+            msg = ClearColors(msg);
+            msg += "\n";
+        }
+
+        if (type == MessageType::Chat || type == MessageType::ChatEOT)
+        {
+            if (msg.size() > 0)
+            {
+                msg += "\x01";
+
+                bool startsWithColor = (msg.at(0) == '[');
+                msg = ProcessColor(message, 0);
+
+                if (startsWithColor)
+                    msg = " " + msg;
+            }
+
+            auto splitMessage = explode(msg, "[newline]");
+
+            auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+            if (!gameEventSystem)
+                return;
+
+            auto netmsg = networkMessages->FindNetworkMessagePartial("TextMsg");
+
+            for (auto& part : splitMessage)
+            {
+                auto pmsg = netmsg->AllocateMessage()->ToPB<CUserMessageTextMsg>();
+
+                pmsg->set_dest((int)type);
+                pmsg->add_param(part);
+
+                bypassPostEventAbstractHook = true;
+
+                CBroadcastRecipientFilter filter;
+                gameEventSystem->PostEventAbstract(-1, false, &filter, netmsg, pmsg, 0);
+
+                bypassPostEventAbstractHook = false;
+
+                // see in src/engine/convars/convars.cpp at the end of the file why i "love" this now
+                delete pmsg;
+            }
+        }
+        else {
+            auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+            if (!gameEventSystem)
+                return;
+
+            auto netmsg = networkMessages->FindNetworkMessagePartial("TextMsg");
+            auto pmsg = netmsg->AllocateMessage()->ToPB<CUserMessageTextMsg>();
+
+            pmsg->set_dest((int)type);
+            pmsg->add_param(msg);
+
+            bypassPostEventAbstractHook = true;
+
+            CBroadcastRecipientFilter filter;
+            gameEventSystem->PostEventAbstract(-1, false, &filter, netmsg, pmsg, 0);
+
+            bypassPostEventAbstractHook = false;
+
+            // see in src/engine/convars/convars.cpp at the end of the file why i "love" this now
+            delete pmsg;
+        }
     }
 }
 
