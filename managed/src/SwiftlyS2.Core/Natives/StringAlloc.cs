@@ -1,10 +1,11 @@
 using System.Buffers;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Unicode;
 
 namespace SwiftlyS2.Core.Natives;
 
-public static class StringAlloc
+internal static class StringAlloc
 {
     private static readonly ArrayPool<byte> arrayPool = ArrayPool<byte>.Shared;
     public unsafe delegate void CStringAction( byte* cstr );
@@ -130,5 +131,10 @@ public static class StringAlloc
     public static string CreateCSharpString( int length, Action<nint> action )
     {
         return CreateCSharpString(length, 256, action);
+    }
+
+    public static string CreateCSharpString( nint cstrPtr )
+    {
+        return Marshal.PtrToStringUTF8(cstrPtr) ?? "(null)";
     }
 }

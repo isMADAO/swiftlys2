@@ -154,6 +154,9 @@ internal class CoreCommandService
                 case "translations" when RequireConsoleAccess():
                     TranslationsCommand(context);
                     break;
+                case "cmds" when RequireConsoleAccess():
+                    CommandsCommand(context);
+                    break;
                 default:
                     ShowHelp(context);
                     break;
@@ -180,6 +183,7 @@ internal class CoreCommandService
         if (!context.IsSentByPlayer)
         {
             _ = table
+                .AddRow("cmds", "List all plugin commands")
                 .AddRow("confilter", "Console Filter Menu")
                 .AddRow("plugins", "Plugin Management Menu")
                 .AddRow("gc", "Show garbage collection information on managed")
@@ -494,5 +498,52 @@ internal class CoreCommandService
                 logger.LogWarning("Unknown command");
                 break;
         }
+    }
+
+    private void CommandsCommand( ICommandContext context )
+    {
+
+        var commandsByPlugin = core.Command.GetAllCommandsByPlugin();
+
+        if (commandsByPlugin.Count == 0)
+        {
+            logger.LogInformation("No commands registered.");
+            return;
+        }
+
+        var table = new Table()
+            .AddColumn("Plugin")
+            .AddColumn("Command Name")
+            .AddColumn("Help Text")
+            .AddColumn("Permission");
+
+        foreach (var pluginEntry in commandsByPlugin.OrderBy(x => x.Key))
+        {
+            var pluginName = pluginEntry.Key;
+            var isFirstRow = true;
+
+            foreach (var command in pluginEntry.Value.OrderBy(x => x.CommandName))
+            {
+                if (isFirstRow)
+                {
+                    _ = table.AddRow(
+                        pluginName,
+                        command.CommandName,
+                        Markup.Escape(command.HelpText),
+                        string.IsNullOrWhiteSpace(command.Permission) ? "(none)" : command.Permission);
+                    isFirstRow = false;
+                }
+                else
+                {
+                    _ = table.AddRow(
+                        string.Empty,
+                        command.CommandName,
+                        Markup.Escape(command.HelpText),
+                        string.IsNullOrWhiteSpace(command.Permission) ? "(none)" : command.Permission);
+                }
+            }
+        }
+
+        AnsiConsole.Write(table);
     }
 }
