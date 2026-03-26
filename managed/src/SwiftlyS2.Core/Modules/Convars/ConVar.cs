@@ -11,6 +11,7 @@ using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Core.Extensions;
 using SwiftlyS2.Shared.NetMessages;
 using SwiftlyS2.Shared.ProtobufDefinitions;
+using System.Runtime.CompilerServices;
 
 namespace SwiftlyS2.Core.Convars;
 
@@ -332,7 +333,7 @@ internal class ConVar<T> : ConVar, IConVar<T>
             throw new ArgumentException($"Invalid type {typeof(T).Name}");
         }
 
-        _ = SchedulerManager.QueueOrNow(() => NativeConvars.SetClientConvarValueString(clientId, Name, val));
+        _ = SchedulerManager.QueueOrNow(() => ReplicateToClientAsString(clientId, val));
     }
 
 
@@ -340,7 +341,7 @@ internal class ConVar<T> : ConVar, IConVar<T>
     {
         unsafe
         {
-            return Type != EConVarType.EConVarType_String ? *(T*)ValuePtr : (T)(object)(*(CUtlString*)ValuePtr).Value;
+            return Type != EConVarType.EConVarType_String ? Unsafe.Read<T>((void*)ValuePtr) : (T)(object)ValuePtr.AsRef<CUtlString>().Value;
         }
     }
 

@@ -30,3 +30,4 @@ int32 GetUserID = int32 playerid
 uint64 GetSessionID = int32 playerid 
 string GetName = int32 playerid
 string GetClientConvarValue = int32 playerid, string convarName
+ptr GetServerSideClient = int32 playerid

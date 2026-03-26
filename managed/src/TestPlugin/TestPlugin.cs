@@ -859,7 +859,17 @@ public class TestPlugin : BasePlugin
     {
         var player = context.Sender!;
         var name = player.Name;
-        context.Reply($"Your name is {name} and you ran the stats command!");
+        var steamID = player.ServerSideClient.SteamID;
+        context.Reply($"Your name is {name} and you ran the stats command! Your Steam ID is {steamID.GetSteamID64()}, the one from SwiftlyS2 is {player.SteamID}. Are they equal? {player.SteamID == steamID.GetSteamID64()}");
+    }
+
+    [Command("rnm")]
+    public void RnmCommand( ICommandContext context )
+    {
+        var player = context.Sender!;
+        var name = player.Name;
+        player.Name = context.Args[0];
+        context.Reply($"Your old name was {name} and you new name is {player.Name}!");
     }
 
     [Command("kurotest", registerRaw: true)]

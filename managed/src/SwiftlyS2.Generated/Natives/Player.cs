@@ -300,4 +300,12 @@ internal static class NativePlayer
             });
         });
     }
+
+    private unsafe static delegate* unmanaged<int, nint> _GetServerSideClient;
+
+    public unsafe static nint GetServerSideClient(int playerid)
+    {
+        var ret = _GetServerSideClient(playerid);
+        return ret;
+    }
 }

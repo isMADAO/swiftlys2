@@ -20,6 +20,7 @@
 #include <scripting/scripting.h>
 
 #include <api/memory/virtual/call.h>
+#include <api/sdk/serversideclient.h>
 
 void Bridge_Player_SendMessage(int playerid, int kind, const char* message, int duration)
 {
@@ -371,22 +372,6 @@ uint64_t Bridge_Player_GetSessionID(int playerid)
     return player->GetSessionID();
 }
 
-int Bridge_Player_GetName(char* out, int playerid)
-{
-    static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
-    auto player = playerManager->GetPlayer(playerid);
-    if (!player)
-        return 0;
-
-    static std::string s;
-    s = player->GetName();
-
-    if (out != nullptr)
-        strcpy(out, s.c_str());
-
-    return s.size();
-}
-
 int Bridge_Player_GetClientConvarValue(char* out, int playerid, const char* convarName)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
@@ -401,6 +386,18 @@ int Bridge_Player_GetClientConvarValue(char* out, int playerid, const char* conv
         strcpy(out, value);
 
     return strlen(value);
+}
+
+CServerSideClient* GetServerSideClient(int playerid);
+
+void* Bridge_Player_GetServerSideClient(int playerid)
+{
+    static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    auto player = playerManager->GetPlayer(playerid);
+    if (!player)
+        return nullptr;
+
+    return GetServerSideClient(playerid);
 }
 
 DEFINE_NATIVE("Player.SendMessage", Bridge_Player_SendMessage);
@@ -431,5 +428,5 @@ DEFINE_NATIVE("Player.ExecuteCommand", Bridge_Player_ExecuteCommand);
 DEFINE_NATIVE("Player.IsFirstSpawn", Bridge_Player_IsFirstSpawn);
 DEFINE_NATIVE("Player.GetUserID", Bridge_Player_GetUserID);
 DEFINE_NATIVE("Player.GetSessionID", Bridge_Player_GetSessionID);
-DEFINE_NATIVE("Player.GetName", Bridge_Player_GetName);
 DEFINE_NATIVE("Player.GetClientConvarValue", Bridge_Player_GetClientConvarValue);
+DEFINE_NATIVE("Player.GetServerSideClient", Bridge_Player_GetServerSideClient);

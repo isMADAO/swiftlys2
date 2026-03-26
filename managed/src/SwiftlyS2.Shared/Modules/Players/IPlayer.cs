@@ -1,4 +1,5 @@
-﻿using SwiftlyS2.Shared.Events;
+﻿using SwiftlyS2.Shared.Engine;
+using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.ProtobufDefinitions;
@@ -58,7 +59,12 @@ public interface IPlayer : IEquatable<IPlayer>
     /// <summary>
     /// Gets the name of the player.
     /// </summary>
-    public string Name { get; }
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets the server-side client associated with the player.
+    /// </summary>
+    public IServerSideClient ServerSideClient { get; }
 
     /// <summary>
     /// Sends a message of the specified type to the player.

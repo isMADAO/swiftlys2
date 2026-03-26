@@ -27,7 +27,6 @@ void CreateConvarString = string cvarName, int32 cvarType, uint64 cvarFlags, str
 void DeleteConvar = string cvarName
 bool ExistsConvar = string cvarName
 int32 GetConvarType = string cvarName
-sync void SetClientConvarValueString = int32 playerid, string cvarName, string defaultValue
 uint64 GetFlags = string cvarName
 sync void SetFlags = string cvarName, uint64 flags
 ptr GetMinValuePtrPtr = string cvarName
