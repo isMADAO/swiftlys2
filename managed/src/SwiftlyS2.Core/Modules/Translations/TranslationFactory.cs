@@ -17,7 +17,6 @@ internal class TranslationFactory
     /// </summary>
     /// <param name="resourceDir">The directory containing the translation files.</param>
     /// <returns>A <see cref="TranslationResource"/> containing the translation files.</returns>
-    /// <exception cref="Exception">Thrown when the language is not recognized.</exception>
     public static TranslationResource Create( string resourceDir )
     {
 
@@ -28,10 +27,6 @@ internal class TranslationFactory
         foreach (var translationFile in translationFiles)
         {
             var language = Path.GetFileNameWithoutExtension(translationFile);
-            if (!Language.RecognizedLanguages.Contains(language))
-            {
-                throw new Exception($"Invalid language: {language}");
-            }
 
             var options = new JsonSerializerOptions() {
                 AllowTrailingCommas = true,

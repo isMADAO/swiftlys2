@@ -18,6 +18,9 @@ internal class NativeBinding
 
     public static void BindNatives( IntPtr nativeTable, int nativeTableSize )
     {
+        var currentClassname = "";
+        var currentFunctionName = "";
+
         unsafe
         {
             try
@@ -32,6 +35,9 @@ internal class NativeBinding
                     var className = names[0];
                     var funcName = names[1];
 
+                    currentClassname = className;
+                    currentFunctionName = funcName;
+
                     var nativeNameSpace = "SwiftlyS2.Core.Natives.Native" + className;
 
                     var nativeClass = Type.GetType(nativeNameSpace)!;
@@ -43,6 +49,7 @@ internal class NativeBinding
             catch (Exception e)
             {
                 if (!GlobalExceptionHandler.Handle(ref e)) return;
+                Console.WriteLine($"Failed to bind native function {currentFunctionName} in class {currentClassname}.");
                 AnsiConsole.WriteException(e);
             }
         }
