@@ -44,8 +44,8 @@
 
 using json = nlohmann::json;
 
-std::map<uint64_t, std::function<int(std::string, IGameEvent*, bool&)>> g_mEventListeners;
-std::map<uint64_t, std::function<int(std::string, IGameEvent*, bool&)>> g_mPostEventListeners;
+std::map<uint64_t, std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)>> g_mEventListeners;
+std::map<uint64_t, std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)>> g_mPostEventListeners;
 
 std::list<std::list<std::pair<int64_t, std::function<void()>>>::iterator> queueRemoveTimeouts;
 std::list<std::pair<int64_t, std::function<void()>>> timeoutsArray;
@@ -131,7 +131,7 @@ void CEventManager::Initialize(std::string game_name)
     //     return 0;
     //     });
 
-    AddPostGameEventFireListener([](std::string event_name, IGameEvent* event, bool& dont_broadcast) -> int {
+    AddPostGameEventFireListener([](std::string& event_name, IGameEvent* event, bool& dont_broadcast, uint32_t& hash) -> int {
         if (event_name == "player_spawn") {
             int userid = event->GetInt("userid", -1);
             if (userid != -1) {
@@ -210,8 +210,9 @@ bool FireEventHook(IGameEventManager2* _this, IGameEvent* event, bool bDontBroad
 
     std::string event_name = event->GetName();
     bool shouldBroadcast = bDontBroadcast;
+    uint32_t event_hash = hash_32_fnv1a_const(event_name.c_str());
     for (const auto& [id, callback] : g_mEventListeners) {
-        auto res = callback(event_name, event, shouldBroadcast);
+        auto res = callback(event_name, event, shouldBroadcast, event_hash);
         if (res == 1) {
             g_gameEventManager->FreeEvent(event);
             return false;
@@ -224,7 +225,7 @@ bool FireEventHook(IGameEventManager2* _this, IGameEvent* event, bool bDontBroad
     bool result = reinterpret_cast<decltype(&FireEventHook)>(g_pFireEventHook->GetOriginal())(_this, event, shouldBroadcast);
 
     for (const auto& [id, callback] : g_mPostEventListeners) {
-        auto res = callback(event_name, dupEvent, shouldBroadcast);
+        auto res = callback(event_name, dupEvent, shouldBroadcast, event_hash);
         if (res == 1) {
             g_gameEventManager->FreeEvent(dupEvent);
             return false;
@@ -277,7 +278,7 @@ void CEventManager::RegisterGameEventListener(std::string event_name)
     }
 }
 
-uint64_t CEventManager::AddGameEventFireListener(std::function<int(std::string, IGameEvent*, bool&)> callback)
+uint64_t CEventManager::AddGameEventFireListener(std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)> callback)
 {
     QueueLockGuard lock(m_mtxLock);
     static uint64_t s_uiListenerID = 0;
@@ -285,7 +286,7 @@ uint64_t CEventManager::AddGameEventFireListener(std::function<int(std::string, 
     return s_uiListenerID;
 }
 
-uint64_t CEventManager::AddPostGameEventFireListener(std::function<int(std::string, IGameEvent*, bool&)> callback)
+uint64_t CEventManager::AddPostGameEventFireListener(std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)> callback)
 {
     QueueLockGuard lock(m_mtxLock);
     static uint64_t s_uiListenerID = 0;

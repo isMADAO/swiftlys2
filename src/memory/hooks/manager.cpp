@@ -76,15 +76,17 @@ void CEntityIOOutput_FireOutputInternal_Hook(CEntityIOOutput* pThis, CEntityInst
 {
     const char* outputName = pThis->m_pDesc->m_pName;
     const char* callerClassName = pCaller ? pCaller->GetClassname() : "(null)";
-    std::vector searchOutputs{ ((uint64_t)hash_32_fnv1a_const("*") << 32 | hash_32_fnv1a_const(outputName)), ((uint64_t)hash_32_fnv1a_const("*") << 32 | hash_32_fnv1a_const("*")) };
+    static auto hashStar = hash_32_fnv1a_const("*");
+    auto outputNameHash = hash_32_fnv1a_const(outputName);
+
+    std::vector searchOutputs{ ((uint64_t)hashStar << 32 | outputNameHash), ((uint64_t)hashStar << 32 | hashStar) };
 
     if (pCaller)
     {
         uint64_t classHash = hash_32_fnv1a_const(callerClassName);
-        uint64_t outputHash = hash_32_fnv1a_const(outputName);
-        uint64_t combinedHash = (classHash << 32) | outputHash;
+        uint64_t combinedHash = (classHash << 32) | outputNameHash;
         searchOutputs.push_back(combinedHash);
-        searchOutputs.push_back(((uint64_t)hash_32_fnv1a_const(callerClassName) << 32 | hash_32_fnv1a_const("*")));
+        searchOutputs.push_back(((uint64_t)classHash << 32 | hashStar));
     }
 
     for (auto& output : searchOutputs)

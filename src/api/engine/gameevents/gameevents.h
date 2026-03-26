@@ -34,11 +34,11 @@ public:
     virtual void RegisterGameEventListener(std::string event_name) = 0;
 
     // to supercede, return 1
-    // std::string event_name, IGameEvent* event, bool& dont_broadcast
-    virtual uint64_t AddGameEventFireListener(std::function<int(std::string, IGameEvent*, bool&)> callback) = 0;
+    // std::string& event_name, IGameEvent* event, bool& dont_broadcast, uint32_t& hash
+    virtual uint64_t AddGameEventFireListener(std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)> callback) = 0;
     // to supercede, return 1
-    // std::string event_name, IGameEvent* event, bool& dont_broadcast
-    virtual uint64_t AddPostGameEventFireListener(std::function<int(std::string, IGameEvent*, bool&)> callback) = 0;
+    // std::string& event_name, IGameEvent* event, bool& dont_broadcast, uint32_t& hash
+    virtual uint64_t AddPostGameEventFireListener(std::function<int(std::string&, IGameEvent*, bool&, uint32_t&)> callback) = 0;
 
     virtual void RemoveGameEventFireListener(uint64_t listener_id) = 0;
     virtual void RemovePostGameEventFireListener(uint64_t listener_id) = 0;
