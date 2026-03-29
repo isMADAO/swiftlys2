@@ -127,7 +127,7 @@ internal class ConVar : IConVar
     public void QueryClient( int clientId, Action<string> callback )
     {
         Action? removeSelf = null;
-        void nativeCallback( int playerId, nint namePtr, nint valuePtr )
+        ConVarCallbackDelegate nativeCallback = ( playerId, namePtr, valuePtr ) =>
         {
             if (clientId != playerId)
             {
@@ -143,11 +143,11 @@ internal class ConVar : IConVar
 
             callback(value);
             removeSelf?.Invoke();
-        }
+        };
 
-        var callbackPtr = Marshal.GetFunctionPointerForDelegate((ConVarCallbackDelegate)nativeCallback);
+        var callbackPtr = Marshal.GetFunctionPointerForDelegate(nativeCallback);
         var listenerId = NativeConvars.AddQueryClientCvarCallback(callbackPtr);
-        _ = callbacks.AddOrUpdate(listenerId, nativeCallback, ( key, oldValue ) => nativeCallback);
+        callbacks[listenerId] = nativeCallback;
 
         removeSelf = () =>
         {
