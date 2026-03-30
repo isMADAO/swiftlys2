@@ -19,7 +19,7 @@ internal delegate void ConVarCallbackDelegate( int playerId, nint name, nint val
 
 internal class ConVar : IConVar
 {
-    private readonly ConcurrentDictionary<int, ConVarCallbackDelegate> callbacks = new();
+    private static readonly ConcurrentDictionary<int, ConVarCallbackDelegate> callbacks = new();
     protected nint MinValuePtrPtr => NativeConvars.GetMinValuePtrPtr(Name);
     protected nint MaxValuePtrPtr => NativeConvars.GetMaxValuePtrPtr(Name);
     private INetMessageService _netMessageService;
@@ -59,7 +59,6 @@ internal class ConVar : IConVar
 
     internal ConVar( string name, INetMessageService netMessageService )
     {
-        callbacks.Clear();
         Name = name;
         Type = (EConVarType)NativeConvars.GetConvarType(Name);
         ValuePtr = NativeConvars.GetValuePtr(Name);
@@ -126,6 +125,7 @@ internal class ConVar : IConVar
 
     public void QueryClient( int clientId, Action<string> callback )
     {
+        var convarName = Name;
         Action? removeSelf = null;
         ConVarCallbackDelegate nativeCallback = ( playerId, namePtr, valuePtr ) =>
         {
@@ -135,7 +135,7 @@ internal class ConVar : IConVar
             }
             var name = Marshal.PtrToStringAnsi(namePtr);
 
-            if (name != Name)
+            if (name != convarName)
             {
                 return;
             }
@@ -155,7 +155,7 @@ internal class ConVar : IConVar
             NativeConvars.RemoveQueryClientCvarCallback(listenerId);
         };
 
-        _ = SchedulerManager.QueueOrNow(() => NativeConvars.QueryClientConvar(clientId, Name));
+        _ = SchedulerManager.QueueOrNow(() => NativeConvars.QueryClientConvar(clientId, convarName));
     }
 
     public void ReplicateToClientAsString( int clientId, string value )
