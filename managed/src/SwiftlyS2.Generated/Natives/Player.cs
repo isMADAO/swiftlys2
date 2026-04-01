@@ -276,17 +276,6 @@ internal static class NativePlayer
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int, int> _GetName;
-
-    public unsafe static string GetName(int playerid)
-    {
-        var ret = _GetName(null, playerid);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetName((byte*)retBufferPtr, playerid);
-        });
-    }
-
     private unsafe static delegate* unmanaged<byte*, int, byte*, int> _GetClientConvarValue;
 
     public unsafe static string GetClientConvarValue(int playerid, string convarName)
