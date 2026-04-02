@@ -102,6 +102,20 @@ blacklisted_types = [
   "CUtlVectorSIMDPaddedVector",
   "ParticleParamID_t",
   "CAnimGraph2ParamAutoResetOptionalRef",
+  
+  # 2024.04.02 AG2
+
+  "ENTITYFUNCPTR",
+  "BASEPTR",
+  "USEPTR",
+  "CSoundEventName",
+  "CEntityNameString",
+  "CRelativeArray",
+  "void",
+  "CRotation",
+  "CMotionTransform",
+  "CAnimNetVar",
+  "CEntityKeyValues"
 ]
 
 def convert_handle_type(type, interface=False):

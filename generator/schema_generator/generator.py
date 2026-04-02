@@ -13,7 +13,7 @@ os.makedirs(OUT_DIR / "Classes", exist_ok=True)
 os.makedirs(OUT_DIR / "Interfaces", exist_ok=True)
 os.makedirs(OUT_DIR / "Enums", exist_ok=True)
 
-# no one need them
+# no one need them or implemented by ourselves
 blacklisted_classes = [
   "FeSimdTri_t",
   "CTakeDamageInfo",
@@ -22,6 +22,9 @@ blacklisted_classes = [
   "CVariantDefaultAllocator",
   "CEntityIOOutput",
   "ChangeAccessorFieldPathIndex_t"
+  
+  # 2024.04.02 AG2
+  "CEntityKeyValues"
 ]
 
 managed_types = [
