@@ -81,7 +81,6 @@ std::pair<const char*, const char*> inlineNetworkVarVtbNames[] = {
     {"CBasePlayerPawn", "m_skybox3d"},
     {"CBaseModelEntity", "m_Glow"},
     {"CBaseModelEntity", "m_Collision"},
-    {"CBaseAnimGraphController", "m_animGraphNetworkedVars"},
     {"CBaseAnimGraph", "m_RagdollPose"},
     {"CAttributeContainer", "m_Item"},
 };
