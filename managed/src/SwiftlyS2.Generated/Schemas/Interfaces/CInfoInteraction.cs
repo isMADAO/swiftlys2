@@ -12,7 +12,7 @@ public partial interface CInfoInteraction : CPointEntity, ISchemaClass<CInfoInte
 {
     static CInfoInteraction ISchemaClass<CInfoInteraction>.From(nint handle) => new CInfoInteractionImpl(handle);
     static int ISchemaClass<CInfoInteraction>.Size => 1272;
-    static string? ISchemaClass<CInfoInteraction>.ClassName => null;
+    static string? ISchemaClass<CInfoInteraction>.ClassName => "info_interaction";
 
 
     public ISchemaStringFixedArray StrSlotEntityName { get; }

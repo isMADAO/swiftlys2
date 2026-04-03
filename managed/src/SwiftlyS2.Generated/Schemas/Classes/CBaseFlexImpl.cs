@@ -18,48 +18,60 @@ internal partial class CBaseFlexImpl : CBaseAnimGraphImpl, CBaseFlex
 
     private static nint? _FlexWeightOffset;
 
-    public ref CUtlVector<float> FlexWeight {
-        get {
+    public ref CUtlVector<float> FlexWeight
+    {
+        get
+        {
             _FlexWeightOffset = _FlexWeightOffset ?? Schema.GetOffset(0xEE4FEF48AB868EDA);
             return ref _Handle.AsRef<CUtlVector<float>>(_FlexWeightOffset!.Value);
         }
     }
     private static nint? _LookTargetPositionOffset;
 
-    public ref Vector LookTargetPosition {
-        get {
+    public ref Vector LookTargetPosition
+    {
+        get
+        {
             _LookTargetPositionOffset = _LookTargetPositionOffset ?? Schema.GetOffset(0xEE4FEF480DCD7B00);
             return ref _Handle.AsRef<Vector>(_LookTargetPositionOffset!.Value);
         }
     }
     private static nint? _AllowResponsesEndTimeOffset;
 
-    public GameTime_t AllowResponsesEndTime {
-        get {
+    public GameTime_t AllowResponsesEndTime
+    {
+        get
+        {
             _AllowResponsesEndTimeOffset = _AllowResponsesEndTimeOffset ?? Schema.GetOffset(0xEE4FEF4858EB0248);
             return new GameTime_tImpl(_Handle + _AllowResponsesEndTimeOffset!.Value);
         }
     }
     private static nint? _LastFlexAnimationTimeOffset;
 
-    public GameTime_t LastFlexAnimationTime {
-        get {
+    public GameTime_t LastFlexAnimationTime
+    {
+        get
+        {
             _LastFlexAnimationTimeOffset = _LastFlexAnimationTimeOffset ?? Schema.GetOffset(0xEE4FEF48D5ADEDFF);
             return new GameTime_tImpl(_Handle + _LastFlexAnimationTimeOffset!.Value);
         }
     }
     private static nint? _NextSceneEventIdOffset;
 
-    public SceneEventId_t NextSceneEventId {
-        get {
+    public SceneEventId_t NextSceneEventId
+    {
+        get
+        {
             _NextSceneEventIdOffset = _NextSceneEventIdOffset ?? Schema.GetOffset(0xEE4FEF483756F461);
             return new SceneEventId_tImpl(_Handle + _NextSceneEventIdOffset!.Value);
         }
     }
     private static nint? _UpdateLayerPrioritiesOffset;
 
-    public ref bool UpdateLayerPriorities {
-        get {
+    public ref bool UpdateLayerPriorities
+    {
+        get
+        {
             _UpdateLayerPrioritiesOffset = _UpdateLayerPrioritiesOffset ?? Schema.GetOffset(0xEE4FEF48446AC3B9);
             return ref _Handle.AsRef<bool>(_UpdateLayerPrioritiesOffset!.Value);
         }

@@ -14,7 +14,4 @@ public partial interface CWeaponUMP45 : CCSWeaponBaseGun, ISchemaClass<CWeaponUM
     static int ISchemaClass<CWeaponUMP45>.Size => 4432;
     static string? ISchemaClass<CWeaponUMP45>.ClassName => "weapon_ump45";
 
-
-
-
 }

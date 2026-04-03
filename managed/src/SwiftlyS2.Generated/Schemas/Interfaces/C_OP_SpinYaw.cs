@@ -14,7 +14,4 @@ public partial interface C_OP_SpinYaw : CGeneralSpin, ISchemaClass<C_OP_SpinYaw>
     static int ISchemaClass<C_OP_SpinYaw>.Size => 488;
     static string? ISchemaClass<C_OP_SpinYaw>.ClassName => null;
 
-
-
-
 }

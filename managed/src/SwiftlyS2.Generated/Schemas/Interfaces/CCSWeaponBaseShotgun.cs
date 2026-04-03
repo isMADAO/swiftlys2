@@ -14,7 +14,4 @@ public partial interface CCSWeaponBaseShotgun : CCSWeaponBase, ISchemaClass<CCSW
     static int ISchemaClass<CCSWeaponBaseShotgun>.Size => 4400;
     static string? ISchemaClass<CCSWeaponBaseShotgun>.ClassName => null;
 
-
-
-
 }

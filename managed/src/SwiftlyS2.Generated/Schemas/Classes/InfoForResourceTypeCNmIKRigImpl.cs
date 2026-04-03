@@ -16,7 +16,4 @@ internal partial class InfoForResourceTypeCNmIKRigImpl : SchemaClass, InfoForRes
 {
     public InfoForResourceTypeCNmIKRigImpl(nint handle) : base(handle) { }
 
-
-
-
 }

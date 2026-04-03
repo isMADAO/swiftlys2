@@ -14,7 +14,4 @@ public partial interface CSmokeGrenade : CBaseCSGrenade, ISchemaClass<CSmokeGren
     static int ISchemaClass<CSmokeGrenade>.Size => 4480;
     static string? ISchemaClass<CSmokeGrenade>.ClassName => "weapon_smokegrenade";
 
-
-
-
 }

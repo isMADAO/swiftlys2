@@ -14,7 +14,4 @@ public partial interface C_OP_RemapNamedModelSequenceOnceTimed : C_OP_RemapNamed
     static int ISchemaClass<C_OP_RemapNamedModelSequenceOnceTimed>.Size => 560;
     static string? ISchemaClass<C_OP_RemapNamedModelSequenceOnceTimed>.ClassName => null;
 
-
-
-
 }

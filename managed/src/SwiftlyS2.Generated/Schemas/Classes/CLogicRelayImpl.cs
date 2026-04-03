@@ -18,44 +18,53 @@ internal partial class CLogicRelayImpl : CLogicalEntityImpl, CLogicRelay
 
     private static nint? _DisabledOffset;
 
-    public ref bool Disabled {
-        get {
+    public ref bool Disabled
+    {
+        get
+        {
             _DisabledOffset = _DisabledOffset ?? Schema.GetOffset(0x15CFD4B93A7C5965);
             return ref _Handle.AsRef<bool>(_DisabledOffset!.Value);
         }
     }
     private static nint? _WaitForRefireOffset;
 
-    public ref bool WaitForRefire {
-        get {
+    public ref bool WaitForRefire
+    {
+        get
+        {
             _WaitForRefireOffset = _WaitForRefireOffset ?? Schema.GetOffset(0x15CFD4B9AB85983A);
             return ref _Handle.AsRef<bool>(_WaitForRefireOffset!.Value);
         }
     }
     private static nint? _TriggerOnceOffset;
 
-    public ref bool TriggerOnce {
-        get {
+    public ref bool TriggerOnce
+    {
+        get
+        {
             _TriggerOnceOffset = _TriggerOnceOffset ?? Schema.GetOffset(0x15CFD4B981D75586);
             return ref _Handle.AsRef<bool>(_TriggerOnceOffset!.Value);
         }
     }
     private static nint? _FastRetriggerOffset;
 
-    public ref bool FastRetrigger {
-        get {
+    public ref bool FastRetrigger
+    {
+        get
+        {
             _FastRetriggerOffset = _FastRetriggerOffset ?? Schema.GetOffset(0x15CFD4B91AD2302E);
             return ref _Handle.AsRef<bool>(_FastRetriggerOffset!.Value);
         }
     }
     private static nint? _PassthoughCallerOffset;
 
-    public ref bool PassthoughCaller {
-        get {
+    public ref bool PassthoughCaller
+    {
+        get
+        {
             _PassthoughCallerOffset = _PassthoughCallerOffset ?? Schema.GetOffset(0x15CFD4B969DA94C8);
             return ref _Handle.AsRef<bool>(_PassthoughCallerOffset!.Value);
         }
     }
-
 
 }

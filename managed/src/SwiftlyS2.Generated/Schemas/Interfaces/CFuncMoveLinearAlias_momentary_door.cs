@@ -14,7 +14,4 @@ public partial interface CFuncMoveLinearAlias_momentary_door : CFuncMoveLinear, 
     static int ISchemaClass<CFuncMoveLinearAlias_momentary_door>.Size => 2104;
     static string? ISchemaClass<CFuncMoveLinearAlias_momentary_door>.ClassName => null;
 
-
-
-
 }

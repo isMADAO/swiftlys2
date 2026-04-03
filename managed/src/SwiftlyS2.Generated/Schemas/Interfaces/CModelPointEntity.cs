@@ -14,7 +14,4 @@ public partial interface CModelPointEntity : CBaseModelEntity, ISchemaClass<CMod
     static int ISchemaClass<CModelPointEntity>.Size => 1840;
     static string? ISchemaClass<CModelPointEntity>.ClassName => null;
 
-
-
-
 }

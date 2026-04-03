@@ -14,7 +14,4 @@ public partial interface CCommentaryViewPosition : CSprite, ISchemaClass<CCommen
     static int ISchemaClass<CCommentaryViewPosition>.Size => 1952;
     static string? ISchemaClass<CCommentaryViewPosition>.ClassName => "point_commentary_viewpoint";
 
-
-
-
 }

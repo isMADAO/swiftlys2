@@ -14,7 +14,4 @@ public partial interface CSoundEventEntityAlias_snd_event_point : CSoundEventEnt
     static int ISchemaClass<CSoundEventEntityAlias_snd_event_point>.Size => 1368;
     static string? ISchemaClass<CSoundEventEntityAlias_snd_event_point>.ClassName => null;
 
-
-
-
 }

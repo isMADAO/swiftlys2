@@ -14,7 +14,4 @@ public partial interface CWeaponSawedoff : CCSWeaponBaseShotgun, ISchemaClass<CW
     static int ISchemaClass<CWeaponSawedoff>.Size => 4400;
     static string? ISchemaClass<CWeaponSawedoff>.ClassName => "weapon_sawedoff";
 
-
-
-
 }

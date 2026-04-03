@@ -14,7 +14,4 @@ public partial interface CServerRagdollTrigger : CBaseTrigger, ISchemaClass<CSer
     static int ISchemaClass<CServerRagdollTrigger>.Size => 2192;
     static string? ISchemaClass<CServerRagdollTrigger>.ClassName => "trigger_serverragdoll";
 
-
-
-
 }

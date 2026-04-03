@@ -14,7 +14,4 @@ public partial interface CDynamicPropAlias_prop_dynamic_override : CDynamicProp,
     static int ISchemaClass<CDynamicPropAlias_prop_dynamic_override>.Size => 3152;
     static string? ISchemaClass<CDynamicPropAlias_prop_dynamic_override>.ClassName => null;
 
-
-
-
 }

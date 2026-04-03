@@ -14,7 +14,4 @@ public partial interface CServerOnlyModelEntity : CBaseModelEntity, ISchemaClass
     static int ISchemaClass<CServerOnlyModelEntity>.Size => 1840;
     static string? ISchemaClass<CServerOnlyModelEntity>.ClassName => null;
 
-
-
-
 }

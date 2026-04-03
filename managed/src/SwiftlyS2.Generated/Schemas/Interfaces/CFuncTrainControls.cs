@@ -14,7 +14,4 @@ public partial interface CFuncTrainControls : CBaseModelEntity, ISchemaClass<CFu
     static int ISchemaClass<CFuncTrainControls>.Size => 1840;
     static string? ISchemaClass<CFuncTrainControls>.ClassName => "func_traincontrols";
 
-
-
-
 }

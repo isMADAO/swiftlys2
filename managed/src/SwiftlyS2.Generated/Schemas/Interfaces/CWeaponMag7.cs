@@ -14,7 +14,4 @@ public partial interface CWeaponMag7 : CCSWeaponBaseGun, ISchemaClass<CWeaponMag
     static int ISchemaClass<CWeaponMag7>.Size => 4432;
     static string? ISchemaClass<CWeaponMag7>.ClassName => "weapon_mag7";
 
-
-
-
 }

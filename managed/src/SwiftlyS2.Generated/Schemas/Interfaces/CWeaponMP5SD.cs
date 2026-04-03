@@ -14,7 +14,4 @@ public partial interface CWeaponMP5SD : CCSWeaponBaseGun, ISchemaClass<CWeaponMP
     static int ISchemaClass<CWeaponMP5SD>.Size => 4432;
     static string? ISchemaClass<CWeaponMP5SD>.ClassName => "weapon_mp5sd";
 
-
-
-
 }

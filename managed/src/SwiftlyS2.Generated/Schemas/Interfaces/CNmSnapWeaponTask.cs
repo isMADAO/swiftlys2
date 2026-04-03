@@ -14,7 +14,4 @@ public partial interface CNmSnapWeaponTask : CNmPoseTask, ISchemaClass<CNmSnapWe
     static int ISchemaClass<CNmSnapWeaponTask>.Size => 96;
     static string? ISchemaClass<CNmSnapWeaponTask>.ClassName => null;
 
-
-
-
 }

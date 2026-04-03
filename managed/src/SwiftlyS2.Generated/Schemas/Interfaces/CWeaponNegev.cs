@@ -14,7 +14,4 @@ public partial interface CWeaponNegev : CCSWeaponBaseGun, ISchemaClass<CWeaponNe
     static int ISchemaClass<CWeaponNegev>.Size => 4432;
     static string? ISchemaClass<CWeaponNegev>.ClassName => "weapon_negev";
 
-
-
-
 }

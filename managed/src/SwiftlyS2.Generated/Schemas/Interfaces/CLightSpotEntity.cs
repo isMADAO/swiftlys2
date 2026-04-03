@@ -14,7 +14,4 @@ public partial interface CLightSpotEntity : CLightEntity, ISchemaClass<CLightSpo
     static int ISchemaClass<CLightSpotEntity>.Size => 1848;
     static string? ISchemaClass<CLightSpotEntity>.ClassName => "light_spot";
 
-
-
-
 }

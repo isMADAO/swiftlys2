@@ -14,7 +14,4 @@ public partial interface CSimpleMarkupVolumeTagged : CMarkupVolumeTagged, ISchem
     static int ISchemaClass<CSimpleMarkupVolumeTagged>.Size => 1904;
     static string? ISchemaClass<CSimpleMarkupVolumeTagged>.ClassName => "markup_volume_tagged";
 
-
-
-
 }

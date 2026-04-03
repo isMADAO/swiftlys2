@@ -18,16 +18,20 @@ internal partial class IntervalTimerImpl : SchemaClass, IntervalTimer
 
     private static nint? _TimestampOffset;
 
-    public GameTime_t Timestamp {
-        get {
+    public GameTime_t Timestamp
+    {
+        get
+        {
             _TimestampOffset = _TimestampOffset ?? Schema.GetOffset(0x8FD39659B6C56F43);
             return new GameTime_tImpl(_Handle + _TimestampOffset!.Value);
         }
     }
     private static nint? _WorldGroupIdOffset;
 
-    public ref uint WorldGroupId {
-        get {
+    public ref uint WorldGroupId
+    {
+        get
+        {
             _WorldGroupIdOffset = _WorldGroupIdOffset ?? Schema.GetOffset(0x8FD396597414B193);
             return ref _Handle.AsRef<uint>(_WorldGroupIdOffset!.Value);
         }

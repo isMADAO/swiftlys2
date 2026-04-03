@@ -12,7 +12,7 @@ public partial interface CBaseFlex : CBaseAnimGraph, ISchemaClass<CBaseFlex>
 {
     static CBaseFlex ISchemaClass<CBaseFlex>.From(nint handle) => new CBaseFlexImpl(handle);
     static int ISchemaClass<CBaseFlex>.Size => 2736;
-    static string? ISchemaClass<CBaseFlex>.ClassName => "baseflex";
+    static string? ISchemaClass<CBaseFlex>.ClassName => null;
 
 
     public ref CUtlVector<float> FlexWeight { get; }

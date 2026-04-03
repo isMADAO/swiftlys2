@@ -14,7 +14,4 @@ public partial interface C_OP_RemapNamedModelSequenceEndCap : C_OP_RemapNamedMod
     static int ISchemaClass<C_OP_RemapNamedModelSequenceEndCap>.Size => 560;
     static string? ISchemaClass<C_OP_RemapNamedModelSequenceEndCap>.ClassName => null;
 
-
-
-
 }

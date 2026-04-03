@@ -18,12 +18,13 @@ internal partial class MovementGaitId_tImpl : SchemaClass, MovementGaitId_t
 
     private static nint? _IdOffset;
 
-    public ref CGlobalSymbol Id {
-        get {
+    public ref CGlobalSymbol Id
+    {
+        get
+        {
             _IdOffset = _IdOffset ?? Schema.GetOffset(0xD64B37F7C4A0BD8F);
             return ref _Handle.AsRef<CGlobalSymbol>(_IdOffset!.Value);
         }
     }
-
 
 }

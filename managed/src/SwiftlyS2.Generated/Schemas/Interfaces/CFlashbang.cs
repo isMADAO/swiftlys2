@@ -14,7 +14,4 @@ public partial interface CFlashbang : CBaseCSGrenade, ISchemaClass<CFlashbang>
     static int ISchemaClass<CFlashbang>.Size => 4464;
     static string? ISchemaClass<CFlashbang>.ClassName => "weapon_flashbang";
 
-
-
-
 }

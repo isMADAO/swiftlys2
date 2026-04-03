@@ -14,7 +14,4 @@ public partial interface CGameEnd : CRulePointEntity, ISchemaClass<CGameEnd>
     static int ISchemaClass<CGameEnd>.Size => 1856;
     static string? ISchemaClass<CGameEnd>.ClassName => "game_end";
 
-
-
-
 }

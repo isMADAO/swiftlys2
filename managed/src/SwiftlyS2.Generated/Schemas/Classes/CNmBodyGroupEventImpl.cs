@@ -18,24 +18,28 @@ internal partial class CNmBodyGroupEventImpl : CNmEventImpl, CNmBodyGroupEvent
 
     private static nint? _GroupNameOffset;
 
-    public string GroupName {
-        get {
+    public string GroupName
+    {
+        get
+        {
             _GroupNameOffset = _GroupNameOffset ?? Schema.GetOffset(0xBC3A0016025FB2C7);
             return Schema.GetCUtlString(_Handle.Read<nint>(_GroupNameOffset!.Value));
         }
-        set {
+        set
+        {
             _GroupNameOffset = _GroupNameOffset ?? Schema.GetOffset(0xBC3A0016025FB2C7);
             Schema.SetCUtlString(_Handle, _GroupNameOffset!.Value, value);
         }
-    } 
+    }
     private static nint? _GroupValueOffset;
 
-    public ref int GroupValue {
-        get {
+    public ref int GroupValue
+    {
+        get
+        {
             _GroupValueOffset = _GroupValueOffset ?? Schema.GetOffset(0xBC3A00162501A499);
             return ref _Handle.AsRef<int>(_GroupValueOffset!.Value);
         }
     }
-
 
 }

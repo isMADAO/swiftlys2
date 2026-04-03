@@ -6,11 +6,8 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 
 public enum OutOfPVSUpdates_t : uint
 {
- OOPVSUpdates_OptOut = 0,
-
- OOPVSUpdates_OptIn = 1,
-
- OOPVSUpdates_Default = 2,
-
- OOPVSUpdates_Count = 3,
+    OOPVSUpdates_OptOut = 0,
+    OOPVSUpdates_OptIn = 1,
+    OOPVSUpdates_Default = 2,
+    OOPVSUpdates_Count = 3,
 }

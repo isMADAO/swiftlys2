@@ -14,7 +14,4 @@ public partial interface CFuncVehicleClip : CBaseModelEntity, ISchemaClass<CFunc
     static int ISchemaClass<CFuncVehicleClip>.Size => 1840;
     static string? ISchemaClass<CFuncVehicleClip>.ClassName => "func_vehicleclip";
 
-
-
-
 }

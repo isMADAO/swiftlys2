@@ -14,7 +14,4 @@ public partial interface CFuncTrackAuto : CFuncTrackChange, ISchemaClass<CFuncTr
     static int ISchemaClass<CFuncTrackAuto>.Size => 2104;
     static string? ISchemaClass<CFuncTrackAuto>.ClassName => "func_trackautochange";
 
-
-
-
 }

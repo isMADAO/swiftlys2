@@ -14,7 +14,4 @@ public partial interface CFuncLadderAlias_func_useableladder : CFuncLadder, ISch
     static int ISchemaClass<CFuncLadderAlias_func_useableladder>.Size => 1984;
     static string? ISchemaClass<CFuncLadderAlias_func_useableladder>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CRuleBrushEntity : CRuleEntity, ISchemaClass<CRuleBrush
     static int ISchemaClass<CRuleBrushEntity>.Size => 1848;
     static string? ISchemaClass<CRuleBrushEntity>.ClassName => null;
 
-
-
-
 }

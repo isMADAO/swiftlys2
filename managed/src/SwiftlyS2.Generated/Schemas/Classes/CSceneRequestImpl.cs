@@ -18,32 +18,38 @@ internal partial class CSceneRequestImpl : SchemaClass, CSceneRequest
 
     private static nint? _PayloadTypeNameOffset;
 
-    public string PayloadTypeName {
-        get {
+    public string PayloadTypeName
+    {
+        get
+        {
             _PayloadTypeNameOffset = _PayloadTypeNameOffset ?? Schema.GetOffset(0x7171CEF853B7EC5);
             return Schema.GetString(_Handle.Read<nint>(_PayloadTypeNameOffset!.Value));
         }
-        set {
+        set
+        {
             _PayloadTypeNameOffset = _PayloadTypeNameOffset ?? Schema.GetOffset(0x7171CEF853B7EC5);
             Schema.SetString(_Handle, _PayloadTypeNameOffset!.Value, value);
         }
-    } 
+    }
     private static nint? _HandleOffset;
 
-    public SceneRequestHandle_t Handle {
-        get {
+    public SceneRequestHandle_t Handle
+    {
+        get
+        {
             _HandleOffset = _HandleOffset ?? Schema.GetOffset(0x7171CEF3A6ED596);
             return new SceneRequestHandle_tImpl(_Handle + _HandleOffset!.Value);
         }
     }
     private static nint? _StateOffset;
 
-    public ref ESceneRequestState_t State {
-        get {
+    public ref ESceneRequestState_t State
+    {
+        get
+        {
             _StateOffset = _StateOffset ?? Schema.GetOffset(0x7171CEFB83E5A16);
             return ref _Handle.AsRef<ESceneRequestState_t>(_StateOffset!.Value);
         }
     }
-
 
 }

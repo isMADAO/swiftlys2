@@ -14,7 +14,4 @@ public partial interface CPushable : CBreakable, ISchemaClass<CPushable>
     static int ISchemaClass<CPushable>.Size => 2056;
     static string? ISchemaClass<CPushable>.ClassName => "func_pushable";
 
-
-
-
 }

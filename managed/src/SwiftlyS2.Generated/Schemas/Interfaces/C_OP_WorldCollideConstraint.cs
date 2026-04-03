@@ -14,7 +14,4 @@ public partial interface C_OP_WorldCollideConstraint : CParticleFunctionConstrai
     static int ISchemaClass<C_OP_WorldCollideConstraint>.Size => 464;
     static string? ISchemaClass<C_OP_WorldCollideConstraint>.ClassName => null;
 
-
-
-
 }

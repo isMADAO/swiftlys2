@@ -14,7 +14,4 @@ public partial interface CDEagle : CCSWeaponBaseGun, ISchemaClass<CDEagle>
     static int ISchemaClass<CDEagle>.Size => 4432;
     static string? ISchemaClass<CDEagle>.ClassName => "weapon_deagle";
 
-
-
-
 }

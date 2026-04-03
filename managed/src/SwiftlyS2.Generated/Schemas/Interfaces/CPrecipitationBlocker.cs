@@ -14,7 +14,4 @@ public partial interface CPrecipitationBlocker : CBaseModelEntity, ISchemaClass<
     static int ISchemaClass<CPrecipitationBlocker>.Size => 1840;
     static string? ISchemaClass<CPrecipitationBlocker>.ClassName => "func_precipitation_blocker";
 
-
-
-
 }

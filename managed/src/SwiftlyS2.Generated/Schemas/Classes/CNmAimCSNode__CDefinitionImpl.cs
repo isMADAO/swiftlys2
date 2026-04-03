@@ -18,76 +18,93 @@ internal partial class CNmAimCSNode__CDefinitionImpl : CNmPassthroughNode__CDefi
 
     private static nint? _VerticalAngleNodeIdxOffset;
 
-    public ref short VerticalAngleNodeIdx {
-        get {
+    public ref short VerticalAngleNodeIdx
+    {
+        get
+        {
             _VerticalAngleNodeIdxOffset = _VerticalAngleNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C20A1F17AD);
             return ref _Handle.AsRef<short>(_VerticalAngleNodeIdxOffset!.Value);
         }
     }
     private static nint? _HorizontalAngleNodeIdxOffset;
 
-    public ref short HorizontalAngleNodeIdx {
-        get {
+    public ref short HorizontalAngleNodeIdx
+    {
+        get
+        {
             _HorizontalAngleNodeIdxOffset = _HorizontalAngleNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C28E2FD3DB);
             return ref _Handle.AsRef<short>(_HorizontalAngleNodeIdxOffset!.Value);
         }
     }
     private static nint? _WeaponCategoryNodeIdxOffset;
 
-    public ref short WeaponCategoryNodeIdx {
-        get {
+    public ref short WeaponCategoryNodeIdx
+    {
+        get
+        {
             _WeaponCategoryNodeIdxOffset = _WeaponCategoryNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C216D198E4);
             return ref _Handle.AsRef<short>(_WeaponCategoryNodeIdxOffset!.Value);
         }
     }
     private static nint? _WeaponTypeNodeIdxOffset;
 
-    public ref short WeaponTypeNodeIdx {
-        get {
+    public ref short WeaponTypeNodeIdx
+    {
+        get
+        {
             _WeaponTypeNodeIdxOffset = _WeaponTypeNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C247A17C20);
             return ref _Handle.AsRef<short>(_WeaponTypeNodeIdxOffset!.Value);
         }
     }
     private static nint? _IsWeaponActionActiveNodeIdxOffset;
 
-    public ref short IsWeaponActionActiveNodeIdx {
-        get {
+    public ref short IsWeaponActionActiveNodeIdx
+    {
+        get
+        {
             _IsWeaponActionActiveNodeIdxOffset = _IsWeaponActionActiveNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C25E2B07E4);
             return ref _Handle.AsRef<short>(_IsWeaponActionActiveNodeIdxOffset!.Value);
         }
     }
     private static nint? _WeaponDropNodeIdxOffset;
 
-    public ref short WeaponDropNodeIdx {
-        get {
+    public ref short WeaponDropNodeIdx
+    {
+        get
+        {
             _WeaponDropNodeIdxOffset = _WeaponDropNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C202143DDF);
             return ref _Handle.AsRef<short>(_WeaponDropNodeIdxOffset!.Value);
         }
     }
     private static nint? _EnabledNodeIdxOffset;
 
-    public ref short EnabledNodeIdx {
-        get {
+    public ref short EnabledNodeIdx
+    {
+        get
+        {
             _EnabledNodeIdxOffset = _EnabledNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C2F7CDF5E9);
             return ref _Handle.AsRef<short>(_EnabledNodeIdxOffset!.Value);
         }
     }
     private static nint? _BlendTimeSecondsOffset;
 
-    public ref float BlendTimeSeconds {
-        get {
+    public ref float BlendTimeSeconds
+    {
+        get
+        {
             _BlendTimeSecondsOffset = _BlendTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C26D3A08FC);
             return ref _Handle.AsRef<float>(_BlendTimeSecondsOffset!.Value);
         }
     }
     private static nint? _ReduceRangeTimeSecondsOffset;
 
-    public ref float ReduceRangeTimeSeconds {
-        get {
+    public ref float ReduceRangeTimeSeconds
+    {
+        get
+        {
             _ReduceRangeTimeSecondsOffset = _ReduceRangeTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C237BD9774);
             return ref _Handle.AsRef<float>(_ReduceRangeTimeSecondsOffset!.Value);
         }
     }
-
 
 }

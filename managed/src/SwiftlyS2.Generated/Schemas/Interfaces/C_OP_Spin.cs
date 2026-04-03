@@ -14,7 +14,4 @@ public partial interface C_OP_Spin : CGeneralSpin, ISchemaClass<C_OP_Spin>
     static int ISchemaClass<C_OP_Spin>.Size => 488;
     static string? ISchemaClass<C_OP_Spin>.ClassName => null;
 
-
-
-
 }

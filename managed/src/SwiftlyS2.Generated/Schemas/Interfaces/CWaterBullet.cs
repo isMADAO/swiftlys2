@@ -14,7 +14,4 @@ public partial interface CWaterBullet : CBaseAnimGraph, ISchemaClass<CWaterBulle
     static int ISchemaClass<CWaterBullet>.Size => 2592;
     static string? ISchemaClass<CWaterBullet>.ClassName => "waterbullet";
 
-
-
-
 }

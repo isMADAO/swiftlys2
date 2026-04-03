@@ -18,52 +18,63 @@ internal partial class DestructiblePartDestructionRequest_tImpl : SchemaClass, D
 
     private static nint? _DestroyFlagsOffset;
 
-    public ref EDestructibleParts_DestroyParameterFlags DestroyFlags {
-        get {
+    public ref EDestructibleParts_DestroyParameterFlags DestroyFlags
+    {
+        get
+        {
             _DestroyFlagsOffset = _DestroyFlagsOffset ?? Schema.GetOffset(0x66C50244F89DCF50);
             return ref _Handle.AsRef<EDestructibleParts_DestroyParameterFlags>(_DestroyFlagsOffset!.Value);
         }
     }
     private static nint? _DamageTypeOffset;
 
-    public ref DamageTypes_t DamageType {
-        get {
+    public ref DamageTypes_t DamageType
+    {
+        get
+        {
             _DamageTypeOffset = _DamageTypeOffset ?? Schema.GetOffset(0x66C50244A9599F54);
             return ref _Handle.AsRef<DamageTypes_t>(_DamageTypeOffset!.Value);
         }
     }
     private static nint? _PartDamageOffset;
 
-    public ref float PartDamage {
-        get {
+    public ref float PartDamage
+    {
+        get
+        {
             _PartDamageOffset = _PartDamageOffset ?? Schema.GetOffset(0x66C5024438C0CFAF);
             return ref _Handle.AsRef<float>(_PartDamageOffset!.Value);
         }
     }
     private static nint? _PartDamageRadiusOffset;
 
-    public ref float PartDamageRadius {
-        get {
+    public ref float PartDamageRadius
+    {
+        get
+        {
             _PartDamageRadiusOffset = _PartDamageRadiusOffset ?? Schema.GetOffset(0x66C50244076298AD);
             return ref _Handle.AsRef<float>(_PartDamageRadiusOffset!.Value);
         }
     }
     private static nint? _WsPartDamageOriginOffset;
 
-    public ref Vector WsPartDamageOrigin {
-        get {
+    public ref Vector WsPartDamageOrigin
+    {
+        get
+        {
             _WsPartDamageOriginOffset = _WsPartDamageOriginOffset ?? Schema.GetOffset(0x66C5024400B1498D);
             return ref _Handle.AsRef<Vector>(_WsPartDamageOriginOffset!.Value);
         }
     }
     private static nint? _WsPartDamageForceOffset;
 
-    public ref Vector WsPartDamageForce {
-        get {
+    public ref Vector WsPartDamageForce
+    {
+        get
+        {
             _WsPartDamageForceOffset = _WsPartDamageForceOffset ?? Schema.GetOffset(0x66C50244AC3C9BAE);
             return ref _Handle.AsRef<Vector>(_WsPartDamageForceOffset!.Value);
         }
     }
-
 
 }

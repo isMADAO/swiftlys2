@@ -14,7 +14,4 @@ public partial interface CTriggerCallback : CBaseTrigger, ISchemaClass<CTriggerC
     static int ISchemaClass<CTriggerCallback>.Size => 2200;
     static string? ISchemaClass<CTriggerCallback>.ClassName => "trigger_callback";
 
-
-
-
 }

@@ -16,29 +16,34 @@ internal partial class CInfoInteractionImpl : CPointEntityImpl, CInfoInteraction
 {
     public CInfoInteractionImpl(nint handle) : base(handle) { }
 
-    public ISchemaStringFixedArray StrSlotEntityName {
+    public ISchemaStringFixedArray StrSlotEntityName
+    {
         get => new SchemaStringFixedArray(_Handle, 0x2E4169EA8EB18904, 8, 8, 8);
     }
     private static nint? _StrInteractVDataOffset;
 
-    public string StrInteractVData {
-        get {
+    public string StrInteractVData
+    {
+        get
+        {
             _StrInteractVDataOffset = _StrInteractVDataOffset ?? Schema.GetOffset(0x2E4169EAFC7D2F68);
             return Schema.GetString(_Handle.Read<nint>(_StrInteractVDataOffset!.Value));
         }
-        set {
+        set
+        {
             _StrInteractVDataOffset = _StrInteractVDataOffset ?? Schema.GetOffset(0x2E4169EAFC7D2F68);
             Schema.SetString(_Handle, _StrInteractVDataOffset!.Value, value);
         }
-    } 
+    }
     private static nint? _InteractRadiusOffset;
 
-    public ref float InteractRadius {
-        get {
+    public ref float InteractRadius
+    {
+        get
+        {
             _InteractRadiusOffset = _InteractRadiusOffset ?? Schema.GetOffset(0x2E4169EAD45A2813);
             return ref _Handle.AsRef<float>(_InteractRadiusOffset!.Value);
         }
     }
-
 
 }

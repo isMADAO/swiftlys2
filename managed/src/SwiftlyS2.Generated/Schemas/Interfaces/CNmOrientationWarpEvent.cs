@@ -14,7 +14,4 @@ public partial interface CNmOrientationWarpEvent : CNmEvent, ISchemaClass<CNmOri
     static int ISchemaClass<CNmOrientationWarpEvent>.Size => 32;
     static string? ISchemaClass<CNmOrientationWarpEvent>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CRopeKeyframeAlias_move_rope : CRopeKeyframe, ISchemaCl
     static int ISchemaClass<CRopeKeyframeAlias_move_rope>.Size => 1928;
     static string? ISchemaClass<CRopeKeyframeAlias_move_rope>.ClassName => null;
 
-
-
-
 }

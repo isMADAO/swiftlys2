@@ -14,7 +14,4 @@ public partial interface C_INIT_RemapParticleCountToNamedModelSequenceScalar : C
     static int ISchemaClass<C_INIT_RemapParticleCountToNamedModelSequenceScalar>.Size => 552;
     static string? ISchemaClass<C_INIT_RemapParticleCountToNamedModelSequenceScalar>.ClassName => null;
 
-
-
-
 }

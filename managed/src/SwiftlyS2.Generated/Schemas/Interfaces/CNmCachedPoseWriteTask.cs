@@ -14,7 +14,4 @@ public partial interface CNmCachedPoseWriteTask : CNmPoseTask, ISchemaClass<CNmC
     static int ISchemaClass<CNmCachedPoseWriteTask>.Size => 96;
     static string? ISchemaClass<CNmCachedPoseWriteTask>.ClassName => null;
 
-
-
-
 }

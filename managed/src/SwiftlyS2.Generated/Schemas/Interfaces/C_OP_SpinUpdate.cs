@@ -14,7 +14,4 @@ public partial interface C_OP_SpinUpdate : CSpinUpdateBase, ISchemaClass<C_OP_Sp
     static int ISchemaClass<C_OP_SpinUpdate>.Size => 464;
     static string? ISchemaClass<C_OP_SpinUpdate>.ClassName => null;
 
-
-
-
 }

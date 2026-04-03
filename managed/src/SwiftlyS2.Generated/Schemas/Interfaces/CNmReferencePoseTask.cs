@@ -14,7 +14,4 @@ public partial interface CNmReferencePoseTask : CNmPoseTask, ISchemaClass<CNmRef
     static int ISchemaClass<CNmReferencePoseTask>.Size => 88;
     static string? ISchemaClass<CNmReferencePoseTask>.ClassName => null;
 
-
-
-
 }

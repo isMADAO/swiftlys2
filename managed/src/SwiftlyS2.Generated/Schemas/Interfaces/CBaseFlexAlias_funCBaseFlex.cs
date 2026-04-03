@@ -14,7 +14,4 @@ public partial interface CBaseFlexAlias_funCBaseFlex : CBaseFlex, ISchemaClass<C
     static int ISchemaClass<CBaseFlexAlias_funCBaseFlex>.Size => 2736;
     static string? ISchemaClass<CBaseFlexAlias_funCBaseFlex>.ClassName => null;
 
-
-
-
 }

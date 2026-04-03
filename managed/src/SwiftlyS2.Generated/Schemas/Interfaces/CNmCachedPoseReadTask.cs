@@ -14,7 +14,4 @@ public partial interface CNmCachedPoseReadTask : CNmPoseTask, ISchemaClass<CNmCa
     static int ISchemaClass<CNmCachedPoseReadTask>.Size => 96;
     static string? ISchemaClass<CNmCachedPoseReadTask>.ClassName => null;
 
-
-
-
 }

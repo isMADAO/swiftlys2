@@ -6,7 +6,6 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 
 public enum ESceneRequestState_t : uint
 {
- INACTIVE = 0,
-
- ACTIVE = 1,
+    INACTIVE = 0,
+    ACTIVE = 1,
 }

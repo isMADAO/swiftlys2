@@ -14,7 +14,4 @@ public partial interface C_INIT_RemapNamedModelBodyPartToScalar : C_INIT_RemapNa
     static int ISchemaClass<C_INIT_RemapNamedModelBodyPartToScalar>.Size => 544;
     static string? ISchemaClass<C_INIT_RemapNamedModelBodyPartToScalar>.ClassName => null;
 
-
-
-
 }

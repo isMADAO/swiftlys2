@@ -18,20 +18,23 @@ internal partial class DestructibleHitGroupToDestroy_tImpl : SchemaClass, Destru
 
     private static nint? _HitGroupOffset;
 
-    public ref HitGroup_t HitGroup {
-        get {
+    public ref HitGroup_t HitGroup
+    {
+        get
+        {
             _HitGroupOffset = _HitGroupOffset ?? Schema.GetOffset(0xD162E34F9C854D19);
             return ref _Handle.AsRef<HitGroup_t>(_HitGroupOffset!.Value);
         }
     }
     private static nint? _MaxDamageLevelOffset;
 
-    public ref int MaxDamageLevel {
-        get {
+    public ref int MaxDamageLevel
+    {
+        get
+        {
             _MaxDamageLevelOffset = _MaxDamageLevelOffset ?? Schema.GetOffset(0xD162E34FBEC9C376);
             return ref _Handle.AsRef<int>(_MaxDamageLevelOffset!.Value);
         }
     }
-
 
 }

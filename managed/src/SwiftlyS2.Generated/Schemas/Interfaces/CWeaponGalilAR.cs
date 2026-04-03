@@ -14,7 +14,4 @@ public partial interface CWeaponGalilAR : CCSWeaponBaseGun, ISchemaClass<CWeapon
     static int ISchemaClass<CWeaponGalilAR>.Size => 4432;
     static string? ISchemaClass<CWeaponGalilAR>.ClassName => "weapon_galilar";
 
-
-
-
 }

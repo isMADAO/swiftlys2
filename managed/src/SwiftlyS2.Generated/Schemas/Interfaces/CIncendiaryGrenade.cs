@@ -14,7 +14,4 @@ public partial interface CIncendiaryGrenade : CMolotovGrenade, ISchemaClass<CInc
     static int ISchemaClass<CIncendiaryGrenade>.Size => 4464;
     static string? ISchemaClass<CIncendiaryGrenade>.ClassName => "weapon_incgrenade";
 
-
-
-
 }

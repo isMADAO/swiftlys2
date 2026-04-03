@@ -14,7 +14,4 @@ public partial interface CWeaponBizon : CCSWeaponBaseGun, ISchemaClass<CWeaponBi
     static int ISchemaClass<CWeaponBizon>.Size => 4432;
     static string? ISchemaClass<CWeaponBizon>.ClassName => "weapon_bizon";
 
-
-
-
 }

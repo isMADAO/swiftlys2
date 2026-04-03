@@ -14,7 +14,4 @@ public partial interface C_OP_Callback : CParticleFunctionRenderer, ISchemaClass
     static int ISchemaClass<C_OP_Callback>.Size => 544;
     static string? ISchemaClass<C_OP_Callback>.ClassName => null;
 
-
-
-
 }

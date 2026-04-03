@@ -12,7 +12,7 @@ public partial interface CPathMoverEntitySpawner : CLogicalEntity, ISchemaClass<
 {
     static CPathMoverEntitySpawner ISchemaClass<CPathMoverEntitySpawner>.From(nint handle) => new CPathMoverEntitySpawnerImpl(handle);
     static int ISchemaClass<CPathMoverEntitySpawner>.Size => 1288;
-    static string? ISchemaClass<CPathMoverEntitySpawner>.ClassName => null;
+    static string? ISchemaClass<CPathMoverEntitySpawner>.ClassName => "path_mover_entity_spawner";
 
 
     public ISchemaStringFixedArray SpawnTemplates { get; }

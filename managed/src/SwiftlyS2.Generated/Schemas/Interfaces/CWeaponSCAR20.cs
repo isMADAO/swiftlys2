@@ -14,7 +14,4 @@ public partial interface CWeaponSCAR20 : CCSWeaponBaseGun, ISchemaClass<CWeaponS
     static int ISchemaClass<CWeaponSCAR20>.Size => 4432;
     static string? ISchemaClass<CWeaponSCAR20>.ClassName => "weapon_scar20";
 
-
-
-
 }

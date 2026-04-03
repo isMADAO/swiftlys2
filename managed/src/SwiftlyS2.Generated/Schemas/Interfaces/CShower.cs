@@ -14,7 +14,4 @@ public partial interface CShower : CModelPointEntity, ISchemaClass<CShower>
     static int ISchemaClass<CShower>.Size => 1840;
     static string? ISchemaClass<CShower>.ClassName => "spark_shower";
 
-
-
-
 }

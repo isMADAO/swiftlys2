@@ -14,7 +14,4 @@ public partial interface CWeaponAug : CCSWeaponBaseGun, ISchemaClass<CWeaponAug>
     static int ISchemaClass<CWeaponAug>.Size => 4432;
     static string? ISchemaClass<CWeaponAug>.ClassName => "weapon_aug";
 
-
-
-
 }

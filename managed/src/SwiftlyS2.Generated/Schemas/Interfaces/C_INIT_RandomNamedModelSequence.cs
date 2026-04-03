@@ -14,7 +14,4 @@ public partial interface C_INIT_RandomNamedModelSequence : C_INIT_RandomNamedMod
     static int ISchemaClass<C_INIT_RandomNamedModelSequence>.Size => 512;
     static string? ISchemaClass<C_INIT_RandomNamedModelSequence>.ClassName => null;
 
-
-
-
 }

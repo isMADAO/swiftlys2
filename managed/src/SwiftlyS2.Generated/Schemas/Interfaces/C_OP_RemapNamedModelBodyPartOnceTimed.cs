@@ -14,7 +14,4 @@ public partial interface C_OP_RemapNamedModelBodyPartOnceTimed : C_OP_RemapNamed
     static int ISchemaClass<C_OP_RemapNamedModelBodyPartOnceTimed>.Size => 560;
     static string? ISchemaClass<C_OP_RemapNamedModelBodyPartOnceTimed>.ClassName => null;
 
-
-
-
 }

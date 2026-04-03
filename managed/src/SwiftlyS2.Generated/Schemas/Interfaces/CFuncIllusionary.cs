@@ -14,7 +14,4 @@ public partial interface CFuncIllusionary : CBaseModelEntity, ISchemaClass<CFunc
     static int ISchemaClass<CFuncIllusionary>.Size => 1840;
     static string? ISchemaClass<CFuncIllusionary>.ClassName => "func_illusionary";
 
-
-
-
 }

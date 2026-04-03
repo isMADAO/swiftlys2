@@ -14,7 +14,4 @@ public partial interface CRagdollPropAlias_physics_prop_ragdoll : CRagdollProp, 
     static int ISchemaClass<CRagdollPropAlias_physics_prop_ragdoll>.Size => 2928;
     static string? ISchemaClass<CRagdollPropAlias_physics_prop_ragdoll>.ClassName => null;
 
-
-
-
 }

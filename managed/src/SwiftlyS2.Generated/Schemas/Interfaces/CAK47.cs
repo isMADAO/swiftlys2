@@ -14,7 +14,4 @@ public partial interface CAK47 : CCSWeaponBaseGun, ISchemaClass<CAK47>
     static int ISchemaClass<CAK47>.Size => 4432;
     static string? ISchemaClass<CAK47>.ClassName => "weapon_ak47";
 
-
-
-
 }

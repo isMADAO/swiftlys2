@@ -14,7 +14,4 @@ public partial interface CGamePlayerEquip : CRulePointEntity, ISchemaClass<CGame
     static int ISchemaClass<CGamePlayerEquip>.Size => 1880;
     static string? ISchemaClass<CGamePlayerEquip>.ClassName => "game_player_equip";
 
-
-
-
 }

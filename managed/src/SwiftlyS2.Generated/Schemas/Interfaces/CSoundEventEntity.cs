@@ -12,7 +12,7 @@ public partial interface CSoundEventEntity : CBaseEntity, ISchemaClass<CSoundEve
 {
     static CSoundEventEntity ISchemaClass<CSoundEventEntity>.From(nint handle) => new CSoundEventEntityImpl(handle);
     static int ISchemaClass<CSoundEventEntity>.Size => 1368;
-    static string? ISchemaClass<CSoundEventEntity>.ClassName => "snd_event_point";
+    static string? ISchemaClass<CSoundEventEntity>.ClassName => "point_soundevent";
 
 
     public ref bool StartOnSpawn { get; }

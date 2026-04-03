@@ -14,7 +14,4 @@ public partial interface CParticleFunctionConstraint : CParticleFunction, ISchem
     static int ISchemaClass<CParticleFunctionConstraint>.Size => 464;
     static string? ISchemaClass<CParticleFunctionConstraint>.ClassName => null;
 
-
-
-
 }

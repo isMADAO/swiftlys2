@@ -14,7 +14,4 @@ public partial interface CCSObserver_MovementServices : CPlayer_MovementServices
     static int ISchemaClass<CCSObserver_MovementServices>.Size => 576;
     static string? ISchemaClass<CCSObserver_MovementServices>.ClassName => null;
 
-
-
-
 }

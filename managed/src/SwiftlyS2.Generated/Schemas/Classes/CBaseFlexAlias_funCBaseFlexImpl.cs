@@ -16,7 +16,4 @@ internal partial class CBaseFlexAlias_funCBaseFlexImpl : CBaseFlexImpl, CBaseFle
 {
     public CBaseFlexAlias_funCBaseFlexImpl(nint handle) : base(handle) { }
 
-
-
-
 }

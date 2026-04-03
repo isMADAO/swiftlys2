@@ -16,7 +16,4 @@ internal partial class WrappedPhysicsJoint_tImpl : SchemaClass, WrappedPhysicsJo
 {
     public WrappedPhysicsJoint_tImpl(nint handle) : base(handle) { }
 
-
-
-
 }

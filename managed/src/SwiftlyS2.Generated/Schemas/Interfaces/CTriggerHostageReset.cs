@@ -14,7 +14,4 @@ public partial interface CTriggerHostageReset : CBaseTrigger, ISchemaClass<CTrig
     static int ISchemaClass<CTriggerHostageReset>.Size => 2192;
     static string? ISchemaClass<CTriggerHostageReset>.ClassName => "trigger_hostage_reset";
 
-
-
-
 }

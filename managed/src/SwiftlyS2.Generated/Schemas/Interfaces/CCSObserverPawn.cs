@@ -14,7 +14,4 @@ public partial interface CCSObserverPawn : CCSPlayerPawnBase, ISchemaClass<CCSOb
     static int ISchemaClass<CCSObserverPawn>.Size => 3744;
     static string? ISchemaClass<CCSObserverPawn>.ClassName => "observer";
 
-
-
-
 }

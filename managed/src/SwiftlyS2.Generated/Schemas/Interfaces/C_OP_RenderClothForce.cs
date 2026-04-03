@@ -14,7 +14,4 @@ public partial interface C_OP_RenderClothForce : CParticleFunctionRenderer, ISch
     static int ISchemaClass<C_OP_RenderClothForce>.Size => 544;
     static string? ISchemaClass<C_OP_RenderClothForce>.ClassName => null;
 
-
-
-
 }

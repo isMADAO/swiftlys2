@@ -14,7 +14,4 @@ public partial interface CTriggerOnce : CTriggerMultiple, ISchemaClass<CTriggerO
     static int ISchemaClass<CTriggerOnce>.Size => 2216;
     static string? ISchemaClass<CTriggerOnce>.ClassName => "trigger_once";
 
-
-
-
 }

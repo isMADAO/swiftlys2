@@ -18,28 +18,33 @@ internal partial class CNmSnapWeaponNode__CDefinitionImpl : CNmPassthroughNode__
 
     private static nint? _EnabledNodeIdxOffset;
 
-    public ref short EnabledNodeIdx {
-        get {
+    public ref short EnabledNodeIdx
+    {
+        get
+        {
             _EnabledNodeIdxOffset = _EnabledNodeIdxOffset ?? Schema.GetOffset(0x60733C89F7CDF5E9);
             return ref _Handle.AsRef<short>(_EnabledNodeIdxOffset!.Value);
         }
     }
     private static nint? _LockLeftHandNodeIdxOffset;
 
-    public ref short LockLeftHandNodeIdx {
-        get {
+    public ref short LockLeftHandNodeIdx
+    {
+        get
+        {
             _LockLeftHandNodeIdxOffset = _LockLeftHandNodeIdxOffset ?? Schema.GetOffset(0x60733C89493D63C1);
             return ref _Handle.AsRef<short>(_LockLeftHandNodeIdxOffset!.Value);
         }
     }
     private static nint? _BlendTimeSecondsOffset;
 
-    public ref float BlendTimeSeconds {
-        get {
+    public ref float BlendTimeSeconds
+    {
+        get
+        {
             _BlendTimeSecondsOffset = _BlendTimeSecondsOffset ?? Schema.GetOffset(0x60733C896D3A08FC);
             return ref _Handle.AsRef<float>(_BlendTimeSecondsOffset!.Value);
         }
     }
-
 
 }

@@ -14,7 +14,4 @@ public partial interface CHostageRescueZoneShim : CBaseTrigger, ISchemaClass<CHo
     static int ISchemaClass<CHostageRescueZoneShim>.Size => 2192;
     static string? ISchemaClass<CHostageRescueZoneShim>.ClassName => null;
 
-
-
-
 }

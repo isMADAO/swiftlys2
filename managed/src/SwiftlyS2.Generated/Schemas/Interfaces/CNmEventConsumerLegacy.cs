@@ -14,7 +14,4 @@ public partial interface CNmEventConsumerLegacy : CNmEventConsumer, ISchemaClass
     static int ISchemaClass<CNmEventConsumerLegacy>.Size => 32;
     static string? ISchemaClass<CNmEventConsumerLegacy>.ClassName => null;
 
-
-
-
 }

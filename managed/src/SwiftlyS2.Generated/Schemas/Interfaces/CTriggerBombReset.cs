@@ -14,7 +14,4 @@ public partial interface CTriggerBombReset : CBaseTrigger, ISchemaClass<CTrigger
     static int ISchemaClass<CTriggerBombReset>.Size => 2192;
     static string? ISchemaClass<CTriggerBombReset>.ClassName => "trigger_bomb_reset";
 
-
-
-
 }

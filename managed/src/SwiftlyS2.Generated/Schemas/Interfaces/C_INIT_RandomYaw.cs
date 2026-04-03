@@ -14,7 +14,4 @@ public partial interface C_INIT_RandomYaw : CGeneralRandomRotation, ISchemaClass
     static int ISchemaClass<C_INIT_RandomYaw>.Size => 504;
     static string? ISchemaClass<C_INIT_RandomYaw>.ClassName => null;
 
-
-
-
 }

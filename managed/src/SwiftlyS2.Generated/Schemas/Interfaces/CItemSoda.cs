@@ -14,7 +14,4 @@ public partial interface CItemSoda : CBaseAnimGraph, ISchemaClass<CItemSoda>
     static int ISchemaClass<CItemSoda>.Size => 2592;
     static string? ISchemaClass<CItemSoda>.ClassName => "item_sodacan";
 
-
-
-
 }

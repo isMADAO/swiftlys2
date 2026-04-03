@@ -14,7 +14,4 @@ public partial interface CDecoyGrenade : CBaseCSGrenade, ISchemaClass<CDecoyGren
     static int ISchemaClass<CDecoyGrenade>.Size => 4464;
     static string? ISchemaClass<CDecoyGrenade>.ClassName => "weapon_decoy";
 
-
-
-
 }

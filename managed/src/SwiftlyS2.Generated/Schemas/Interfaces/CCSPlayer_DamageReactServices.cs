@@ -14,7 +14,4 @@ public partial interface CCSPlayer_DamageReactServices : CPlayerPawnComponent, I
     static int ISchemaClass<CCSPlayer_DamageReactServices>.Size => 80;
     static string? ISchemaClass<CCSPlayer_DamageReactServices>.ClassName => null;
 
-
-
-
 }

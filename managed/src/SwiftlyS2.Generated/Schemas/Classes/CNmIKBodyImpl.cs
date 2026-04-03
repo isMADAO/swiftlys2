@@ -18,36 +18,43 @@ internal partial class CNmIKBodyImpl : SchemaClass, CNmIKBody
 
     private static nint? _MassOffset;
 
-    public ref float Mass {
-        get {
+    public ref float Mass
+    {
+        get
+        {
             _MassOffset = _MassOffset ?? Schema.GetOffset(0x2162051FCD83D263);
             return ref _Handle.AsRef<float>(_MassOffset!.Value);
         }
     }
     private static nint? _LocalMassCenterOffset;
 
-    public ref Vector LocalMassCenter {
-        get {
+    public ref Vector LocalMassCenter
+    {
+        get
+        {
             _LocalMassCenterOffset = _LocalMassCenterOffset ?? Schema.GetOffset(0x2162051FAFDB4EDD);
             return ref _Handle.AsRef<Vector>(_LocalMassCenterOffset!.Value);
         }
     }
     private static nint? _RadiusOffset;
 
-    public ref Vector Radius {
-        get {
+    public ref Vector Radius
+    {
+        get
+        {
             _RadiusOffset = _RadiusOffset ?? Schema.GetOffset(0x2162051F0A9FA917);
             return ref _Handle.AsRef<Vector>(_RadiusOffset!.Value);
         }
     }
     private static nint? _ResistanceOffset;
 
-    public ref float Resistance {
-        get {
+    public ref float Resistance
+    {
+        get
+        {
             _ResistanceOffset = _ResistanceOffset ?? Schema.GetOffset(0x2162051FE15D484E);
             return ref _Handle.AsRef<float>(_ResistanceOffset!.Value);
         }
     }
-
 
 }

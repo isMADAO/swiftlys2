@@ -14,7 +14,4 @@ public partial interface C_INIT_RandomNamedModelBodyPart : C_INIT_RandomNamedMod
     static int ISchemaClass<C_INIT_RandomNamedModelBodyPart>.Size => 512;
     static string? ISchemaClass<C_INIT_RandomNamedModelBodyPart>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CNmEventConsumerSound : CNmEventConsumer, ISchemaClass<
     static int ISchemaClass<CNmEventConsumerSound>.Size => 48;
     static string? ISchemaClass<CNmEventConsumerSound>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CNmVelocityBlendNode__CDefinition : CNmParameterizedBle
     static int ISchemaClass<CNmVelocityBlendNode__CDefinition>.Size => 64;
     static string? ISchemaClass<CNmVelocityBlendNode__CDefinition>.ClassName => null;
 
-
-
-
 }

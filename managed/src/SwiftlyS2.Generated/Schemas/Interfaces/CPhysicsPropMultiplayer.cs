@@ -14,7 +14,4 @@ public partial interface CPhysicsPropMultiplayer : CPhysicsProp, ISchemaClass<CP
     static int ISchemaClass<CPhysicsPropMultiplayer>.Size => 3296;
     static string? ISchemaClass<CPhysicsPropMultiplayer>.ClassName => "prop_physics_multiplayer";
 
-
-
-
 }

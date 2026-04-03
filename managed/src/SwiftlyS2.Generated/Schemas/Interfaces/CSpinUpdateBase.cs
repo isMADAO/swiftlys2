@@ -14,7 +14,4 @@ public partial interface CSpinUpdateBase : CParticleFunctionOperator, ISchemaCla
     static int ISchemaClass<CSpinUpdateBase>.Size => 464;
     static string? ISchemaClass<CSpinUpdateBase>.ClassName => null;
 
-
-
-
 }

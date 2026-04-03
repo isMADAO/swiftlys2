@@ -14,7 +14,4 @@ public partial interface CSpriteAlias_env_glow : CSprite, ISchemaClass<CSpriteAl
     static int ISchemaClass<CSpriteAlias_env_glow>.Size => 1952;
     static string? ISchemaClass<CSpriteAlias_env_glow>.ClassName => null;
 
-
-
-
 }

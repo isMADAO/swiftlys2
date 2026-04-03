@@ -18,12 +18,13 @@ internal partial class CScenePayloadVDataImpl : SchemaClass, CScenePayloadVData
 
     private static nint? _SceneFileOffset;
 
-    public SchemaUntypedField SceneFile {
-        get {
+    public SchemaUntypedField SceneFile
+    {
+        get
+        {
             _SceneFileOffset = _SceneFileOffset ?? Schema.GetOffset(0xFFFC06CA9E4FBF74);
             return new SchemaUntypedField(_Handle + _SceneFileOffset!.Value);
         }
     }
-
 
 }

@@ -14,7 +14,4 @@ public partial interface CSceneEntityAlias_logic_choreographed_scene : CSceneEnt
     static int ISchemaClass<CSceneEntityAlias_logic_choreographed_scene>.Size => 1840;
     static string? ISchemaClass<CSceneEntityAlias_logic_choreographed_scene>.ClassName => null;
 
-
-
-
 }

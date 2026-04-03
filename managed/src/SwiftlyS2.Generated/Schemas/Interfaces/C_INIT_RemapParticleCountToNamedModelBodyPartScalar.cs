@@ -14,7 +14,4 @@ public partial interface C_INIT_RemapParticleCountToNamedModelBodyPartScalar : C
     static int ISchemaClass<C_INIT_RemapParticleCountToNamedModelBodyPartScalar>.Size => 552;
     static string? ISchemaClass<C_INIT_RemapParticleCountToNamedModelBodyPartScalar>.ClassName => null;
 
-
-
-
 }

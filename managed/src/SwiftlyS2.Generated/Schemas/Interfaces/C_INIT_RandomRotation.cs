@@ -14,7 +14,4 @@ public partial interface C_INIT_RandomRotation : CGeneralRandomRotation, ISchema
     static int ISchemaClass<C_INIT_RandomRotation>.Size => 504;
     static string? ISchemaClass<C_INIT_RandomRotation>.ClassName => null;
 
-
-
-
 }

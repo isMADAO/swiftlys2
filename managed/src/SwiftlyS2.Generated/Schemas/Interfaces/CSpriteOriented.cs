@@ -14,7 +14,4 @@ public partial interface CSpriteOriented : CSprite, ISchemaClass<CSpriteOriented
     static int ISchemaClass<CSpriteOriented>.Size => 1952;
     static string? ISchemaClass<CSpriteOriented>.ClassName => "env_sprite_oriented";
 
-
-
-
 }

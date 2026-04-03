@@ -14,7 +14,4 @@ public partial interface CLightOrthoEntity : CLightEntity, ISchemaClass<CLightOr
     static int ISchemaClass<CLightOrthoEntity>.Size => 1848;
     static string? ISchemaClass<CLightOrthoEntity>.ClassName => "light_ortho";
 
-
-
-
 }

@@ -18,20 +18,23 @@ internal partial class CPathMoverEntitySpawnImpl : SchemaClass, CPathMoverEntity
 
     private static nint? _MoverOffset;
 
-    public ref CHandle<CFuncMover> Mover {
-        get {
+    public ref CHandle<CFuncMover> Mover
+    {
+        get
+        {
             _MoverOffset = _MoverOffset ?? Schema.GetOffset(0xF9F39188B39FF614);
             return ref _Handle.AsRef<CHandle<CFuncMover>>(_MoverOffset!.Value);
         }
     }
     private static nint? _OtherEntitiesOffset;
 
-    public ref CUtlVector<CHandle<CBaseEntity>> OtherEntities {
-        get {
+    public ref CUtlVector<CHandle<CBaseEntity>> OtherEntities
+    {
+        get
+        {
             _OtherEntitiesOffset = _OtherEntitiesOffset ?? Schema.GetOffset(0xF9F39188303E251A);
             return ref _Handle.AsRef<CUtlVector<CHandle<CBaseEntity>>>(_OtherEntitiesOffset!.Value);
         }
     }
-
 
 }

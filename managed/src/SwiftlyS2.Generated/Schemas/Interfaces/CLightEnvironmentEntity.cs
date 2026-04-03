@@ -14,7 +14,4 @@ public partial interface CLightEnvironmentEntity : CLightDirectionalEntity, ISch
     static int ISchemaClass<CLightEnvironmentEntity>.Size => 1848;
     static string? ISchemaClass<CLightEnvironmentEntity>.ClassName => "light_environment";
 
-
-
-
 }

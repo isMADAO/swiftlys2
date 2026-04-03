@@ -14,7 +14,4 @@ public partial interface CPrecipitation : CBaseTrigger, ISchemaClass<CPrecipitat
     static int ISchemaClass<CPrecipitation>.Size => 2192;
     static string? ISchemaClass<CPrecipitation>.ClassName => "func_precipitation";
 
-
-
-
 }

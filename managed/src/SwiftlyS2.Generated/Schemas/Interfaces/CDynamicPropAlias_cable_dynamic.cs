@@ -14,7 +14,4 @@ public partial interface CDynamicPropAlias_cable_dynamic : CDynamicProp, ISchema
     static int ISchemaClass<CDynamicPropAlias_cable_dynamic>.Size => 3152;
     static string? ISchemaClass<CDynamicPropAlias_cable_dynamic>.ClassName => null;
 
-
-
-
 }

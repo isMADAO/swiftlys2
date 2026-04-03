@@ -14,7 +14,4 @@ public partial interface CCSSprite : CSprite, ISchemaClass<CCSSprite>
     static int ISchemaClass<CCSSprite>.Size => 1952;
     static string? ISchemaClass<CCSSprite>.ClassName => "env_sprite_clientside";
 
-
-
-
 }

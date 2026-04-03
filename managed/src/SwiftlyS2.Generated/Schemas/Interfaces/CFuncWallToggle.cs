@@ -14,7 +14,4 @@ public partial interface CFuncWallToggle : CFuncWall, ISchemaClass<CFuncWallTogg
     static int ISchemaClass<CFuncWallToggle>.Size => 1848;
     static string? ISchemaClass<CFuncWallToggle>.ClassName => "func_wall_toggle";
 
-
-
-
 }

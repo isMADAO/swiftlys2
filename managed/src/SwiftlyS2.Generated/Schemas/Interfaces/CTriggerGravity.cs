@@ -14,7 +14,4 @@ public partial interface CTriggerGravity : CBaseTrigger, ISchemaClass<CTriggerGr
     static int ISchemaClass<CTriggerGravity>.Size => 2192;
     static string? ISchemaClass<CTriggerGravity>.ClassName => "trigger_gravity";
 
-
-
-
 }

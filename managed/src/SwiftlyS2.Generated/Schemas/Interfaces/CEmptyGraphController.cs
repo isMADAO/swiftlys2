@@ -14,7 +14,4 @@ public partial interface CEmptyGraphController : CAnimGraphControllerBase, ISche
     static int ISchemaClass<CEmptyGraphController>.Size => 144;
     static string? ISchemaClass<CEmptyGraphController>.ClassName => null;
 
-
-
-
 }

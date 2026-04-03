@@ -14,7 +14,4 @@ public partial interface CNmEventConsumerParticle : CNmEventConsumer, ISchemaCla
     static int ISchemaClass<CNmEventConsumerParticle>.Size => 48;
     static string? ISchemaClass<CNmEventConsumerParticle>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CItemAssaultSuit : CItem, ISchemaClass<CItemAssaultSuit
     static int ISchemaClass<CItemAssaultSuit>.Size => 2752;
     static string? ISchemaClass<CItemAssaultSuit>.ClassName => "item_assaultsuit";
 
-
-
-
 }

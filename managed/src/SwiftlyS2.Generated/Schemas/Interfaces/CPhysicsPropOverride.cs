@@ -14,7 +14,4 @@ public partial interface CPhysicsPropOverride : CPhysicsProp, ISchemaClass<CPhys
     static int ISchemaClass<CPhysicsPropOverride>.Size => 3296;
     static string? ISchemaClass<CPhysicsPropOverride>.ClassName => "prop_physics_override";
 
-
-
-
 }

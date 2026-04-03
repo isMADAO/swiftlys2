@@ -14,7 +14,4 @@ public partial interface CRotButton : CBaseButton, ISchemaClass<CRotButton>
     static int ISchemaClass<CRotButton>.Size => 2224;
     static string? ISchemaClass<CRotButton>.ClassName => "func_rot_button";
 
-
-
-
 }

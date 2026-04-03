@@ -14,7 +14,4 @@ public partial interface CWeaponNOVA : CCSWeaponBaseShotgun, ISchemaClass<CWeapo
     static int ISchemaClass<CWeaponNOVA>.Size => 4400;
     static string? ISchemaClass<CWeaponNOVA>.ClassName => "weapon_nova";
 
-
-
-
 }

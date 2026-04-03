@@ -14,7 +14,4 @@ public partial interface CParticleFunctionForce : CParticleFunction, ISchemaClas
     static int ISchemaClass<CParticleFunctionForce>.Size => 480;
     static string? ISchemaClass<CParticleFunctionForce>.ClassName => null;
 
-
-
-
 }

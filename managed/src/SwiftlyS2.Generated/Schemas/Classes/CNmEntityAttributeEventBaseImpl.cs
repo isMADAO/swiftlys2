@@ -18,16 +18,18 @@ internal partial class CNmEntityAttributeEventBaseImpl : CNmEventImpl, CNmEntity
 
     private static nint? _AttributeNameOffset;
 
-    public string AttributeName {
-        get {
+    public string AttributeName
+    {
+        get
+        {
             _AttributeNameOffset = _AttributeNameOffset ?? Schema.GetOffset(0x92D29AE99168F02C);
             return Schema.GetCUtlString(_Handle.Read<nint>(_AttributeNameOffset!.Value));
         }
-        set {
+        set
+        {
             _AttributeNameOffset = _AttributeNameOffset ?? Schema.GetOffset(0x92D29AE99168F02C);
             Schema.SetCUtlString(_Handle, _AttributeNameOffset!.Value, value);
         }
-    } 
-
+    }
 
 }

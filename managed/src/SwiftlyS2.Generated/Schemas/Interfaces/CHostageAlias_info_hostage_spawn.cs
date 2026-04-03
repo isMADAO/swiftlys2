@@ -14,7 +14,4 @@ public partial interface CHostageAlias_info_hostage_spawn : CHostage, ISchemaCla
     static int ISchemaClass<CHostageAlias_info_hostage_spawn>.Size => 11776;
     static string? ISchemaClass<CHostageAlias_info_hostage_spawn>.ClassName => null;
 
-
-
-
 }

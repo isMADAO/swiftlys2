@@ -14,7 +14,4 @@ public partial interface CNmFollowBoneTask : CNmPoseTask, ISchemaClass<CNmFollow
     static int ISchemaClass<CNmFollowBoneTask>.Size => 120;
     static string? ISchemaClass<CNmFollowBoneTask>.ClassName => null;
 
-
-
-
 }

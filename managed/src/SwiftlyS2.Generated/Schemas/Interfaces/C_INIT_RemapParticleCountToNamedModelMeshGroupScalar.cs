@@ -14,7 +14,4 @@ public partial interface C_INIT_RemapParticleCountToNamedModelMeshGroupScalar : 
     static int ISchemaClass<C_INIT_RemapParticleCountToNamedModelMeshGroupScalar>.Size => 552;
     static string? ISchemaClass<C_INIT_RemapParticleCountToNamedModelMeshGroupScalar>.ClassName => null;
 
-
-
-
 }

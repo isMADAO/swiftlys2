@@ -14,7 +14,4 @@ public partial interface CTriggerToggleSave : CBaseTrigger, ISchemaClass<CTrigge
     static int ISchemaClass<CTriggerToggleSave>.Size => 2192;
     static string? ISchemaClass<CTriggerToggleSave>.ClassName => "trigger_togglesave";
 
-
-
-
 }

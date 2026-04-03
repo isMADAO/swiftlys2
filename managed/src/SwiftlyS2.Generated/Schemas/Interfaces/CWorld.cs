@@ -14,7 +14,4 @@ public partial interface CWorld : CBaseModelEntity, ISchemaClass<CWorld>
     static int ISchemaClass<CWorld>.Size => 1840;
     static string? ISchemaClass<CWorld>.ClassName => "worldent";
 
-
-
-
 }

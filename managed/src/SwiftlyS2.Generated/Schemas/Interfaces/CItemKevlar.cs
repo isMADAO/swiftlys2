@@ -14,7 +14,4 @@ public partial interface CItemKevlar : CItem, ISchemaClass<CItemKevlar>
     static int ISchemaClass<CItemKevlar>.Size => 2752;
     static string? ISchemaClass<CItemKevlar>.ClassName => "item_kevlar";
 
-
-
-
 }

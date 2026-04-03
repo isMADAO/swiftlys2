@@ -14,7 +14,4 @@ public partial interface CWeaponRevolver : CCSWeaponBaseGun, ISchemaClass<CWeapo
     static int ISchemaClass<CWeaponRevolver>.Size => 4432;
     static string? ISchemaClass<CWeaponRevolver>.ClassName => "weapon_revolver";
 
-
-
-
 }

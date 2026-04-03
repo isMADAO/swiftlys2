@@ -12,7 +12,7 @@ public partial interface CFuncInteractionLayerClip : CBaseModelEntity, ISchemaCl
 {
     static CFuncInteractionLayerClip ISchemaClass<CFuncInteractionLayerClip>.From(nint handle) => new CFuncInteractionLayerClipImpl(handle);
     static int ISchemaClass<CFuncInteractionLayerClip>.Size => 1864;
-    static string? ISchemaClass<CFuncInteractionLayerClip>.ClassName => null;
+    static string? ISchemaClass<CFuncInteractionLayerClip>.ClassName => "func_clip_interaction_layer";
 
 
     public ref bool Disabled { get; }

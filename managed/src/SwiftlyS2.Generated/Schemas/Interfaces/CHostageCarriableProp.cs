@@ -14,7 +14,4 @@ public partial interface CHostageCarriableProp : CBaseAnimGraph, ISchemaClass<CH
     static int ISchemaClass<CHostageCarriableProp>.Size => 2592;
     static string? ISchemaClass<CHostageCarriableProp>.ClassName => null;
 
-
-
-
 }

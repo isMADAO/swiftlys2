@@ -14,7 +14,4 @@ public partial interface CFuncRetakeBarrier : CDynamicProp, ISchemaClass<CFuncRe
     static int ISchemaClass<CFuncRetakeBarrier>.Size => 3184;
     static string? ISchemaClass<CFuncRetakeBarrier>.ClassName => "func_retakebarrier";
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface CWeaponHKP2000 : CCSWeaponBaseGun, ISchemaClass<CWeapon
     static int ISchemaClass<CWeaponHKP2000>.Size => 4432;
     static string? ISchemaClass<CWeaponHKP2000>.ClassName => "weapon_hkp2000";
 
-
-
-
 }

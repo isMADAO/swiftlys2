@@ -14,7 +14,4 @@ public partial interface CItem_Healthshot : CWeaponBaseItem, ISchemaClass<CItem_
     static int ISchemaClass<CItem_Healthshot>.Size => 4416;
     static string? ISchemaClass<CItem_Healthshot>.ClassName => "weapon_healthshot";
 
-
-
-
 }

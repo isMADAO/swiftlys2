@@ -16,7 +16,4 @@ internal partial class CTakeDamageInfoAPIImpl : SchemaClass, CTakeDamageInfoAPI
 {
     public CTakeDamageInfoAPIImpl(nint handle) : base(handle) { }
 
-
-
-
 }

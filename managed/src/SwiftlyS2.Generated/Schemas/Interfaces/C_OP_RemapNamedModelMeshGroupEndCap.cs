@@ -14,7 +14,4 @@ public partial interface C_OP_RemapNamedModelMeshGroupEndCap : C_OP_RemapNamedMo
     static int ISchemaClass<C_OP_RemapNamedModelMeshGroupEndCap>.Size => 560;
     static string? ISchemaClass<C_OP_RemapNamedModelMeshGroupEndCap>.ClassName => null;
 
-
-
-
 }

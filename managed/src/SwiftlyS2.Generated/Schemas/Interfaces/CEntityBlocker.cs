@@ -14,7 +14,4 @@ public partial interface CEntityBlocker : CBaseModelEntity, ISchemaClass<CEntity
     static int ISchemaClass<CEntityBlocker>.Size => 1840;
     static string? ISchemaClass<CEntityBlocker>.ClassName => "entity_blocker";
 
-
-
-
 }

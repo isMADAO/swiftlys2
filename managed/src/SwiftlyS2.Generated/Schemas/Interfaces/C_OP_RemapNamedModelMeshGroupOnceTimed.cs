@@ -14,7 +14,4 @@ public partial interface C_OP_RemapNamedModelMeshGroupOnceTimed : C_OP_RemapName
     static int ISchemaClass<C_OP_RemapNamedModelMeshGroupOnceTimed>.Size => 560;
     static string? ISchemaClass<C_OP_RemapNamedModelMeshGroupOnceTimed>.ClassName => null;
 
-
-
-
 }

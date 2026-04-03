@@ -14,7 +14,4 @@ public partial interface CWeaponElite : CCSWeaponBaseGun, ISchemaClass<CWeaponEl
     static int ISchemaClass<CWeaponElite>.Size => 4432;
     static string? ISchemaClass<CWeaponElite>.ClassName => "weapon_elite";
 
-
-
-
 }

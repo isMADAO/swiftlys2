@@ -14,7 +14,4 @@ public partial interface CWeaponUSPSilencer : CCSWeaponBaseGun, ISchemaClass<CWe
     static int ISchemaClass<CWeaponUSPSilencer>.Size => 4432;
     static string? ISchemaClass<CWeaponUSPSilencer>.ClassName => "weapon_usp_silencer";
 
-
-
-
 }

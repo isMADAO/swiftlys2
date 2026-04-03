@@ -14,7 +14,4 @@ public partial interface CWeaponGlock : CCSWeaponBaseGun, ISchemaClass<CWeaponGl
     static int ISchemaClass<CWeaponGlock>.Size => 4432;
     static string? ISchemaClass<CWeaponGlock>.ClassName => "weapon_glock";
 
-
-
-
 }

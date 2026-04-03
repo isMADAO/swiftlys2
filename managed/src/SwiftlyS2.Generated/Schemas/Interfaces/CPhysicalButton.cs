@@ -14,7 +14,4 @@ public partial interface CPhysicalButton : CBaseButton, ISchemaClass<CPhysicalBu
     static int ISchemaClass<CPhysicalButton>.Size => 2224;
     static string? ISchemaClass<CPhysicalButton>.ClassName => "func_physical_button";
 
-
-
-
 }

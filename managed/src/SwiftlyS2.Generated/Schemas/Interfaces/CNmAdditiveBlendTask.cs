@@ -14,7 +14,4 @@ public partial interface CNmAdditiveBlendTask : CNmBlendTaskBase, ISchemaClass<C
     static int ISchemaClass<CNmAdditiveBlendTask>.Size => 224;
     static string? ISchemaClass<CNmAdditiveBlendTask>.ClassName => null;
 
-
-
-
 }

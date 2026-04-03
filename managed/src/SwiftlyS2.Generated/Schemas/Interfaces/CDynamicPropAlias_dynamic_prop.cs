@@ -14,7 +14,4 @@ public partial interface CDynamicPropAlias_dynamic_prop : CDynamicProp, ISchemaC
     static int ISchemaClass<CDynamicPropAlias_dynamic_prop>.Size => 3152;
     static string? ISchemaClass<CDynamicPropAlias_dynamic_prop>.ClassName => null;
 
-
-
-
 }

@@ -14,7 +14,4 @@ public partial interface C_INIT_RandomNamedModelMeshGroup : C_INIT_RandomNamedMo
     static int ISchemaClass<C_INIT_RandomNamedModelMeshGroup>.Size => 512;
     static string? ISchemaClass<C_INIT_RandomNamedModelMeshGroup>.ClassName => null;
 
-
-
-
 }

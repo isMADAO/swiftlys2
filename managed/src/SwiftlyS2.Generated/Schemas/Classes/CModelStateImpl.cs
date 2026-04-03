@@ -18,68 +18,85 @@ internal partial class CModelStateImpl : SchemaClass, CModelState
 
     private static nint? _ModelOffset;
 
-    public ref CStrongHandle<InfoForResourceTypeCModel> Model {
-        get {
+    public ref CStrongHandle<InfoForResourceTypeCModel> Model
+    {
+        get
+        {
             _ModelOffset = _ModelOffset ?? Schema.GetOffset(0xC0A51C0E100C814);
             return ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(_ModelOffset!.Value);
         }
     }
     private static nint? _ModelNameOffset;
 
-    public string ModelName {
-        get {
+    public string ModelName
+    {
+        get
+        {
             _ModelNameOffset = _ModelNameOffset ?? Schema.GetOffset(0xC0A51C0D7A1D881);
             return Schema.GetString(_Handle.Read<nint>(_ModelNameOffset!.Value));
         }
-        set {
+        set
+        {
             _ModelNameOffset = _ModelNameOffset ?? Schema.GetOffset(0xC0A51C0D7A1D881);
             Schema.SetString(_Handle, _ModelNameOffset!.Value, value);
         }
-    } 
+    }
     private static nint? _ClientClothCreationSuppressedOffset;
 
-    public ref bool ClientClothCreationSuppressed {
-        get {
+    public ref bool ClientClothCreationSuppressed
+    {
+        get
+        {
             _ClientClothCreationSuppressedOffset = _ClientClothCreationSuppressedOffset ?? Schema.GetOffset(0xC0A51C0953717E1);
             return ref _Handle.AsRef<bool>(_ClientClothCreationSuppressedOffset!.Value);
         }
     }
     private static nint? _MeshGroupMaskOffset;
 
-    public ref ulong MeshGroupMask {
-        get {
+    public ref ulong MeshGroupMask
+    {
+        get
+        {
             _MeshGroupMaskOffset = _MeshGroupMaskOffset ?? Schema.GetOffset(0xC0A51C009C93F2B);
             return ref _Handle.AsRef<ulong>(_MeshGroupMaskOffset!.Value);
         }
     }
     private static nint? _BodyGroupChoicesOffset;
 
-    public ref CUtlVector<int> BodyGroupChoices {
-        get {
+    public ref CUtlVector<int> BodyGroupChoices
+    {
+        get
+        {
             _BodyGroupChoicesOffset = _BodyGroupChoicesOffset ?? Schema.GetOffset(0xC0A51C02395D0B0);
             return ref _Handle.AsRef<CUtlVector<int>>(_BodyGroupChoicesOffset!.Value);
         }
     }
     private static nint? _IdealMotionTypeOffset;
 
-    public ref byte IdealMotionType {
-        get {
+    public ref byte IdealMotionType
+    {
+        get
+        {
             _IdealMotionTypeOffset = _IdealMotionTypeOffset ?? Schema.GetOffset(0xC0A51C00A904E94);
             return ref _Handle.AsRef<byte>(_IdealMotionTypeOffset!.Value);
         }
     }
     private static nint? _ForceLODOffset;
 
-    public ref byte ForceLOD {
-        get {
+    public ref byte ForceLOD
+    {
+        get
+        {
             _ForceLODOffset = _ForceLODOffset ?? Schema.GetOffset(0xC0A51C091D53D5F);
             return ref _Handle.AsRef<byte>(_ForceLODOffset!.Value);
         }
     }
     private static nint? _ClothUpdateFlagsOffset;
 
-    public ref byte ClothUpdateFlags {
-        get {
+    public ref byte ClothUpdateFlags
+    {
+        get
+        {
             _ClothUpdateFlagsOffset = _ClothUpdateFlagsOffset ?? Schema.GetOffset(0xC0A51C0C74A2B81);
             return ref _Handle.AsRef<byte>(_ClothUpdateFlagsOffset!.Value);
         }

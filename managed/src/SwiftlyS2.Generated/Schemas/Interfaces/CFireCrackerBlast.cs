@@ -14,7 +14,4 @@ public partial interface CFireCrackerBlast : CInferno, ISchemaClass<CFireCracker
     static int ISchemaClass<CFireCrackerBlast>.Size => 5048;
     static string? ISchemaClass<CFireCrackerBlast>.ClassName => null;
 
-
-
-
 }

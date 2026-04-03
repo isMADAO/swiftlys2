@@ -18,60 +18,73 @@ internal partial class CNmIKJointImpl : SchemaClass, CNmIKJoint
 
     private static nint? _ParentIndexOffset;
 
-    public ref int ParentIndex {
-        get {
+    public ref int ParentIndex
+    {
+        get
+        {
             _ParentIndexOffset = _ParentIndexOffset ?? Schema.GetOffset(0x31287449134E2DE7);
             return ref _Handle.AsRef<int>(_ParentIndexOffset!.Value);
         }
     }
     private static nint? _BodyIndexOffset;
 
-    public ref int BodyIndex {
-        get {
+    public ref int BodyIndex
+    {
+        get
+        {
             _BodyIndexOffset = _BodyIndexOffset ?? Schema.GetOffset(0x312874492B50B497);
             return ref _Handle.AsRef<int>(_BodyIndexOffset!.Value);
         }
     }
     private static nint? _XLocalFrameOffset;
 
-    public ref CTransform XLocalFrame {
-        get {
+    public ref CTransform XLocalFrame
+    {
+        get
+        {
             _XLocalFrameOffset = _XLocalFrameOffset ?? Schema.GetOffset(0x31287449AD5CD897);
             return ref _Handle.AsRef<CTransform>(_XLocalFrameOffset!.Value);
         }
     }
     private static nint? _SwingLimitOffset;
 
-    public ref float SwingLimit {
-        get {
+    public ref float SwingLimit
+    {
+        get
+        {
             _SwingLimitOffset = _SwingLimitOffset ?? Schema.GetOffset(0x31287449279A44C2);
             return ref _Handle.AsRef<float>(_SwingLimitOffset!.Value);
         }
     }
     private static nint? _MinTwistLimitOffset;
 
-    public ref float MinTwistLimit {
-        get {
+    public ref float MinTwistLimit
+    {
+        get
+        {
             _MinTwistLimitOffset = _MinTwistLimitOffset ?? Schema.GetOffset(0x3128744914A803B7);
             return ref _Handle.AsRef<float>(_MinTwistLimitOffset!.Value);
         }
     }
     private static nint? _MaxTwistLimitOffset;
 
-    public ref float MaxTwistLimit {
-        get {
+    public ref float MaxTwistLimit
+    {
+        get
+        {
             _MaxTwistLimitOffset = _MaxTwistLimitOffset ?? Schema.GetOffset(0x31287449F1241F7D);
             return ref _Handle.AsRef<float>(_MaxTwistLimitOffset!.Value);
         }
     }
     private static nint? _WeightOffset;
 
-    public ref float Weight {
-        get {
+    public ref float Weight
+    {
+        get
+        {
             _WeightOffset = _WeightOffset ?? Schema.GetOffset(0x312874497B81E7AB);
             return ref _Handle.AsRef<float>(_WeightOffset!.Value);
         }
     }
-
 
 }

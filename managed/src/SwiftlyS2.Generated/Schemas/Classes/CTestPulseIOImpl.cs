@@ -18,68 +18,83 @@ internal partial class CTestPulseIOImpl : CLogicalEntityImpl, CTestPulseIO
 
     private static nint? _OnVariantVoidOffset;
 
-    public ref CEntityIOOutput OnVariantVoid {
-        get {
+    public ref CEntityIOOutput OnVariantVoid
+    {
+        get
+        {
             _OnVariantVoidOffset = _OnVariantVoidOffset ?? Schema.GetOffset(0x3CAD66134B0C5D73);
             return ref _Handle.AsRef<CEntityIOOutput>(_OnVariantVoidOffset!.Value);
         }
     }
     private static nint? _OnVariantBoolOffset;
 
-    public SchemaUntypedField OnVariantBool {
-        get {
+    public SchemaUntypedField OnVariantBool
+    {
+        get
+        {
             _OnVariantBoolOffset = _OnVariantBoolOffset ?? Schema.GetOffset(0x3CAD66138350E481);
             return new SchemaUntypedField(_Handle + _OnVariantBoolOffset!.Value);
         }
     }
     private static nint? _OnVariantIntOffset;
 
-    public SchemaUntypedField OnVariantInt {
-        get {
+    public SchemaUntypedField OnVariantInt
+    {
+        get
+        {
             _OnVariantIntOffset = _OnVariantIntOffset ?? Schema.GetOffset(0x3CAD66131C6BA682);
             return new SchemaUntypedField(_Handle + _OnVariantIntOffset!.Value);
         }
     }
     private static nint? _OnVariantFloatOffset;
 
-    public SchemaUntypedField OnVariantFloat {
-        get {
+    public SchemaUntypedField OnVariantFloat
+    {
+        get
+        {
             _OnVariantFloatOffset = _OnVariantFloatOffset ?? Schema.GetOffset(0x3CAD661378E46379);
             return new SchemaUntypedField(_Handle + _OnVariantFloatOffset!.Value);
         }
     }
     private static nint? _OnVariantStringOffset;
 
-    public SchemaUntypedField OnVariantString {
-        get {
+    public SchemaUntypedField OnVariantString
+    {
+        get
+        {
             _OnVariantStringOffset = _OnVariantStringOffset ?? Schema.GetOffset(0x3CAD6613DE2E3E5C);
             return new SchemaUntypedField(_Handle + _OnVariantStringOffset!.Value);
         }
     }
     private static nint? _OnVariantColorOffset;
 
-    public SchemaUntypedField OnVariantColor {
-        get {
+    public SchemaUntypedField OnVariantColor
+    {
+        get
+        {
             _OnVariantColorOffset = _OnVariantColorOffset ?? Schema.GetOffset(0x3CAD66139A1362C4);
             return new SchemaUntypedField(_Handle + _OnVariantColorOffset!.Value);
         }
     }
     private static nint? _OnVariantVectorOffset;
 
-    public SchemaUntypedField OnVariantVector {
-        get {
+    public SchemaUntypedField OnVariantVector
+    {
+        get
+        {
             _OnVariantVectorOffset = _OnVariantVectorOffset ?? Schema.GetOffset(0x3CAD6613A6D8BE1E);
             return new SchemaUntypedField(_Handle + _OnVariantVectorOffset!.Value);
         }
     }
     private static nint? _AllowEmptyInputsOffset;
 
-    public ref bool AllowEmptyInputs {
-        get {
+    public ref bool AllowEmptyInputs
+    {
+        get
+        {
             _AllowEmptyInputsOffset = _AllowEmptyInputsOffset ?? Schema.GetOffset(0x3CAD661342A93BD2);
             return ref _Handle.AsRef<bool>(_AllowEmptyInputsOffset!.Value);
         }
     }
-
 
 }

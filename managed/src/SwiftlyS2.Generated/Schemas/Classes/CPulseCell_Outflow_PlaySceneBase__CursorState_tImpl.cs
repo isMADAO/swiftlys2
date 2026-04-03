@@ -18,20 +18,23 @@ internal partial class CPulseCell_Outflow_PlaySceneBase__CursorState_tImpl : Sch
 
     private static nint? _SceneInstanceOffset;
 
-    public ref CHandle<CBaseEntity> SceneInstance {
-        get {
+    public ref CHandle<CBaseEntity> SceneInstance
+    {
+        get
+        {
             _SceneInstanceOffset = _SceneInstanceOffset ?? Schema.GetOffset(0x16AE3F0C967C210);
             return ref _Handle.AsRef<CHandle<CBaseEntity>>(_SceneInstanceOffset!.Value);
         }
     }
     private static nint? _MainActorOffset;
 
-    public ref CHandle<CBaseEntity> MainActor {
-        get {
+    public ref CHandle<CBaseEntity> MainActor
+    {
+        get
+        {
             _MainActorOffset = _MainActorOffset ?? Schema.GetOffset(0x16AE3F0CCB20D99);
             return ref _Handle.AsRef<CHandle<CBaseEntity>>(_MainActorOffset!.Value);
         }
     }
-
 
 }

@@ -14,7 +14,4 @@ public partial interface CMolotovGrenade : CBaseCSGrenade, ISchemaClass<CMolotov
     static int ISchemaClass<CMolotovGrenade>.Size => 4464;
     static string? ISchemaClass<CMolotovGrenade>.ClassName => "weapon_molotov";
 
-
-
-
 }

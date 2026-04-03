@@ -14,7 +14,4 @@ public partial interface CItemDefuserAlias_item_defuser : CItemDefuser, ISchemaC
     static int ISchemaClass<CItemDefuserAlias_item_defuser>.Size => 2784;
     static string? ISchemaClass<CItemDefuserAlias_item_defuser>.ClassName => null;
 
-
-
-
 }

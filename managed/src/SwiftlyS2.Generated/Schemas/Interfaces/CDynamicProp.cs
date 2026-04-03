@@ -12,7 +12,7 @@ public partial interface CDynamicProp : CBreakableProp, ISchemaClass<CDynamicPro
 {
     static CDynamicProp ISchemaClass<CDynamicProp>.From(nint handle) => new CDynamicPropImpl(handle);
     static int ISchemaClass<CDynamicProp>.Size => 3152;
-    static string? ISchemaClass<CDynamicProp>.ClassName => "dynamic_prop";
+    static string? ISchemaClass<CDynamicProp>.ClassName => "prop_dynamic";
 
 
     public ref bool CreateNavObstacle { get; }

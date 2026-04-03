@@ -14,7 +14,4 @@ public partial interface CNmOverlayBlendTask : CNmBlendTaskBase, ISchemaClass<CN
     static int ISchemaClass<CNmOverlayBlendTask>.Size => 224;
     static string? ISchemaClass<CNmOverlayBlendTask>.ClassName => null;
 
-
-
-
 }

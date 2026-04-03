@@ -12,7 +12,7 @@ public partial interface CFuncLadder : CBaseModelEntity, ISchemaClass<CFuncLadde
 {
     static CFuncLadder ISchemaClass<CFuncLadder>.From(nint handle) => new CFuncLadderImpl(handle);
     static int ISchemaClass<CFuncLadder>.Size => 1984;
-    static string? ISchemaClass<CFuncLadder>.ClassName => "func_useableladder";
+    static string? ISchemaClass<CFuncLadder>.ClassName => "func_ladder";
 
 
     public ref Vector LadderDir { get; }

@@ -14,7 +14,4 @@ public partial interface CHostageRescueZone : CHostageRescueZoneShim, ISchemaCla
     static int ISchemaClass<CHostageRescueZone>.Size => 2224;
     static string? ISchemaClass<CHostageRescueZone>.ClassName => "func_hostage_rescue";
 
-
-
-
 }

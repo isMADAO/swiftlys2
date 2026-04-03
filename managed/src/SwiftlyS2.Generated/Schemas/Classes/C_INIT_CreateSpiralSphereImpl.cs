@@ -18,60 +18,73 @@ internal partial class C_INIT_CreateSpiralSphereImpl : CParticleFunctionInitiali
 
     private static nint? _ControlPointNumberOffset;
 
-    public ref int ControlPointNumber {
-        get {
+    public ref int ControlPointNumber
+    {
+        get
+        {
             _ControlPointNumberOffset = _ControlPointNumberOffset ?? Schema.GetOffset(0x97C2018A3F31A6BD);
             return ref _Handle.AsRef<int>(_ControlPointNumberOffset!.Value);
         }
     }
     private static nint? _OverrideCPOffset;
 
-    public ref int OverrideCP {
-        get {
+    public ref int OverrideCP
+    {
+        get
+        {
             _OverrideCPOffset = _OverrideCPOffset ?? Schema.GetOffset(0x97C2018ADD495162);
             return ref _Handle.AsRef<int>(_OverrideCPOffset!.Value);
         }
     }
     private static nint? _DensityOffset;
 
-    public ref int Density {
-        get {
+    public ref int Density
+    {
+        get
+        {
             _DensityOffset = _DensityOffset ?? Schema.GetOffset(0x97C2018AA65E630F);
             return ref _Handle.AsRef<int>(_DensityOffset!.Value);
         }
     }
     private static nint? _InitialRadiusOffset;
 
-    public ref float InitialRadius {
-        get {
+    public ref float InitialRadius
+    {
+        get
+        {
             _InitialRadiusOffset = _InitialRadiusOffset ?? Schema.GetOffset(0x97C2018A8B8AAB8B);
             return ref _Handle.AsRef<float>(_InitialRadiusOffset!.Value);
         }
     }
     private static nint? _InitialSpeedMinOffset;
 
-    public ref float InitialSpeedMin {
-        get {
+    public ref float InitialSpeedMin
+    {
+        get
+        {
             _InitialSpeedMinOffset = _InitialSpeedMinOffset ?? Schema.GetOffset(0x97C2018AE36FD694);
             return ref _Handle.AsRef<float>(_InitialSpeedMinOffset!.Value);
         }
     }
     private static nint? _InitialSpeedMaxOffset;
 
-    public ref float InitialSpeedMax {
-        get {
+    public ref float InitialSpeedMax
+    {
+        get
+        {
             _InitialSpeedMaxOffset = _InitialSpeedMaxOffset ?? Schema.GetOffset(0x97C2018AD184D4F6);
             return ref _Handle.AsRef<float>(_InitialSpeedMaxOffset!.Value);
         }
     }
     private static nint? _UseParticleCountOffset;
 
-    public ref bool UseParticleCount {
-        get {
+    public ref bool UseParticleCount
+    {
+        get
+        {
             _UseParticleCountOffset = _UseParticleCountOffset ?? Schema.GetOffset(0x97C2018AD4DA0515);
             return ref _Handle.AsRef<bool>(_UseParticleCountOffset!.Value);
         }
     }
-
 
 }

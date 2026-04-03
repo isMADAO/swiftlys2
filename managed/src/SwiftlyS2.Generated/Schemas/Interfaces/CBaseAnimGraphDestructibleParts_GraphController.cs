@@ -14,7 +14,4 @@ public partial interface CBaseAnimGraphDestructibleParts_GraphController : CAnim
     static int ISchemaClass<CBaseAnimGraphDestructibleParts_GraphController>.Size => 144;
     static string? ISchemaClass<CBaseAnimGraphDestructibleParts_GraphController>.ClassName => null;
 
-
-
-
 }

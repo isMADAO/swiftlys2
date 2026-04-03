@@ -14,7 +14,4 @@ public partial interface CParticleFunctionOperator : CParticleFunction, ISchemaC
     static int ISchemaClass<CParticleFunctionOperator>.Size => 464;
     static string? ISchemaClass<CParticleFunctionOperator>.ClassName => null;
 
-
-
-
 }

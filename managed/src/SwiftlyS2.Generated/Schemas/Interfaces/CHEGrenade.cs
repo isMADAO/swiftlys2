@@ -14,7 +14,4 @@ public partial interface CHEGrenade : CBaseCSGrenade, ISchemaClass<CHEGrenade>
     static int ISchemaClass<CHEGrenade>.Size => 4464;
     static string? ISchemaClass<CHEGrenade>.ClassName => "weapon_hegrenade";
 
-
-
-
 }
