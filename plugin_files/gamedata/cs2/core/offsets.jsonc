@@ -27,8 +27,8 @@
         "linux": 185
     },
     "CGameSceneNode::GetSkeletonInstance": {
-        "windows": 8,
-        "linux": 9
+        "windows": 9,
+        "linux": 10
     },
     "GetHammerUniqueID": {
         "windows": 111,
