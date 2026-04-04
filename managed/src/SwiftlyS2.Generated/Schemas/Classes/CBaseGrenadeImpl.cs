@@ -12,7 +12,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.SchemaDefinitions;
 
-internal partial class CBaseGrenadeImpl : CBaseFlexImpl, CBaseGrenade
+internal partial class CBaseGrenadeImpl : CBaseAnimGraphImpl, CBaseGrenade
 {
     public CBaseGrenadeImpl(nint handle) : base(handle) { }
 

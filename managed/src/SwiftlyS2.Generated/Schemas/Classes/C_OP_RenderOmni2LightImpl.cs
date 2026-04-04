@@ -26,6 +26,16 @@ internal partial class C_OP_RenderOmni2LightImpl : CParticleFunctionRendererImpl
             return ref _Handle.AsRef<ParticleOmni2LightTypeChoiceList_t>(_LightTypeOffset!.Value);
         }
     }
+    private static nint? _MaxAllowedOffset;
+
+    public ref ushort MaxAllowed
+    {
+        get
+        {
+            _MaxAllowedOffset = _MaxAllowedOffset ?? Schema.GetOffset(0xDE9AF4EE36B011D3);
+            return ref _Handle.AsRef<ushort>(_MaxAllowedOffset!.Value);
+        }
+    }
     private static nint? _ColorBlendOffset;
 
     public CParticleCollectionVecInput ColorBlend
@@ -84,6 +94,26 @@ internal partial class C_OP_RenderOmni2LightImpl : CParticleFunctionRendererImpl
         {
             _CastShadowsOffset = _CastShadowsOffset ?? Schema.GetOffset(0xDE9AF4EE36113167);
             return ref _Handle.AsRef<bool>(_CastShadowsOffset!.Value);
+        }
+    }
+    private static nint? _DynamicBounceOffset;
+
+    public ref bool DynamicBounce
+    {
+        get
+        {
+            _DynamicBounceOffset = _DynamicBounceOffset ?? Schema.GetOffset(0xDE9AF4EE46B4298E);
+            return ref _Handle.AsRef<bool>(_DynamicBounceOffset!.Value);
+        }
+    }
+    private static nint? _BounceScaleOffset;
+
+    public CParticleCollectionFloatInput BounceScale
+    {
+        get
+        {
+            _BounceScaleOffset = _BounceScaleOffset ?? Schema.GetOffset(0xDE9AF4EE918AF747);
+            return new CParticleCollectionFloatInputImpl(_Handle + _BounceScaleOffset!.Value);
         }
     }
     private static nint? _FogOffset;

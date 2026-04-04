@@ -76,34 +76,44 @@ internal partial class CNmAimCSNode__CDefinitionImpl : CNmPassthroughNode__CDefi
             return ref _Handle.AsRef<short>(_WeaponDropNodeIdxOffset!.Value);
         }
     }
-    private static nint? _EnabledNodeIdxOffset;
+    private static nint? _DisableHandIKNodeIdxOffset;
 
-    public ref short EnabledNodeIdx
+    public ref short DisableHandIKNodeIdx
     {
         get
         {
-            _EnabledNodeIdxOffset = _EnabledNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C2F7CDF5E9);
-            return ref _Handle.AsRef<short>(_EnabledNodeIdxOffset!.Value);
+            _DisableHandIKNodeIdxOffset = _DisableHandIKNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C2FA68B861);
+            return ref _Handle.AsRef<short>(_DisableHandIKNodeIdxOffset!.Value);
         }
     }
-    private static nint? _BlendTimeSecondsOffset;
+    private static nint? _CrouchWeightNodeIdxOffset;
 
-    public ref float BlendTimeSeconds
+    public ref short CrouchWeightNodeIdx
     {
         get
         {
-            _BlendTimeSecondsOffset = _BlendTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C26D3A08FC);
-            return ref _Handle.AsRef<float>(_BlendTimeSecondsOffset!.Value);
+            _CrouchWeightNodeIdxOffset = _CrouchWeightNodeIdxOffset ?? Schema.GetOffset(0xE1CD14C2F62E5CC2);
+            return ref _Handle.AsRef<short>(_CrouchWeightNodeIdxOffset!.Value);
         }
     }
-    private static nint? _ReduceRangeTimeSecondsOffset;
+    private static nint? _HandIKBlendInTimeSecondsOffset;
 
-    public ref float ReduceRangeTimeSeconds
+    public ref float HandIKBlendInTimeSeconds
     {
         get
         {
-            _ReduceRangeTimeSecondsOffset = _ReduceRangeTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C237BD9774);
-            return ref _Handle.AsRef<float>(_ReduceRangeTimeSecondsOffset!.Value);
+            _HandIKBlendInTimeSecondsOffset = _HandIKBlendInTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C2CB9B86F0);
+            return ref _Handle.AsRef<float>(_HandIKBlendInTimeSecondsOffset!.Value);
+        }
+    }
+    private static nint? _ActionBlendTimeSecondsOffset;
+
+    public ref float ActionBlendTimeSeconds
+    {
+        get
+        {
+            _ActionBlendTimeSecondsOffset = _ActionBlendTimeSecondsOffset ?? Schema.GetOffset(0xE1CD14C2E3226BAE);
+            return ref _Handle.AsRef<float>(_ActionBlendTimeSecondsOffset!.Value);
         }
     }
 

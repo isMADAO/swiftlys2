@@ -18,12 +18,12 @@ internal partial class CGameChoreoServicesImpl : IChoreoServicesImpl, CGameChore
 
     private static nint? _OwnerOffset;
 
-    public ref CHandle<CBaseAnimGraph> Owner
+    public ref CHandle<CBaseModelEntity> Owner
     {
         get
         {
             _OwnerOffset = _OwnerOffset ?? Schema.GetOffset(0xF5FFE2B2F6D89572);
-            return ref _Handle.AsRef<CHandle<CBaseAnimGraph>>(_OwnerOffset!.Value);
+            return ref _Handle.AsRef<CHandle<CBaseModelEntity>>(_OwnerOffset!.Value);
         }
     }
     private static nint? _ScriptedSequenceOffset;

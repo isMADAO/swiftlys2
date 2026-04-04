@@ -111,6 +111,16 @@ internal partial class CPhysExplosionImpl : CPointEntityImpl, CPhysExplosion
             return ref _Handle.AsRef<bool>(_AffectInvulnerableEntsOffset!.Value);
         }
     }
+    private static nint? _DisablePushClampOffset;
+
+    public ref bool DisablePushClamp
+    {
+        get
+        {
+            _DisablePushClampOffset = _DisablePushClampOffset ?? Schema.GetOffset(0xACEBD741CD77C0CE);
+            return ref _Handle.AsRef<bool>(_DisablePushClampOffset!.Value);
+        }
+    }
     private static nint? _OnPushedPlayerOffset;
 
     public ref CEntityIOOutput OnPushedPlayer

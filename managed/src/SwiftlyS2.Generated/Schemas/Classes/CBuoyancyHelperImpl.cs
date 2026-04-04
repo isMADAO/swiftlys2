@@ -16,6 +16,17 @@ internal partial class CBuoyancyHelperImpl : SchemaClass, CBuoyancyHelper
 {
     public CBuoyancyHelperImpl(nint handle) : base(handle) { }
 
+    private static nint? _ControllerOffset;
+
+    public IPhysicsMotionController? Controller
+    {
+        get
+        {
+            _ControllerOffset = _ControllerOffset ?? Schema.GetOffset(0x7A9E77008F2DD553);
+            var ptr = _Handle.Read<nint>(_ControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsMotionControllerImpl(ptr) : null;
+        }
+    }
     private static nint? _FluidTypeOffset;
 
     public ref CUtlStringToken FluidType

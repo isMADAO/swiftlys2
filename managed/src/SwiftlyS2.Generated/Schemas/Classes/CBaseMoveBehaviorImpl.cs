@@ -68,46 +68,42 @@ internal partial class CBaseMoveBehaviorImpl : CPathKeyFrameImpl, CBaseMoveBehav
     }
     private static nint? _CurrentKeyFrameOffset;
 
-    public CPathKeyFrame? CurrentKeyFrame
+    public ref CHandle<CPathKeyFrame> CurrentKeyFrame
     {
         get
         {
             _CurrentKeyFrameOffset = _CurrentKeyFrameOffset ?? Schema.GetOffset(0x4C94E060AF22FD24);
-            var ptr = _Handle.Read<nint>(_CurrentKeyFrameOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_CurrentKeyFrameOffset!.Value);
         }
     }
     private static nint? _TargetKeyFrameOffset;
 
-    public CPathKeyFrame? TargetKeyFrame
+    public ref CHandle<CPathKeyFrame> TargetKeyFrame
     {
         get
         {
             _TargetKeyFrameOffset = _TargetKeyFrameOffset ?? Schema.GetOffset(0x4C94E0606B9E13EA);
-            var ptr = _Handle.Read<nint>(_TargetKeyFrameOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_TargetKeyFrameOffset!.Value);
         }
     }
     private static nint? _PreKeyFrameOffset;
 
-    public CPathKeyFrame? PreKeyFrame
+    public ref CHandle<CPathKeyFrame> PreKeyFrame
     {
         get
         {
             _PreKeyFrameOffset = _PreKeyFrameOffset ?? Schema.GetOffset(0x4C94E0609753526C);
-            var ptr = _Handle.Read<nint>(_PreKeyFrameOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_PreKeyFrameOffset!.Value);
         }
     }
     private static nint? _PostKeyFrameOffset;
 
-    public CPathKeyFrame? PostKeyFrame
+    public ref CHandle<CPathKeyFrame> PostKeyFrame
     {
         get
         {
             _PostKeyFrameOffset = _PostKeyFrameOffset ?? Schema.GetOffset(0x4C94E06033EC8ED5);
-            var ptr = _Handle.Read<nint>(_PostKeyFrameOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_PostKeyFrameOffset!.Value);
         }
     }
     private static nint? _TimeIntoFrameOffset;

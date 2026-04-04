@@ -36,6 +36,16 @@ internal partial class C_INIT_PositionPlaceOnGroundImpl : CParticleFunctionIniti
             return new CPerParticleFloatInputImpl(_Handle + _MaxTraceLengthOffset!.Value);
         }
     }
+    private static nint? _TraceDirOffset;
+
+    public CPerParticleVecInput TraceDir
+    {
+        get
+        {
+            _TraceDirOffset = _TraceDirOffset ?? Schema.GetOffset(0xA022821EB3F09745);
+            return new CPerParticleVecInputImpl(_Handle + _TraceDirOffset!.Value);
+        }
+    }
     private static nint? _CollisionGroupNameOffset;
 
     public string CollisionGroupName
@@ -81,16 +91,6 @@ internal partial class C_INIT_PositionPlaceOnGroundImpl : CParticleFunctionIniti
             return ref _Handle.AsRef<bool>(_IncludeWaterOffset!.Value);
         }
     }
-    private static nint? _SetNormalOffset;
-
-    public ref bool SetNormal
-    {
-        get
-        {
-            _SetNormalOffset = _SetNormalOffset ?? Schema.GetOffset(0xA022821E542722AC);
-            return ref _Handle.AsRef<bool>(_SetNormalOffset!.Value);
-        }
-    }
     private static nint? _AttributeOffset;
 
     public ParticleAttributeIndex_t Attribute
@@ -111,24 +111,24 @@ internal partial class C_INIT_PositionPlaceOnGroundImpl : CParticleFunctionIniti
             return ref _Handle.AsRef<bool>(_SetPXYZOnlyOffset!.Value);
         }
     }
-    private static nint? _TraceAlongNormalOffset;
+    private static nint? _SetNormalOffset;
 
-    public ref bool TraceAlongNormal
+    public ref bool SetNormal
     {
         get
         {
-            _TraceAlongNormalOffset = _TraceAlongNormalOffset ?? Schema.GetOffset(0xA022821EF6E20144);
-            return ref _Handle.AsRef<bool>(_TraceAlongNormalOffset!.Value);
+            _SetNormalOffset = _SetNormalOffset ?? Schema.GetOffset(0xA022821E542722AC);
+            return ref _Handle.AsRef<bool>(_SetNormalOffset!.Value);
         }
     }
-    private static nint? _TraceDirectionAttributeOffset;
+    private static nint? _GroundNormalAttributeOffset;
 
-    public ParticleAttributeIndex_t TraceDirectionAttribute
+    public ParticleAttributeIndex_t GroundNormalAttribute
     {
         get
         {
-            _TraceDirectionAttributeOffset = _TraceDirectionAttributeOffset ?? Schema.GetOffset(0xA022821E00E7482D);
-            return new ParticleAttributeIndex_tImpl(_Handle + _TraceDirectionAttributeOffset!.Value);
+            _GroundNormalAttributeOffset = _GroundNormalAttributeOffset ?? Schema.GetOffset(0xA022821E64EE124B);
+            return new ParticleAttributeIndex_tImpl(_Handle + _GroundNormalAttributeOffset!.Value);
         }
     }
     private static nint? _OffsetonColOnlyOffset;

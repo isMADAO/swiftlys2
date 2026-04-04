@@ -36,6 +36,17 @@ internal partial class CKeepUprightImpl : CPointEntityImpl, CKeepUpright
             return ref _Handle.AsRef<Vector>(_LocalTestAxisOffset!.Value);
         }
     }
+    private static nint? _ControllerOffset;
+
+    public IPhysicsMotionController? Controller
+    {
+        get
+        {
+            _ControllerOffset = _ControllerOffset ?? Schema.GetOffset(0xB65A0D308F2DD553);
+            var ptr = _Handle.Read<nint>(_ControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsMotionControllerImpl(ptr) : null;
+        }
+    }
     private static nint? _NameAttachOffset;
 
     public string NameAttach

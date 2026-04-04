@@ -97,6 +97,16 @@ internal partial class CBaseEntityImpl : CEntityInstanceImpl, CBaseEntity
             return ref _Handle.AsRef<float>(_LastNetworkChangeOffset!.Value);
         }
     }
+    private static nint? _ThinkOffset;
+
+    public SchemaUntypedField Think
+    {
+        get
+        {
+            _ThinkOffset = _ThinkOffset ?? Schema.GetOffset(0x9DC483B8BF50ED7B);
+            return new SchemaUntypedField(_Handle + _ThinkOffset!.Value);
+        }
+    }
     private static nint? _ResponseContextsOffset;
 
     public ref CUtlVector<ResponseContext_t> ResponseContexts
@@ -120,6 +130,46 @@ internal partial class CBaseEntityImpl : CEntityInstanceImpl, CBaseEntity
         {
             _ResponseContextOffset = _ResponseContextOffset ?? Schema.GetOffset(0x9DC483B8ECDEFE61);
             Schema.SetString(_Handle, _ResponseContextOffset!.Value, value);
+        }
+    }
+    private static nint? _PfnTouchOffset;
+
+    public SchemaUntypedField PfnTouch
+    {
+        get
+        {
+            _PfnTouchOffset = _PfnTouchOffset ?? Schema.GetOffset(0x9DC483B880C078F6);
+            return new SchemaUntypedField(_Handle + _PfnTouchOffset!.Value);
+        }
+    }
+    private static nint? _PfnUseOffset;
+
+    public SchemaUntypedField PfnUse
+    {
+        get
+        {
+            _PfnUseOffset = _PfnUseOffset ?? Schema.GetOffset(0x9DC483B8B37E14B6);
+            return new SchemaUntypedField(_Handle + _PfnUseOffset!.Value);
+        }
+    }
+    private static nint? _PfnBlockedOffset;
+
+    public SchemaUntypedField PfnBlocked
+    {
+        get
+        {
+            _PfnBlockedOffset = _PfnBlockedOffset ?? Schema.GetOffset(0x9DC483B8C22ED911);
+            return new SchemaUntypedField(_Handle + _PfnBlockedOffset!.Value);
+        }
+    }
+    private static nint? _PfnMoveDoneOffset;
+
+    public SchemaUntypedField PfnMoveDone
+    {
+        get
+        {
+            _PfnMoveDoneOffset = _PfnMoveDoneOffset ?? Schema.GetOffset(0x9DC483B8B5DF02BE);
+            return new SchemaUntypedField(_Handle + _PfnMoveDoneOffset!.Value);
         }
     }
     private static nint? _HealthOffset;
@@ -210,6 +260,16 @@ internal partial class CBaseEntityImpl : CEntityInstanceImpl, CBaseEntity
         {
             _MoveTypeOffset = _MoveTypeOffset ?? Schema.GetOffset(0x9DC483B890BCCC1C);
             return ref _Handle.AsRef<MoveType_t>(_MoveTypeOffset!.Value);
+        }
+    }
+    private static nint? _PreviouslySetMoveTypeOffset;
+
+    public ref MoveType_t PreviouslySetMoveType
+    {
+        get
+        {
+            _PreviouslySetMoveTypeOffset = _PreviouslySetMoveTypeOffset ?? Schema.GetOffset(0x9DC483B891E25748);
+            return ref _Handle.AsRef<MoveType_t>(_PreviouslySetMoveTypeOffset!.Value);
         }
     }
     private static nint? _ActualMoveTypeOffset;

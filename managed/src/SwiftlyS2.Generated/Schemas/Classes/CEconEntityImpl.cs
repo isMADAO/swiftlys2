@@ -12,7 +12,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.SchemaDefinitions;
 
-internal partial class CEconEntityImpl : CBaseFlexImpl, CEconEntity
+internal partial class CEconEntityImpl : CBaseAnimGraphImpl, CEconEntity
 {
     public CEconEntityImpl(nint handle) : base(handle) { }
 

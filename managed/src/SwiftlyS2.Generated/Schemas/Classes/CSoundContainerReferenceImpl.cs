@@ -16,6 +16,21 @@ internal partial class CSoundContainerReferenceImpl : SchemaClass, CSoundContain
 {
     public CSoundContainerReferenceImpl(nint handle) : base(handle) { }
 
+    private static nint? _NamespaceOffset;
+
+    public string Namespace
+    {
+        get
+        {
+            _NamespaceOffset = _NamespaceOffset ?? Schema.GetOffset(0x4663CCA16245CFC0);
+            return Schema.GetCUtlString(_Handle.Read<nint>(_NamespaceOffset!.Value));
+        }
+        set
+        {
+            _NamespaceOffset = _NamespaceOffset ?? Schema.GetOffset(0x4663CCA16245CFC0);
+            Schema.SetCUtlString(_Handle, _NamespaceOffset!.Value, value);
+        }
+    }
     private static nint? _UseReferenceOffset;
 
     public ref bool UseReference

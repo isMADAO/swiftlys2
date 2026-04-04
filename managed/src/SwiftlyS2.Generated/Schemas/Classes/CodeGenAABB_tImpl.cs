@@ -37,6 +37,4 @@ internal partial class CodeGenAABB_tImpl : SchemaClass, CodeGenAABB_t
         }
     }
 
-    public void MinBoundsUpdated() => Schema.Update(_Handle, 0xB0F2ACCB114799FE);
-    public void MaxBoundsUpdated() => Schema.Update(_Handle, 0xB0F2ACCBC0B4CE60);
 }

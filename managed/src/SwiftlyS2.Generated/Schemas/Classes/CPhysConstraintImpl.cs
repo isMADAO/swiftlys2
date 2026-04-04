@@ -16,6 +16,17 @@ internal partial class CPhysConstraintImpl : CLogicalEntityImpl, CPhysConstraint
 {
     public CPhysConstraintImpl(nint handle) : base(handle) { }
 
+    private static nint? _JointOffset;
+
+    public IPhysicsJoint? Joint
+    {
+        get
+        {
+            _JointOffset = _JointOffset ?? Schema.GetOffset(0xB172254547B64E59);
+            var ptr = _Handle.Read<nint>(_JointOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsJointImpl(ptr) : null;
+        }
+    }
     private static nint? _NameAttach1Offset;
 
     public string NameAttach1

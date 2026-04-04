@@ -431,6 +431,16 @@ internal partial class CBaseRendererSource2Impl : CParticleFunctionRendererImpl,
             return ref _Handle.AsRef<bool>(_RefractSolidOffset!.Value);
         }
     }
+    private static nint? _Refract2PassesOffset;
+
+    public ref bool Refract2Passes
+    {
+        get
+        {
+            _Refract2PassesOffset = _Refract2PassesOffset ?? Schema.GetOffset(0xA732A57581983E4B);
+            return ref _Handle.AsRef<bool>(_Refract2PassesOffset!.Value);
+        }
+    }
     private static nint? _RefractAmountOffset;
 
     public CParticleCollectionRendererFloatInput RefractAmount

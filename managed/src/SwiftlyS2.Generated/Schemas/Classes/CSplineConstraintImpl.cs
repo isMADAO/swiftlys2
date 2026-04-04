@@ -36,6 +36,17 @@ internal partial class CSplineConstraintImpl : CPhysConstraintImpl, CSplineConst
             return ref _Handle.AsRef<CHandle<CBaseEntity>>(_SplineEntityOffset!.Value);
         }
     }
+    private static nint? _SplineBodyOffset;
+
+    public IPhysicsBody? SplineBody
+    {
+        get
+        {
+            _SplineBodyOffset = _SplineBodyOffset ?? Schema.GetOffset(0xC2DC06A0D6C1EF02);
+            var ptr = _Handle.Read<nint>(_SplineBodyOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsBodyImpl(ptr) : null;
+        }
+    }
     private static nint? _EnableLateralConstraintOffset;
 
     public ref bool EnableLateralConstraint

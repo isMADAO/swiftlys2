@@ -37,6 +37,4 @@ internal partial class IntervalTimerImpl : SchemaClass, IntervalTimer
         }
     }
 
-    public void TimestampUpdated() => Schema.Update(_Handle, 0x8FD39659B6C56F43);
-    public void WorldGroupIdUpdated() => Schema.Update(_Handle, 0x8FD396597414B193);
 }

@@ -497,16 +497,6 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn
             return ref _Handle.AsRef<QAngle>(_DeathEyeAnglesOffset!.Value);
         }
     }
-    private static nint? _SkipOneHeadConstraintUpdateOffset;
-
-    public ref bool SkipOneHeadConstraintUpdate
-    {
-        get
-        {
-            _SkipOneHeadConstraintUpdateOffset = _SkipOneHeadConstraintUpdateOffset ?? Schema.GetOffset(0xC7614AAB98DC3AB2);
-            return ref _Handle.AsRef<bool>(_SkipOneHeadConstraintUpdateOffset!.Value);
-        }
-    }
     private static nint? _LeftHandedOffset;
 
     public ref bool LeftHanded
@@ -817,26 +807,6 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn
             return ref _Handle.AsRef<float>(_VelocityModifierOffset!.Value);
         }
     }
-    private static nint? _HitHeadingOffset;
-
-    public ref float HitHeading
-    {
-        get
-        {
-            _HitHeadingOffset = _HitHeadingOffset ?? Schema.GetOffset(0xC7614AAB09713C4E);
-            return ref _Handle.AsRef<float>(_HitHeadingOffset!.Value);
-        }
-    }
-    private static nint? _HitBodyPartOffset;
-
-    public ref int HitBodyPart
-    {
-        get
-        {
-            _HitBodyPartOffset = _HitBodyPartOffset ?? Schema.GetOffset(0xC7614AAB0CA9863B);
-            return ref _Handle.AsRef<int>(_HitBodyPartOffset!.Value);
-        }
-    }
     private static nint? _TotalBulletForceOffset;
 
     public ref Vector TotalBulletForce
@@ -906,46 +876,6 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn
         {
             _BotAllowActiveOffset = _BotAllowActiveOffset ?? Schema.GetOffset(0xC7614AAB673BB7CD);
             return ref _Handle.AsRef<bool>(_BotAllowActiveOffset!.Value);
-        }
-    }
-    private static nint? _ThirdPersonHeadingOffset;
-
-    public ref QAngle ThirdPersonHeading
-    {
-        get
-        {
-            _ThirdPersonHeadingOffset = _ThirdPersonHeadingOffset ?? Schema.GetOffset(0xC7614AABCE47A2A7);
-            return ref _Handle.AsRef<QAngle>(_ThirdPersonHeadingOffset!.Value);
-        }
-    }
-    private static nint? _SlopeDropOffsetOffset;
-
-    public ref float SlopeDropOffset
-    {
-        get
-        {
-            _SlopeDropOffsetOffset = _SlopeDropOffsetOffset ?? Schema.GetOffset(0xC7614AABFC6CDBF0);
-            return ref _Handle.AsRef<float>(_SlopeDropOffsetOffset!.Value);
-        }
-    }
-    private static nint? _SlopeDropHeightOffset;
-
-    public ref float SlopeDropHeight
-    {
-        get
-        {
-            _SlopeDropHeightOffset = _SlopeDropHeightOffset ?? Schema.GetOffset(0xC7614AABD77D930C);
-            return ref _Handle.AsRef<float>(_SlopeDropHeightOffset!.Value);
-        }
-    }
-    private static nint? _HeadConstraintOffsetOffset;
-
-    public ref Vector HeadConstraintOffset
-    {
-        get
-        {
-            _HeadConstraintOffsetOffset = _HeadConstraintOffsetOffset ?? Schema.GetOffset(0xC7614AABADDDE147);
-            return ref _Handle.AsRef<Vector>(_HeadConstraintOffsetOffset!.Value);
         }
     }
     private static nint? _LastPickupPriorityOffset;
@@ -1144,26 +1074,6 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn
     {
         get => new SchemaFixedArray<Vector>(_Handle, 0xC7614AAB24AFD9B2, 2, 12, 4);
     }
-    private static nint? _PredictedDamageTagsOffset;
-
-    public ref CUtlVector<PredictedDamageTag_t> PredictedDamageTags
-    {
-        get
-        {
-            _PredictedDamageTagsOffset = _PredictedDamageTagsOffset ?? Schema.GetOffset(0xC7614AAB2CCF5943);
-            return ref _Handle.AsRef<CUtlVector<PredictedDamageTag_t>>(_PredictedDamageTagsOffset!.Value);
-        }
-    }
-    private static nint? _HighestAppliedDamageTagTickOffset;
-
-    public ref int HighestAppliedDamageTagTick
-    {
-        get
-        {
-            _HighestAppliedDamageTagTickOffset = _HighestAppliedDamageTagTickOffset ?? Schema.GetOffset(0xC7614AAB1703141A);
-            return ref _Handle.AsRef<int>(_HighestAppliedDamageTagTickOffset!.Value);
-        }
-    }
     private static nint? _CommittingSuicideOnTeamChangeOffset;
 
     public ref bool CommittingSuicideOnTeamChange
@@ -1277,21 +1187,14 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn
     public void ShotsFiredUpdated() => Schema.Update(_Handle, 0xC7614AABFE518C17);
     public void FlinchStackUpdated() => Schema.Update(_Handle, 0xC7614AAB36439B97);
     public void VelocityModifierUpdated() => Schema.Update(_Handle, 0xC7614AAB7AC97631);
-    public void HitHeadingUpdated() => Schema.Update(_Handle, 0xC7614AAB09713C4E);
-    public void HitBodyPartUpdated() => Schema.Update(_Handle, 0xC7614AAB0CA9863B);
     public void WaitForNoAttackUpdated() => Schema.Update(_Handle, 0xC7614AABC3DEC2A0);
     public void KilledByHeadshotUpdated() => Schema.Update(_Handle, 0xC7614AABEF3D732B);
-    public void ThirdPersonHeadingUpdated() => Schema.Update(_Handle, 0xC7614AABCE47A2A7);
-    public void SlopeDropOffsetUpdated() => Schema.Update(_Handle, 0xC7614AABFC6CDBF0);
-    public void SlopeDropHeightUpdated() => Schema.Update(_Handle, 0xC7614AABD77D930C);
-    public void HeadConstraintOffsetUpdated() => Schema.Update(_Handle, 0xC7614AABADDDE147);
     public void ArmorValueUpdated() => Schema.Update(_Handle, 0xC7614AAB8937152D);
     public void CurrentEquipmentValueUpdated() => Schema.Update(_Handle, 0xC7614AABECE8502A);
     public void RoundStartEquipmentValueUpdated() => Schema.Update(_Handle, 0xC7614AAB498A2F2B);
     public void FreezetimeEndEquipmentValueUpdated() => Schema.Update(_Handle, 0xC7614AAB84CBC7A4);
     public void PlayerPatchEconIndicesUpdated() => Schema.Update(_Handle, 0xC7614AABECA447BC);
     public void GunGameImmunityColorUpdated() => Schema.Update(_Handle, 0xC7614AAB5C81D4A0);
-    public void PredictedDamageTagsUpdated() => Schema.Update(_Handle, 0xC7614AAB2CCF5943);
     public void ImmuneToGunGameDamageTimeUpdated() => Schema.Update(_Handle, 0xC7614AAB8305FCCB);
     public void GunGameImmunityUpdated() => Schema.Update(_Handle, 0xC7614AAB9C15080D);
     public void MolotovDamageTimeUpdated() => Schema.Update(_Handle, 0xC7614AABD2CDBE21);

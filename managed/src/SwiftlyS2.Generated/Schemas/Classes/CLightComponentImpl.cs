@@ -461,24 +461,24 @@ internal partial class CLightComponentImpl : CEntityComponentImpl, CLightCompone
             return ref _Handle.AsRef<int>(_DirectLightOffset!.Value);
         }
     }
-    private static nint? _IndirectLightOffset;
+    private static nint? _BounceLightOffset;
 
-    public ref int IndirectLight
+    public ref int BounceLight
     {
         get
         {
-            _IndirectLightOffset = _IndirectLightOffset ?? Schema.GetOffset(0x15B1C6A5E5EAAFBD);
-            return ref _Handle.AsRef<int>(_IndirectLightOffset!.Value);
+            _BounceLightOffset = _BounceLightOffset ?? Schema.GetOffset(0x15B1C6A57A8E13D3);
+            return ref _Handle.AsRef<int>(_BounceLightOffset!.Value);
         }
     }
-    private static nint? _DynamicBounceOffset;
+    private static nint? _BounceScaleOffset;
 
-    public ref bool DynamicBounce
+    public ref float BounceScale
     {
         get
         {
-            _DynamicBounceOffset = _DynamicBounceOffset ?? Schema.GetOffset(0x15B1C6A546B4298E);
-            return ref _Handle.AsRef<bool>(_DynamicBounceOffset!.Value);
+            _BounceScaleOffset = _BounceScaleOffset ?? Schema.GetOffset(0x15B1C6A5918AF747);
+            return ref _Handle.AsRef<float>(_BounceScaleOffset!.Value);
         }
     }
     private static nint? _FadeMinDistOffset;
@@ -775,8 +775,8 @@ internal partial class CLightComponentImpl : CEntityComponentImpl, CLightCompone
     public void RenderToCubemapsUpdated() => Schema.Update(_Handle, 0x15B1C6A58A23364A);
     public void AllowSSTGenerationUpdated() => Schema.Update(_Handle, 0x15B1C6A54E93C4FA);
     public void DirectLightUpdated() => Schema.Update(_Handle, 0x15B1C6A5DEC0AAB4);
-    public void IndirectLightUpdated() => Schema.Update(_Handle, 0x15B1C6A5E5EAAFBD);
-    public void DynamicBounceUpdated() => Schema.Update(_Handle, 0x15B1C6A546B4298E);
+    public void BounceLightUpdated() => Schema.Update(_Handle, 0x15B1C6A57A8E13D3);
+    public void BounceScaleUpdated() => Schema.Update(_Handle, 0x15B1C6A5918AF747);
     public void FadeMinDistUpdated() => Schema.Update(_Handle, 0x15B1C6A545D2BAAB);
     public void FadeMaxDistUpdated() => Schema.Update(_Handle, 0x15B1C6A5ACCE9CB9);
     public void ShadowFadeMinDistUpdated() => Schema.Update(_Handle, 0x15B1C6A589AB0803);

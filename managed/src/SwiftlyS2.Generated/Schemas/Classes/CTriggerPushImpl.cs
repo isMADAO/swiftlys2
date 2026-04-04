@@ -73,13 +73,12 @@ internal partial class CTriggerPushImpl : CBaseTriggerImpl, CTriggerPush
     }
     private static nint? _PathSimpleOffset;
 
-    public CPathSimple? PathSimple
+    public ref CHandle<CPathSimple> PathSimple
     {
         get
         {
             _PathSimpleOffset = _PathSimpleOffset ?? Schema.GetOffset(0x92E0F2F2FA868DCC);
-            var ptr = _Handle.Read<nint>(_PathSimpleOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathSimpleImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathSimple>>(_PathSimpleOffset!.Value);
         }
     }
     private static nint? _SplinePushTypeOffset;

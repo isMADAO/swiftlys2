@@ -146,6 +146,28 @@ internal partial class CPhysMotorImpl : CLogicalEntityImpl, CPhysMotor
             return ref _Handle.AsRef<float>(_SpeedWhenSpinUpOrSpinDownStartedOffset!.Value);
         }
     }
+    private static nint? _FixedWorldBodyOffset;
+
+    public IPhysicsBody? FixedWorldBody
+    {
+        get
+        {
+            _FixedWorldBodyOffset = _FixedWorldBodyOffset ?? Schema.GetOffset(0x88C095BF146EC531);
+            var ptr = _Handle.Read<nint>(_FixedWorldBodyOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsBodyImpl(ptr) : null;
+        }
+    }
+    private static nint? _MotorJointOffset;
+
+    public IPhysicsJoint? MotorJoint
+    {
+        get
+        {
+            _MotorJointOffset = _MotorJointOffset ?? Schema.GetOffset(0x88C095BFDD87FD18);
+            var ptr = _Handle.Read<nint>(_MotorJointOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsJointImpl(ptr) : null;
+        }
+    }
     private static nint? _MotorOffset;
 
     public CMotorController Motor

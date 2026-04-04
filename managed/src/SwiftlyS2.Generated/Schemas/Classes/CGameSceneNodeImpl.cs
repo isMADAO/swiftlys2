@@ -320,16 +320,6 @@ internal partial class CGameSceneNodeImpl : SchemaClass, CGameSceneNode
             return ref _Handle.AsRef<CUtlStringToken>(_HierarchyAttachNameOffset!.Value);
         }
     }
-    private static nint? _ZOffsetOffset;
-
-    public ref float ZOffset
-    {
-        get
-        {
-            _ZOffsetOffset = _ZOffsetOffset ?? Schema.GetOffset(0xD9451D94BD4A8DF4);
-            return ref _Handle.AsRef<float>(_ZOffsetOffset!.Value);
-        }
-    }
     private static nint? _ClientLocalScaleOffset;
 
     public ref float ClientLocalScale

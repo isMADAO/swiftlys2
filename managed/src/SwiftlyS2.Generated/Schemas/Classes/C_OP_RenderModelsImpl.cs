@@ -316,6 +316,16 @@ internal partial class C_OP_RenderModelsImpl : CParticleFunctionRendererImpl, C_
             return ref _Handle.AsRef<bool>(_EnableClothSimulationOffset!.Value);
         }
     }
+    private static nint? _DisableClothGroundCollisionOffset;
+
+    public ref bool DisableClothGroundCollision
+    {
+        get
+        {
+            _DisableClothGroundCollisionOffset = _DisableClothGroundCollisionOffset ?? Schema.GetOffset(0xC58C7B131D2C828E);
+            return ref _Handle.AsRef<bool>(_DisableClothGroundCollisionOffset!.Value);
+        }
+    }
     private static nint? _ClothEffectNameOffset;
 
     public string ClothEffectName

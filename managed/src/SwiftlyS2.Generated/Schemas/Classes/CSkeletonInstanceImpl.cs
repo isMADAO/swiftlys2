@@ -26,16 +26,6 @@ internal partial class CSkeletonInstanceImpl : CGameSceneNodeImpl, CSkeletonInst
             return new CModelStateImpl(_Handle + _ModelStateOffset!.Value);
         }
     }
-    private static nint? _IsAnimationEnabledOffset;
-
-    public ref bool IsAnimationEnabled
-    {
-        get
-        {
-            _IsAnimationEnabledOffset = _IsAnimationEnabledOffset ?? Schema.GetOffset(0xD6C6252E44F0C816);
-            return ref _Handle.AsRef<bool>(_IsAnimationEnabledOffset!.Value);
-        }
-    }
     private static nint? _UseParentRenderBoundsOffset;
 
     public ref bool UseParentRenderBounds
@@ -108,7 +98,6 @@ internal partial class CSkeletonInstanceImpl : CGameSceneNodeImpl, CSkeletonInst
     }
 
     public void ModelStateUpdated() => Schema.Update(_Handle, 0xD6C6252E52AC8C4F);
-    public void IsAnimationEnabledUpdated() => Schema.Update(_Handle, 0xD6C6252E44F0C816);
     public void UseParentRenderBoundsUpdated() => Schema.Update(_Handle, 0xD6C6252E15B8267D);
     public void MaterialGroupUpdated() => Schema.Update(_Handle, 0xD6C6252E2B778F03);
     public void HitboxSetUpdated() => Schema.Update(_Handle, 0xD6C6252E80C42271);

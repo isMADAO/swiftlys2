@@ -16,6 +16,26 @@ internal partial class CLogicRelayImpl : CLogicalEntityImpl, CLogicRelay
 {
     public CLogicRelayImpl(nint handle) : base(handle) { }
 
+    private static nint? _OnSpawnOffset;
+
+    public ref CEntityIOOutput OnSpawn
+    {
+        get
+        {
+            _OnSpawnOffset = _OnSpawnOffset ?? Schema.GetOffset(0x15CFD4B964D99ADF);
+            return ref _Handle.AsRef<CEntityIOOutput>(_OnSpawnOffset!.Value);
+        }
+    }
+    private static nint? _OnTriggerOffset;
+
+    public ref CEntityIOOutput OnTrigger
+    {
+        get
+        {
+            _OnTriggerOffset = _OnTriggerOffset ?? Schema.GetOffset(0x15CFD4B981E0BFEC);
+            return ref _Handle.AsRef<CEntityIOOutput>(_OnTriggerOffset!.Value);
+        }
+    }
     private static nint? _DisabledOffset;
 
     public ref bool Disabled

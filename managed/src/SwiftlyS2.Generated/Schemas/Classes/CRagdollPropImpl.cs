@@ -96,6 +96,46 @@ internal partial class CRagdollPropImpl : CBaseAnimGraphImpl, CRagdollProp
             return ref _Handle.AsRef<bool>(_FirstCollisionAfterLaunchOffset!.Value);
         }
     }
+    private static nint? _NavObstacleTypeOffset;
+
+    public ref INavObstacle__NavObstacleType_t NavObstacleType
+    {
+        get
+        {
+            _NavObstacleTypeOffset = _NavObstacleTypeOffset ?? Schema.GetOffset(0x9505BA7881B09A2F);
+            return ref _Handle.AsRef<INavObstacle__NavObstacleType_t>(_NavObstacleTypeOffset!.Value);
+        }
+    }
+    private static nint? _UpdateNavWhenMovingOffset;
+
+    public ref bool UpdateNavWhenMoving
+    {
+        get
+        {
+            _UpdateNavWhenMovingOffset = _UpdateNavWhenMovingOffset ?? Schema.GetOffset(0x9505BA78BD48B1CF);
+            return ref _Handle.AsRef<bool>(_UpdateNavWhenMovingOffset!.Value);
+        }
+    }
+    private static nint? _ForceNavObstacleCutOffset;
+
+    public ref bool ForceNavObstacleCut
+    {
+        get
+        {
+            _ForceNavObstacleCutOffset = _ForceNavObstacleCutOffset ?? Schema.GetOffset(0x9505BA7856F775A0);
+            return ref _Handle.AsRef<bool>(_ForceNavObstacleCutOffset!.Value);
+        }
+    }
+    private static nint? _AttachedToReferenceFrameOffset;
+
+    public ref bool AttachedToReferenceFrame
+    {
+        get
+        {
+            _AttachedToReferenceFrameOffset = _AttachedToReferenceFrameOffset ?? Schema.GetOffset(0x9505BA78D2A5449A);
+            return ref _Handle.AsRef<bool>(_AttachedToReferenceFrameOffset!.Value);
+        }
+    }
     private static nint? _DamageEntityOffset;
 
     public ref CHandle<CBaseEntity> DamageEntity
@@ -284,6 +324,16 @@ internal partial class CRagdollPropImpl : CBaseAnimGraphImpl, CRagdollProp
         {
             _ShouldDeleteActivationRecordOffset = _ShouldDeleteActivationRecordOffset ?? Schema.GetOffset(0x9505BA7838134064);
             return ref _Handle.AsRef<bool>(_ShouldDeleteActivationRecordOffset!.Value);
+        }
+    }
+    private static nint? _NavObstaclesOffset;
+
+    public ref CUtlVector<PointerTo<INavObstacle>> NavObstacles
+    {
+        get
+        {
+            _NavObstaclesOffset = _NavObstaclesOffset ?? Schema.GetOffset(0x9505BA788BA5B580);
+            return ref _Handle.AsRef<CUtlVector<PointerTo<INavObstacle>>>(_NavObstaclesOffset!.Value);
         }
     }
 

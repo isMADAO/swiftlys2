@@ -16,6 +16,16 @@ internal partial class thinkfunc_tImpl : SchemaClass, thinkfunc_t
 {
     public thinkfunc_tImpl(nint handle) : base(handle) { }
 
+    private static nint? _ThinkOffset;
+
+    public SchemaUntypedField Think
+    {
+        get
+        {
+            _ThinkOffset = _ThinkOffset ?? Schema.GetOffset(0x8ED693FABF50ED7B);
+            return new SchemaUntypedField(_Handle + _ThinkOffset!.Value);
+        }
+    }
     private static nint? _FnOffset;
 
     public ref HSCRIPTHandler Fn

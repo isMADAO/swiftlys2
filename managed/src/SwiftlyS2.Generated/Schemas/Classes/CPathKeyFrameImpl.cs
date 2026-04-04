@@ -73,24 +73,22 @@ internal partial class CPathKeyFrameImpl : CLogicalEntityImpl, CPathKeyFrame
     }
     private static nint? _NextKey1Offset;
 
-    public CPathKeyFrame? NextKey1
+    public ref CHandle<CPathKeyFrame> NextKey1
     {
         get
         {
             _NextKey1Offset = _NextKey1Offset ?? Schema.GetOffset(0x3402518585EE45D5);
-            var ptr = _Handle.Read<nint>(_NextKey1Offset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_NextKey1Offset!.Value);
         }
     }
     private static nint? _PrevKeyOffset;
 
-    public CPathKeyFrame? PrevKey
+    public ref CHandle<CPathKeyFrame> PrevKey
     {
         get
         {
             _PrevKeyOffset = _PrevKeyOffset ?? Schema.GetOffset(0x34025185B9327481);
-            var ptr = _Handle.Read<nint>(_PrevKeyOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathKeyFrameImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathKeyFrame>>(_PrevKeyOffset!.Value);
         }
     }
     private static nint? _MoveSpeedOffset;

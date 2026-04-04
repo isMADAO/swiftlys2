@@ -118,13 +118,13 @@ internal partial class CAI_ExpresserImpl : SchemaClass, CAI_Expresser
     }
     private static nint? _OuterOffset;
 
-    public CBaseFlex? Outer
+    public CBaseModelEntity? Outer
     {
         get
         {
             _OuterOffset = _OuterOffset ?? Schema.GetOffset(0xFB9DA1AC7359CF3A);
             var ptr = _Handle.Read<nint>(_OuterOffset!.Value);
-            return ptr.IsValidPtr() ? new CBaseFlexImpl(ptr) : null;
+            return ptr.IsValidPtr() ? new CBaseModelEntityImpl(ptr) : null;
         }
     }
 

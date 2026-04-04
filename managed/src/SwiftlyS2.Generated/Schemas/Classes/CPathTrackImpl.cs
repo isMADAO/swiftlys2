@@ -18,35 +18,32 @@ internal partial class CPathTrackImpl : CPointEntityImpl, CPathTrack
 
     private static nint? _PnextOffset;
 
-    public CPathTrack? Pnext
+    public ref CHandle<CPathTrack> Pnext
     {
         get
         {
             _PnextOffset = _PnextOffset ?? Schema.GetOffset(0xF86750E8B008D5EE);
-            var ptr = _Handle.Read<nint>(_PnextOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathTrackImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathTrack>>(_PnextOffset!.Value);
         }
     }
     private static nint? _PpreviousOffset;
 
-    public CPathTrack? Pprevious
+    public ref CHandle<CPathTrack> Pprevious
     {
         get
         {
             _PpreviousOffset = _PpreviousOffset ?? Schema.GetOffset(0xF86750E8BD38AFD2);
-            var ptr = _Handle.Read<nint>(_PpreviousOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathTrackImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathTrack>>(_PpreviousOffset!.Value);
         }
     }
     private static nint? _PaltpathOffset;
 
-    public CPathTrack? Paltpath
+    public ref CHandle<CPathTrack> Paltpath
     {
         get
         {
             _PaltpathOffset = _PaltpathOffset ?? Schema.GetOffset(0xF86750E868D10551);
-            var ptr = _Handle.Read<nint>(_PaltpathOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathTrackImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathTrack>>(_PaltpathOffset!.Value);
         }
     }
     private static nint? _RadiusOffset;

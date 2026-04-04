@@ -26,6 +26,16 @@ internal partial class CBasePlayerVDataImpl : CEntitySubclassVDataBaseImpl, CBas
             return new SchemaUntypedField(_Handle + _ModelNameOffset!.Value);
         }
     }
+    private static nint? _ModelNameAg2OverrideOffset;
+
+    public SchemaUntypedField ModelNameAg2Override
+    {
+        get
+        {
+            _ModelNameAg2OverrideOffset = _ModelNameAg2OverrideOffset ?? Schema.GetOffset(0x89A654F0A1FED936);
+            return new SchemaUntypedField(_Handle + _ModelNameAg2OverrideOffset!.Value);
+        }
+    }
     private static nint? _HeadDamageMultiplierOffset;
 
     public CSkillFloat HeadDamageMultiplier

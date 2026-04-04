@@ -42,6 +42,8 @@ std::unordered_map<uint32_t, SchemaClass, FNV1aHasher32> classes;
 std::unordered_map<uint64_t, uint64_t, FNV1aHasher64> inlineNetworkVarVtbs;
 std::unordered_map<uint32_t, inputfunc_t*, FNV1aHasher32> datamapFunctions;
 
+json sdkJson;
+
 // Special inline classes for state changed
 // These fields has vtable "CLASS::NetworkVar_FIELDNAME"
 // which has the virtual function to call state changed without entity pointer
@@ -107,7 +109,6 @@ void CSDKSchema::Load()
     auto schemaSystem = g_ifaceService.FetchInterface<CSchemaSystem>(SCHEMASYSTEM_INTERFACE_VERSION);
     auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
 
-    json sdkJson;
     json datamapsJson;
 
     logger->Info("SDK", "Loading inline network var vtables...\n");
@@ -204,6 +205,10 @@ void CSDKSchema::DumpEntitySystem()
     }
 
     std::unordered_set<std::string> visitedModules;
+    std::set<uint64_t> networkedFields;
+
+    uint32_t class_hash = 0;
+    uint64_t fieldHash = 0;
 
     for (auto& entityClass : entityClasses)
     {
@@ -217,11 +222,14 @@ void CSDKSchema::DumpEntitySystem()
             {
                 auto className = database->m_ClassInfos.Key(i);
                 auto classInfo = database->m_ClassInfos[i];
+                class_hash = hash_32_fnv1a_const(className);
                 auto arr = json::array();
                 FOR_EACH_VEC(classInfo->m_Fields, j)
                 {
                     auto fieldInfo = classInfo->m_Fields[j];
                     arr.push_back(fieldInfo->m_pszFieldName.Get());
+                    fieldHash = ((uint64_t)(class_hash) << 32 | hash_32_fnv1a_const(fieldInfo->m_pszFieldName.Get()));
+                    networkedFields.insert(fieldHash);
                 }
                 networkedFieldsJson["classes"][className] = arr;
             }
@@ -233,9 +241,31 @@ void CSDKSchema::DumpEntitySystem()
             });
     }
 
+    for (auto& classObj : sdkJson["classes"])
+    {
+        if (!classObj.contains("name_hash") || !classObj["name_hash"].is_number_unsigned())
+            continue;
+
+        if (classObj.contains("fields") && classObj["fields"].is_array())
+        {
+            for (auto& field : classObj["fields"])
+            {
+                if (field.contains("name_hash") && field["name_hash"].is_number_unsigned())
+                {
+                    uint64_t field_name_hash = field["name_hash"].get<uint64_t>();
+
+                    if (networkedFields.find(field_name_hash) != networkedFields.end())
+                    {
+                        field["networked"] = true;
+                    }
+                }
+            }
+        }
+    }
+
     logger->Info("SDK", fmt::format("Mapped {} SDK classes to entity classnames.\n", entityClasses.size()));
     WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/entitysystem.json", entitySystemJson);
-    WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/networked_fields.json", networkedFieldsJson);
+    WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/sdk.json", sdkJson);
 #endif
 }
 
@@ -253,7 +283,6 @@ void CSDKSchema::SetStateChanged(void* pEntity, uint64_t uHash)
     if (fieldData == offsets.end()) return;
 
     auto& fieldInfo = fieldData->second;
-    if (!fieldInfo.m_bNetworked) return;
     auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
 
     auto uncheckedNetworkVar = reinterpret_cast<NetworkVar*>(pEntity);
@@ -272,7 +301,7 @@ void CSDKSchema::SetStateChanged(void* pEntity, uint64_t uHash)
             pEntity->NetworkStateChanged(NetworkStateChangedData(fieldInfo.m_uOffset, -1, pChainer->m_PathIndex));
     }
     else if (fieldInfo.m_bIsStruct) {
-        logger->Error("SDK", fmt::format("State changed is called on an unsupported field (hash={}), please report this to the developer.\n", uHash));
+        // logger->Error("SDK", fmt::format("State changed is called on an unsupported field (hash={}), please report this to the developer.\n", uHash));
         // NetworkStateChangedData data(fieldInfo.m_uOffset);
         // CALL_VIRTUAL(void, WIN_LINUX(27, 28), pEntity, &data);
     }

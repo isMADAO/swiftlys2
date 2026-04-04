@@ -126,5 +126,20 @@ internal partial class CSAdditionalPerRoundStats_tImpl : SchemaClass, CSAddition
             return ref _Handle.AsRef<int>(_NumTeammatesFlashedOffset!.Value);
         }
     }
+    private static nint? _StrAnnotationsWorkshopIdOffset;
+
+    public string StrAnnotationsWorkshopId
+    {
+        get
+        {
+            _StrAnnotationsWorkshopIdOffset = _StrAnnotationsWorkshopIdOffset ?? Schema.GetOffset(0x719C617947F710D6);
+            return Schema.GetCUtlString(_Handle.Read<nint>(_StrAnnotationsWorkshopIdOffset!.Value));
+        }
+        set
+        {
+            _StrAnnotationsWorkshopIdOffset = _StrAnnotationsWorkshopIdOffset ?? Schema.GetOffset(0x719C617947F710D6);
+            Schema.SetCUtlString(_Handle, _StrAnnotationsWorkshopIdOffset!.Value, value);
+        }
+    }
 
 }

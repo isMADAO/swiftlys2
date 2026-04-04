@@ -41,6 +41,57 @@ internal partial class CModelStateImpl : SchemaClass, CModelState
             Schema.SetString(_Handle, _ModelNameOffset!.Value, value);
         }
     }
+    private static nint? _VPhysicsAggregateOffset;
+
+    public IPhysAggregateInstance? VPhysicsAggregate
+    {
+        get
+        {
+            _VPhysicsAggregateOffset = _VPhysicsAggregateOffset ?? Schema.GetOffset(0xC0A51C089AC0B13);
+            var ptr = _Handle.Read<nint>(_VPhysicsAggregateOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysAggregateInstanceImpl(ptr) : null;
+        }
+    }
+    private static nint? _RootBoneOffset_xOffset;
+
+    public ref float RootBoneOffset_x
+    {
+        get
+        {
+            _RootBoneOffset_xOffset = _RootBoneOffset_xOffset ?? Schema.GetOffset(0xC0A51C069BA7A51);
+            return ref _Handle.AsRef<float>(_RootBoneOffset_xOffset!.Value);
+        }
+    }
+    private static nint? _RootBoneOffset_yOffset;
+
+    public ref float RootBoneOffset_y
+    {
+        get
+        {
+            _RootBoneOffset_yOffset = _RootBoneOffset_yOffset ?? Schema.GetOffset(0xC0A51C068BA78BE);
+            return ref _Handle.AsRef<float>(_RootBoneOffset_yOffset!.Value);
+        }
+    }
+    private static nint? _RootBoneOffset_zOffset;
+
+    public ref float RootBoneOffset_z
+    {
+        get
+        {
+            _RootBoneOffset_zOffset = _RootBoneOffset_zOffset ?? Schema.GetOffset(0xC0A51C067BA772B);
+            return ref _Handle.AsRef<float>(_RootBoneOffset_zOffset!.Value);
+        }
+    }
+    private static nint? _RootBoneOffsetResetSerialNumberOffset;
+
+    public ref byte RootBoneOffsetResetSerialNumber
+    {
+        get
+        {
+            _RootBoneOffsetResetSerialNumberOffset = _RootBoneOffsetResetSerialNumberOffset ?? Schema.GetOffset(0xC0A51C09EC37A1A);
+            return ref _Handle.AsRef<byte>(_RootBoneOffsetResetSerialNumberOffset!.Value);
+        }
+    }
     private static nint? _ClientClothCreationSuppressedOffset;
 
     public ref bool ClientClothCreationSuppressed
@@ -49,6 +100,16 @@ internal partial class CModelStateImpl : SchemaClass, CModelState
         {
             _ClientClothCreationSuppressedOffset = _ClientClothCreationSuppressedOffset ?? Schema.GetOffset(0xC0A51C0953717E1);
             return ref _Handle.AsRef<bool>(_ClientClothCreationSuppressedOffset!.Value);
+        }
+    }
+    private static nint? _AnimStateNoInterpSerialNumberOffset;
+
+    public ref byte AnimStateNoInterpSerialNumber
+    {
+        get
+        {
+            _AnimStateNoInterpSerialNumberOffset = _AnimStateNoInterpSerialNumberOffset ?? Schema.GetOffset(0xC0A51C0F0F6D719);
+            return ref _Handle.AsRef<byte>(_AnimStateNoInterpSerialNumberOffset!.Value);
         }
     }
     private static nint? _MeshGroupMaskOffset;
@@ -103,7 +164,12 @@ internal partial class CModelStateImpl : SchemaClass, CModelState
     }
 
     public void ModelUpdated() => Schema.Update(_Handle, 0xC0A51C0E100C814);
+    public void RootBoneOffset_xUpdated() => Schema.Update(_Handle, 0xC0A51C069BA7A51);
+    public void RootBoneOffset_yUpdated() => Schema.Update(_Handle, 0xC0A51C068BA78BE);
+    public void RootBoneOffset_zUpdated() => Schema.Update(_Handle, 0xC0A51C067BA772B);
+    public void RootBoneOffsetResetSerialNumberUpdated() => Schema.Update(_Handle, 0xC0A51C09EC37A1A);
     public void ClientClothCreationSuppressedUpdated() => Schema.Update(_Handle, 0xC0A51C0953717E1);
+    public void AnimStateNoInterpSerialNumberUpdated() => Schema.Update(_Handle, 0xC0A51C0F0F6D719);
     public void MeshGroupMaskUpdated() => Schema.Update(_Handle, 0xC0A51C009C93F2B);
     public void BodyGroupChoicesUpdated() => Schema.Update(_Handle, 0xC0A51C02395D0B0);
     public void IdealMotionTypeUpdated() => Schema.Update(_Handle, 0xC0A51C00A904E94);

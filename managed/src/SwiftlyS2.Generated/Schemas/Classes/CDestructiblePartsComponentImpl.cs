@@ -46,6 +46,17 @@ internal partial class CDestructiblePartsComponentImpl : SchemaClass, CDestructi
             return ref _Handle.AsRef<CHandle<CBaseModelEntity>>(_OwnerOffset!.Value);
         }
     }
+    private static nint? _AnimGraphDestructibleGraphControllerOffset;
+
+    public CBaseAnimGraphDestructibleParts_GraphController? AnimGraphDestructibleGraphController
+    {
+        get
+        {
+            _AnimGraphDestructibleGraphControllerOffset = _AnimGraphDestructibleGraphControllerOffset ?? Schema.GetOffset(0xE69A9E5185A33CD0);
+            var ptr = _Handle.Read<nint>(_AnimGraphDestructibleGraphControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new CBaseAnimGraphDestructibleParts_GraphControllerImpl(ptr) : null;
+        }
+    }
 
     public void OwnerUpdated() => Schema.Update(_Handle, 0xE69A9E51F6D89572);
 }

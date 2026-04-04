@@ -46,6 +46,16 @@ internal partial class C_OP_MovementPlaceOnGroundImpl : CParticleFunctionOperato
             return ref _Handle.AsRef<float>(_ToleranceOffset!.Value);
         }
     }
+    private static nint? _TraceDirOffset;
+
+    public CPerParticleVecInput TraceDir
+    {
+        get
+        {
+            _TraceDirOffset = _TraceDirOffset ?? Schema.GetOffset(0x53323DE9B3F09745);
+            return new CPerParticleVecInputImpl(_Handle + _TraceDirOffset!.Value);
+        }
+    }
     private static nint? _TraceOffsetOffset;
 
     public ref float TraceOffset

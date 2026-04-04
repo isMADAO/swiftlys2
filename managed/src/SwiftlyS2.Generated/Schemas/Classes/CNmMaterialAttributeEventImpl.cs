@@ -16,6 +16,16 @@ internal partial class CNmMaterialAttributeEventImpl : CNmEventImpl, CNmMaterial
 {
     public CNmMaterialAttributeEventImpl(nint handle) : base(handle) { }
 
+    private static nint? _TargetOffset;
+
+    public ref CNmEventTargetEntity_t Target
+    {
+        get
+        {
+            _TargetOffset = _TargetOffset ?? Schema.GetOffset(0xFC131DAFA08A9E8);
+            return ref _Handle.AsRef<CNmEventTargetEntity_t>(_TargetOffset!.Value);
+        }
+    }
     private static nint? _AttributeNameOffset;
 
     public string AttributeName

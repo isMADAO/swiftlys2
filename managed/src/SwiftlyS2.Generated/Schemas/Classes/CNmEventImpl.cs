@@ -46,15 +46,5 @@ internal partial class CNmEventImpl : SchemaClass, CNmEvent
             return ref _Handle.AsRef<CGlobalSymbol>(_SyncIDOffset!.Value);
         }
     }
-    private static nint? _ClientOnlyOffset;
-
-    public ref bool ClientOnly
-    {
-        get
-        {
-            _ClientOnlyOffset = _ClientOnlyOffset ?? Schema.GetOffset(0xF9871009B39BA128);
-            return ref _Handle.AsRef<bool>(_ClientOnlyOffset!.Value);
-        }
-    }
 
 }

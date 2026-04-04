@@ -141,5 +141,15 @@ internal partial class CPointTemplateImpl : CLogicalEntityImpl, CPointTemplate
             return ref _Handle.AsRef<HSCRIPTHandler>(_ScriptCallbackScopeOffset!.Value);
         }
     }
+    private static nint? _OnEntitySpawnedOffset;
+
+    public SchemaUntypedField OnEntitySpawned
+    {
+        get
+        {
+            _OnEntitySpawnedOffset = _OnEntitySpawnedOffset ?? Schema.GetOffset(0x7085DB4EA5F5548F);
+            return new SchemaUntypedField(_Handle + _OnEntitySpawnedOffset!.Value);
+        }
+    }
 
 }

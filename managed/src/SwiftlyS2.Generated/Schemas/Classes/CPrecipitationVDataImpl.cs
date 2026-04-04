@@ -91,5 +91,25 @@ internal partial class CPrecipitationVDataImpl : CEntitySubclassVDataBaseImpl, C
             Schema.SetCUtlString(_Handle, _ModifierOffset!.Value, value);
         }
     }
+    private static nint? _UseSnapshotFromSurfaceGraphOffset;
+
+    public ref int UseSnapshotFromSurfaceGraph
+    {
+        get
+        {
+            _UseSnapshotFromSurfaceGraphOffset = _UseSnapshotFromSurfaceGraphOffset ?? Schema.GetOffset(0x4F75C25D5137D2ED);
+            return ref _Handle.AsRef<int>(_UseSnapshotFromSurfaceGraphOffset!.Value);
+        }
+    }
+    private static nint? _SnapshotFilterOffset;
+
+    public PrecipitationFilter_t SnapshotFilter
+    {
+        get
+        {
+            _SnapshotFilterOffset = _SnapshotFilterOffset ?? Schema.GetOffset(0x4F75C25DE6E146FF);
+            return new PrecipitationFilter_tImpl(_Handle + _SnapshotFilterOffset!.Value);
+        }
+    }
 
 }

@@ -16,6 +16,17 @@ internal partial class CPhysicsSpringImpl : CBaseEntityImpl, CPhysicsSpring
 {
     public CPhysicsSpringImpl(nint handle) : base(handle) { }
 
+    private static nint? _SpringJointOffset;
+
+    public IPhysicsJoint? SpringJoint
+    {
+        get
+        {
+            _SpringJointOffset = _SpringJointOffset ?? Schema.GetOffset(0x5222EAA0393F1B2);
+            var ptr = _Handle.Read<nint>(_SpringJointOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsJointImpl(ptr) : null;
+        }
+    }
     private static nint? _FrequencyOffset;
 
     public ref float Frequency

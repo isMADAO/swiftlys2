@@ -33,13 +33,12 @@ internal partial class CEnvLaserImpl : CBeamImpl, CEnvLaser
     }
     private static nint? _SpriteOffset;
 
-    public CSprite? Sprite
+    public ref CHandle<CSprite> Sprite
     {
         get
         {
             _SpriteOffset = _SpriteOffset ?? Schema.GetOffset(0x83A2D3CEFBFA166);
-            var ptr = _Handle.Read<nint>(_SpriteOffset!.Value);
-            return ptr.IsValidPtr() ? new CSpriteImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CSprite>>(_SpriteOffset!.Value);
         }
     }
     private static nint? _SpriteNameOffset;

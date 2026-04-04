@@ -18,35 +18,32 @@ internal partial class CFuncTrackChangeImpl : CFuncPlatRotImpl, CFuncTrackChange
 
     private static nint? _TrackTopOffset;
 
-    public CPathTrack? TrackTop
+    public ref CHandle<CPathTrack> TrackTop
     {
         get
         {
             _TrackTopOffset = _TrackTopOffset ?? Schema.GetOffset(0x25A8A26FF7C2CCBF);
-            var ptr = _Handle.Read<nint>(_TrackTopOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathTrackImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathTrack>>(_TrackTopOffset!.Value);
         }
     }
     private static nint? _TrackBottomOffset;
 
-    public CPathTrack? TrackBottom
+    public ref CHandle<CPathTrack> TrackBottom
     {
         get
         {
             _TrackBottomOffset = _TrackBottomOffset ?? Schema.GetOffset(0x25A8A26F37EC7637);
-            var ptr = _Handle.Read<nint>(_TrackBottomOffset!.Value);
-            return ptr.IsValidPtr() ? new CPathTrackImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CPathTrack>>(_TrackBottomOffset!.Value);
         }
     }
     private static nint? _TrainOffset;
 
-    public CFuncTrackTrain? Train
+    public ref CHandle<CFuncTrackTrain> Train
     {
         get
         {
             _TrainOffset = _TrainOffset ?? Schema.GetOffset(0x25A8A26FB8642689);
-            var ptr = _Handle.Read<nint>(_TrainOffset!.Value);
-            return ptr.IsValidPtr() ? new CFuncTrackTrainImpl(ptr) : null;
+            return ref _Handle.AsRef<CHandle<CFuncTrackTrain>>(_TrainOffset!.Value);
         }
     }
     private static nint? _TrackTopNameOffset;

@@ -481,6 +481,16 @@ internal partial class CParticleSystemDefinitionImpl : IParticleSystemDefinition
             return ref _Handle.AsRef<int>(_MinimumFramesOffset!.Value);
         }
     }
+    private static nint? _IsGPUParticleSystemOffset;
+
+    public ref bool IsGPUParticleSystem
+    {
+        get
+        {
+            _IsGPUParticleSystemOffset = _IsGPUParticleSystemOffset ?? Schema.GetOffset(0xDA4320E0FF296C5E);
+            return ref _Handle.AsRef<bool>(_IsGPUParticleSystemOffset!.Value);
+        }
+    }
     private static nint? _MinCPULevelOffset;
 
     public ref int MinCPULevel

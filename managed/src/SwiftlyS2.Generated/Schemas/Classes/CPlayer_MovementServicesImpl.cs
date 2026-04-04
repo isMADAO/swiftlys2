@@ -90,6 +90,36 @@ internal partial class CPlayer_MovementServicesImpl : CPlayerPawnComponentImpl, 
             return ref _Handle.AsRef<ulong>(_ToggleButtonDownMaskOffset!.Value);
         }
     }
+    private static nint? _CmdForwardMoveOffset;
+
+    public ref float CmdForwardMove
+    {
+        get
+        {
+            _CmdForwardMoveOffset = _CmdForwardMoveOffset ?? Schema.GetOffset(0xD5BDF2893976C40F);
+            return ref _Handle.AsRef<float>(_CmdForwardMoveOffset!.Value);
+        }
+    }
+    private static nint? _CmdLeftMoveOffset;
+
+    public ref float CmdLeftMove
+    {
+        get
+        {
+            _CmdLeftMoveOffset = _CmdLeftMoveOffset ?? Schema.GetOffset(0xD5BDF289B20FCC65);
+            return ref _Handle.AsRef<float>(_CmdLeftMoveOffset!.Value);
+        }
+    }
+    private static nint? _CmdUpMoveOffset;
+
+    public ref float CmdUpMove
+    {
+        get
+        {
+            _CmdUpMoveOffset = _CmdUpMoveOffset ?? Schema.GetOffset(0xD5BDF289FD400A25);
+            return ref _Handle.AsRef<float>(_CmdUpMoveOffset!.Value);
+        }
+    }
     private static nint? _MaxspeedOffset;
 
     public ref float Maxspeed

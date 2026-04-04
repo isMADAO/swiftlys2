@@ -16,6 +16,16 @@ internal partial class CGenericConstraintImpl : CPhysConstraintImpl, CGenericCon
 {
     public CGenericConstraintImpl(nint handle) : base(handle) { }
 
+    private static nint? _PlaceAnchorsAtConstraintTransformOffset;
+
+    public ref bool PlaceAnchorsAtConstraintTransform
+    {
+        get
+        {
+            _PlaceAnchorsAtConstraintTransformOffset = _PlaceAnchorsAtConstraintTransformOffset ?? Schema.GetOffset(0x1698284811916E70);
+            return ref _Handle.AsRef<bool>(_PlaceAnchorsAtConstraintTransformOffset!.Value);
+        }
+    }
     private static nint? _LinearMotionXOffset;
 
     public ref JointMotion_t LinearMotionX

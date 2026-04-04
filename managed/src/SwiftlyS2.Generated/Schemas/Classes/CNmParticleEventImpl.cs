@@ -36,6 +36,16 @@ internal partial class CNmParticleEventImpl : CNmEventImpl, CNmParticleEvent
             return ref _Handle.AsRef<CNmParticleEvent__Type_t>(_TypeOffset!.Value);
         }
     }
+    private static nint? _TargetOffset;
+
+    public ref CNmEventTargetEntity_t Target
+    {
+        get
+        {
+            _TargetOffset = _TargetOffset ?? Schema.GetOffset(0x441D270FFA08A9E8);
+            return ref _Handle.AsRef<CNmEventTargetEntity_t>(_TargetOffset!.Value);
+        }
+    }
     private static nint? _ParticleSystemOffset;
 
     public ref CStrongHandle<InfoForResourceTypeIParticleSystemDefinition> ParticleSystem

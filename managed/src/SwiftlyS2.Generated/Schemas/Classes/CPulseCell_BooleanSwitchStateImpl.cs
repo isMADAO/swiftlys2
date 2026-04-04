@@ -26,14 +26,14 @@ internal partial class CPulseCell_BooleanSwitchStateImpl : CPulseCell_BaseStateI
             return new PulseObservableBoolExpression_tImpl(_Handle + _ConditionOffset!.Value);
         }
     }
-    private static nint? _SubGraphOffset;
+    private static nint? _AlwaysOffset;
 
-    public CPulse_OutflowConnection SubGraph
+    public CPulse_OutflowConnection Always
     {
         get
         {
-            _SubGraphOffset = _SubGraphOffset ?? Schema.GetOffset(0xB0380EFD979BD817);
-            return new CPulse_OutflowConnectionImpl(_Handle + _SubGraphOffset!.Value);
+            _AlwaysOffset = _AlwaysOffset ?? Schema.GetOffset(0xB0380EFDD5D76864);
+            return new CPulse_OutflowConnectionImpl(_Handle + _AlwaysOffset!.Value);
         }
     }
     private static nint? _WhenTrueOffset;

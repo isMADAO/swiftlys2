@@ -16,6 +16,17 @@ internal partial class CTriggerPhysicsImpl : CBaseTriggerImpl, CTriggerPhysics
 {
     public CTriggerPhysicsImpl(nint handle) : base(handle) { }
 
+    private static nint? _ControllerOffset;
+
+    public IPhysicsMotionController? Controller
+    {
+        get
+        {
+            _ControllerOffset = _ControllerOffset ?? Schema.GetOffset(0xD6C7C8D38F2DD553);
+            var ptr = _Handle.Read<nint>(_ControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsMotionControllerImpl(ptr) : null;
+        }
+    }
     private static nint? _GravityScaleOffset;
 
     public ref float GravityScale

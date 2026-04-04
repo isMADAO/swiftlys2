@@ -316,6 +316,16 @@ internal partial class CPhysicsPropImpl : CBreakablePropImpl, CPhysicsProp
             return ref _Handle.AsRef<bool>(_MuteImpactEffectsOffset!.Value);
         }
     }
+    private static nint? _NavObstacleTypeOffset;
+
+    public ref INavObstacle__NavObstacleType_t NavObstacleType
+    {
+        get
+        {
+            _NavObstacleTypeOffset = _NavObstacleTypeOffset ?? Schema.GetOffset(0xC3FD37FE81B09A2F);
+            return ref _Handle.AsRef<INavObstacle__NavObstacleType_t>(_NavObstacleTypeOffset!.Value);
+        }
+    }
     private static nint? _UpdateNavWhenMovingOffset;
 
     public ref bool UpdateNavWhenMoving

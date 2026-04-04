@@ -171,6 +171,76 @@ internal partial class CEnvCubemapFogImpl : CBaseEntityImpl, CEnvCubemapFog
             Schema.SetString(_Handle, _SkyEntityOffset!.Value, value);
         }
     }
+    private static nint? _HeightFogTypeOffset;
+
+    public ref int HeightFogType
+    {
+        get
+        {
+            _HeightFogTypeOffset = _HeightFogTypeOffset ?? Schema.GetOffset(0x38A7692EE4F032BE);
+            return ref _Handle.AsRef<int>(_HeightFogTypeOffset!.Value);
+        }
+    }
+    private static nint? _FogHeightBlendModeOffset;
+
+    public ref int FogHeightBlendMode
+    {
+        get
+        {
+            _FogHeightBlendModeOffset = _FogHeightBlendModeOffset ?? Schema.GetOffset(0x38A7692EF5A81F60);
+            return ref _Handle.AsRef<int>(_FogHeightBlendModeOffset!.Value);
+        }
+    }
+    private static nint? _FogHeightCoordinateSpaceOffset;
+
+    public ref int FogHeightCoordinateSpace
+    {
+        get
+        {
+            _FogHeightCoordinateSpaceOffset = _FogHeightCoordinateSpaceOffset ?? Schema.GetOffset(0x38A7692E5474AA14);
+            return ref _Handle.AsRef<int>(_FogHeightCoordinateSpaceOffset!.Value);
+        }
+    }
+    private static nint? _DistanceFogTypeOffset;
+
+    public ref int DistanceFogType
+    {
+        get
+        {
+            _DistanceFogTypeOffset = _DistanceFogTypeOffset ?? Schema.GetOffset(0x38A7692E57802826);
+            return ref _Handle.AsRef<int>(_DistanceFogTypeOffset!.Value);
+        }
+    }
+    private static nint? _DistanceFogCurveStringOffset;
+
+    public string DistanceFogCurveString
+    {
+        get
+        {
+            _DistanceFogCurveStringOffset = _DistanceFogCurveStringOffset ?? Schema.GetOffset(0x38A7692E7D080E60);
+            return Schema.GetString(_Handle.Read<nint>(_DistanceFogCurveStringOffset!.Value));
+        }
+        set
+        {
+            _DistanceFogCurveStringOffset = _DistanceFogCurveStringOffset ?? Schema.GetOffset(0x38A7692E7D080E60);
+            Schema.SetString(_Handle, _DistanceFogCurveStringOffset!.Value, value);
+        }
+    }
+    private static nint? _HeightFogCurveStringOffset;
+
+    public string HeightFogCurveString
+    {
+        get
+        {
+            _HeightFogCurveStringOffset = _HeightFogCurveStringOffset ?? Schema.GetOffset(0x38A7692E6E7D4A80);
+            return Schema.GetString(_Handle.Read<nint>(_HeightFogCurveStringOffset!.Value));
+        }
+        set
+        {
+            _HeightFogCurveStringOffset = _HeightFogCurveStringOffset ?? Schema.GetOffset(0x38A7692E6E7D4A80);
+            Schema.SetString(_Handle, _HeightFogCurveStringOffset!.Value, value);
+        }
+    }
     private static nint? _FogCubemapTextureOffset;
 
     public ref CStrongHandle<InfoForResourceTypeCTextureBase> FogCubemapTexture
@@ -217,6 +287,12 @@ internal partial class CEnvCubemapFogImpl : CBaseEntityImpl, CEnvCubemapFog
     public void CubemapSourceTypeUpdated() => Schema.Update(_Handle, 0x38A7692E30B17317);
     public void SkyMaterialUpdated() => Schema.Update(_Handle, 0x38A7692EC887319D);
     public void SkyEntityUpdated() => Schema.Update(_Handle, 0x38A7692E2BD44B1D);
+    public void HeightFogTypeUpdated() => Schema.Update(_Handle, 0x38A7692EE4F032BE);
+    public void FogHeightBlendModeUpdated() => Schema.Update(_Handle, 0x38A7692EF5A81F60);
+    public void FogHeightCoordinateSpaceUpdated() => Schema.Update(_Handle, 0x38A7692E5474AA14);
+    public void DistanceFogTypeUpdated() => Schema.Update(_Handle, 0x38A7692E57802826);
+    public void DistanceFogCurveStringUpdated() => Schema.Update(_Handle, 0x38A7692E7D080E60);
+    public void HeightFogCurveStringUpdated() => Schema.Update(_Handle, 0x38A7692E6E7D4A80);
     public void FogCubemapTextureUpdated() => Schema.Update(_Handle, 0x38A7692E3470DA4D);
     public void HasHeightFogEndUpdated() => Schema.Update(_Handle, 0x38A7692E3484C961);
 }

@@ -66,5 +66,15 @@ internal partial class PulseGraphExecutionHistoryCursorDesc_tImpl : SchemaClass,
             return ref _Handle.AsRef<int>(_LastValidEntryIdxOffset!.Value);
         }
     }
+    private static nint? _WasAnObservableComputationOffset;
+
+    public ref bool WasAnObservableComputation
+    {
+        get
+        {
+            _WasAnObservableComputationOffset = _WasAnObservableComputationOffset ?? Schema.GetOffset(0xC94C4C1C451F142F);
+            return ref _Handle.AsRef<bool>(_WasAnObservableComputationOffset!.Value);
+        }
+    }
 
 }

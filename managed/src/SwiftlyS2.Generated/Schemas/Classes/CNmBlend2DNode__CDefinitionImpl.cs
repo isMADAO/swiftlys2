@@ -26,26 +26,6 @@ internal partial class CNmBlend2DNode__CDefinitionImpl : CNmPoseNode__CDefinitio
             return new SchemaUntypedField(_Handle + _SourceNodeIndicesOffset!.Value);
         }
     }
-    private static nint? _InputParameterNodeIdx0Offset;
-
-    public ref short InputParameterNodeIdx0
-    {
-        get
-        {
-            _InputParameterNodeIdx0Offset = _InputParameterNodeIdx0Offset ?? Schema.GetOffset(0x965A04D85A96A1AF);
-            return ref _Handle.AsRef<short>(_InputParameterNodeIdx0Offset!.Value);
-        }
-    }
-    private static nint? _InputParameterNodeIdx1Offset;
-
-    public ref short InputParameterNodeIdx1
-    {
-        get
-        {
-            _InputParameterNodeIdx1Offset = _InputParameterNodeIdx1Offset ?? Schema.GetOffset(0x965A04D85996A01C);
-            return ref _Handle.AsRef<short>(_InputParameterNodeIdx1Offset!.Value);
-        }
-    }
     private static nint? _ValuesOffset;
 
     public SchemaUntypedField Values
@@ -74,6 +54,26 @@ internal partial class CNmBlend2DNode__CDefinitionImpl : CNmPoseNode__CDefinitio
         {
             _HullIndicesOffset = _HullIndicesOffset ?? Schema.GetOffset(0x965A04D8A014D83B);
             return new SchemaUntypedField(_Handle + _HullIndicesOffset!.Value);
+        }
+    }
+    private static nint? _InputParameterNodeIdx0Offset;
+
+    public ref short InputParameterNodeIdx0
+    {
+        get
+        {
+            _InputParameterNodeIdx0Offset = _InputParameterNodeIdx0Offset ?? Schema.GetOffset(0x965A04D85A96A1AF);
+            return ref _Handle.AsRef<short>(_InputParameterNodeIdx0Offset!.Value);
+        }
+    }
+    private static nint? _InputParameterNodeIdx1Offset;
+
+    public ref short InputParameterNodeIdx1
+    {
+        get
+        {
+            _InputParameterNodeIdx1Offset = _InputParameterNodeIdx1Offset ?? Schema.GetOffset(0x965A04D85996A01C);
+            return ref _Handle.AsRef<short>(_InputParameterNodeIdx1Offset!.Value);
         }
     }
     private static nint? _AllowLoopingOffset;

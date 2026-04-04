@@ -26,6 +26,16 @@ internal partial class CBasePlayerWeaponVDataImpl : CEntitySubclassVDataBaseImpl
             return new SchemaUntypedField(_Handle + _WorldModelOffset!.Value);
         }
     }
+    private static nint? _WorldModelAg2OverrideOffset;
+
+    public SchemaUntypedField WorldModelAg2Override
+    {
+        get
+        {
+            _WorldModelAg2OverrideOffset = _WorldModelAg2OverrideOffset ?? Schema.GetOffset(0x64E418A0FBF9D8C5);
+            return new SchemaUntypedField(_Handle + _WorldModelAg2OverrideOffset!.Value);
+        }
+    }
     private static nint? _ToolsOnlyOwnerModelNameOffset;
 
     public SchemaUntypedField ToolsOnlyOwnerModelName

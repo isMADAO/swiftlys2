@@ -46,6 +46,16 @@ internal partial class C_OP_InheritFromParentParticlesV2Impl : CParticleFunction
             return new CPerParticleFloatInputImpl(_Handle + _IncrementOffset!.Value);
         }
     }
+    private static nint? _SubSampleOffset;
+
+    public ref bool SubSample
+    {
+        get
+        {
+            _SubSampleOffset = _SubSampleOffset ?? Schema.GetOffset(0xF948CFAF5021E837);
+            return ref _Handle.AsRef<bool>(_SubSampleOffset!.Value);
+        }
+    }
     private static nint? _RandomDistributionOffset;
 
     public ref bool RandomDistribution

@@ -81,6 +81,16 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
             Schema.SetString(_Handle, _PathNodeEndOffset!.Value, value);
         }
     }
+    private static nint? _IgnoreEndNodeOffset;
+
+    public ref bool IgnoreEndNode
+    {
+        get
+        {
+            _IgnoreEndNodeOffset = _IgnoreEndNodeOffset ?? Schema.GetOffset(0x320E8B69D7345D9C);
+            return ref _Handle.AsRef<bool>(_IgnoreEndNodeOffset!.Value);
+        }
+    }
     private static nint? _MoveTypeOffset;
 
     public ref CFuncMover__Move_t MoveType
@@ -496,16 +506,6 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
             return ref _Handle.AsRef<float>(_DurationBlendToNewOrientationRanOffset!.Value);
         }
     }
-    private static nint? _OriginalOrientationIndexOffset;
-
-    public ref int OriginalOrientationIndex
-    {
-        get
-        {
-            _OriginalOrientationIndexOffset = _OriginalOrientationIndexOffset ?? Schema.GetOffset(0x320E8B69A132531C);
-            return ref _Handle.AsRef<int>(_OriginalOrientationIndexOffset!.Value);
-        }
-    }
     private static nint? _CreateMovableNavMeshOffset;
 
     public ref bool CreateMovableNavMesh
@@ -641,6 +641,16 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
             return ref _Handle.AsRef<CFuncMover__TransitionToPathNodeAction_t>(_TransitionedToPathNodeActionOffset!.Value);
         }
     }
+    private static nint? _TransitionSourceOrientationOffset;
+
+    public ref Quaternion TransitionSourceOrientation
+    {
+        get
+        {
+            _TransitionSourceOrientationOffset = _TransitionSourceOrientationOffset ?? Schema.GetOffset(0x320E8B695AA3CF34);
+            return ref _Handle.AsRef<Quaternion>(_TransitionSourceOrientationOffset!.Value);
+        }
+    }
     private static nint? _DelayedTeleportToNodeOffset;
 
     public ref int DelayedTeleportToNode
@@ -651,14 +661,14 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
             return ref _Handle.AsRef<int>(_DelayedTeleportToNodeOffset!.Value);
         }
     }
-    private static nint? _IsVerboseLoggingOffset;
+    private static nint? _IsImGuiLoggingOffset;
 
-    public ref bool IsVerboseLogging
+    public ref bool IsImGuiLogging
     {
         get
         {
-            _IsVerboseLoggingOffset = _IsVerboseLoggingOffset ?? Schema.GetOffset(0x320E8B6963292696);
-            return ref _Handle.AsRef<bool>(_IsVerboseLoggingOffset!.Value);
+            _IsImGuiLoggingOffset = _IsImGuiLoggingOffset ?? Schema.GetOffset(0x320E8B690BF8C787);
+            return ref _Handle.AsRef<bool>(_IsImGuiLoggingOffset!.Value);
         }
     }
     private static nint? _FollowEntityOffset;
@@ -851,6 +861,16 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
             return ref _Handle.AsRef<float>(_FollowMoverDistanceOffset!.Value);
         }
     }
+    private static nint? _FollowMoverRatioOffset;
+
+    public ref float FollowMoverRatio
+    {
+        get
+        {
+            _FollowMoverRatioOffset = _FollowMoverRatioOffset ?? Schema.GetOffset(0x320E8B698AD69AD2);
+            return ref _Handle.AsRef<float>(_FollowMoverRatioOffset!.Value);
+        }
+    }
     private static nint? _FollowMoverCalculatedDistanceOffset;
 
     public ref float FollowMoverCalculatedDistance
@@ -869,6 +889,16 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
         {
             _FollowMoverSpringStrengthOffset = _FollowMoverSpringStrengthOffset ?? Schema.GetOffset(0x320E8B695CE8CC87);
             return ref _Handle.AsRef<float>(_FollowMoverSpringStrengthOffset!.Value);
+        }
+    }
+    private static nint? _FollowMoverConstraintPriorityOffset;
+
+    public ref int FollowMoverConstraintPriority
+    {
+        get
+        {
+            _FollowMoverConstraintPriorityOffset = _FollowMoverConstraintPriorityOffset ?? Schema.GetOffset(0x320E8B69E4EFD3C2);
+            return ref _Handle.AsRef<int>(_FollowMoverConstraintPriorityOffset!.Value);
         }
     }
     private static nint? _FollowConstraintsInitializedOffset;
@@ -919,6 +949,46 @@ internal partial class CFuncMoverImpl : CBaseModelEntityImpl, CFuncMover
         {
             _TickMovementRanOffset = _TickMovementRanOffset ?? Schema.GetOffset(0x320E8B694A0C4C8E);
             return new GameTick_tImpl(_Handle + _TickMovementRanOffset!.Value);
+        }
+    }
+    private static nint? _MovementSummaryOffset;
+
+    public FuncMoverMovementSummary_t MovementSummary
+    {
+        get
+        {
+            _MovementSummaryOffset = _MovementSummaryOffset ?? Schema.GetOffset(0x320E8B69C49463D0);
+            return new FuncMoverMovementSummary_tImpl(_Handle + _MovementSummaryOffset!.Value);
+        }
+    }
+    private static nint? _StopFromBeginStopTargetOffset;
+
+    public ref bool StopFromBeginStopTarget
+    {
+        get
+        {
+            _StopFromBeginStopTargetOffset = _StopFromBeginStopTargetOffset ?? Schema.GetOffset(0x320E8B69162F1CD7);
+            return ref _Handle.AsRef<bool>(_StopFromBeginStopTargetOffset!.Value);
+        }
+    }
+    private static nint? _QueueStopOffset;
+
+    public ref bool QueueStop
+    {
+        get
+        {
+            _QueueStopOffset = _QueueStopOffset ?? Schema.GetOffset(0x320E8B69109D47C0);
+            return ref _Handle.AsRef<bool>(_QueueStopOffset!.Value);
+        }
+    }
+    private static nint? _QueueStopMovingOffset;
+
+    public ref bool QueueStopMoving
+    {
+        get
+        {
+            _QueueStopMovingOffset = _QueueStopMovingOffset ?? Schema.GetOffset(0x320E8B690D240066);
+            return ref _Handle.AsRef<bool>(_QueueStopMovingOffset!.Value);
         }
     }
 

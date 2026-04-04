@@ -66,6 +66,16 @@ internal partial class ModelMeshBufferData_tImpl : SchemaClass, ModelMeshBufferD
             return ref _Handle.AsRef<bool>(_MeshoptIndexSequenceOffset!.Value);
         }
     }
+    private static nint? _MeshoptMeshletEncodeVersionOffset;
+
+    public ref byte MeshoptMeshletEncodeVersion
+    {
+        get
+        {
+            _MeshoptMeshletEncodeVersionOffset = _MeshoptMeshletEncodeVersionOffset ?? Schema.GetOffset(0xA75611C2E9B93041);
+            return ref _Handle.AsRef<byte>(_MeshoptMeshletEncodeVersionOffset!.Value);
+        }
+    }
     private static nint? _CompressedZSTDOffset;
 
     public ref bool CompressedZSTD

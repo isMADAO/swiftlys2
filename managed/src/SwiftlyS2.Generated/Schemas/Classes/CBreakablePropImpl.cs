@@ -228,12 +228,12 @@ internal partial class CBreakablePropImpl : CBasePropImpl, CBreakableProp
     }
     private static nint? _ExplosionTypeOffset;
 
-    public ref BaseExplosionTypes_t ExplosionType
+    public ref CGlobalSymbol ExplosionType
     {
         get
         {
-            _ExplosionTypeOffset = _ExplosionTypeOffset ?? Schema.GetOffset(0xD9F5AF34D39F3394);
-            return ref _Handle.AsRef<BaseExplosionTypes_t>(_ExplosionTypeOffset!.Value);
+            _ExplosionTypeOffset = _ExplosionTypeOffset ?? Schema.GetOffset(0xD9F5AF344867BD6D);
+            return ref _Handle.AsRef<CGlobalSymbol>(_ExplosionTypeOffset!.Value);
         }
     }
     private static nint? _ExplosionDelayOffset;

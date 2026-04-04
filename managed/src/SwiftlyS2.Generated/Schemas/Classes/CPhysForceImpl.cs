@@ -16,6 +16,17 @@ internal partial class CPhysForceImpl : CPointEntityImpl, CPhysForce
 {
     public CPhysForceImpl(nint handle) : base(handle) { }
 
+    private static nint? _ControllerOffset;
+
+    public IPhysicsMotionController? Controller
+    {
+        get
+        {
+            _ControllerOffset = _ControllerOffset ?? Schema.GetOffset(0x29E850D58F2DD553);
+            var ptr = _Handle.Read<nint>(_ControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsMotionControllerImpl(ptr) : null;
+        }
+    }
     private static nint? _NameAttachOffset;
 
     public string NameAttach

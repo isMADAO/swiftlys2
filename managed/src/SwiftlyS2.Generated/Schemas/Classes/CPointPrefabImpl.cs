@@ -91,5 +91,15 @@ internal partial class CPointPrefabImpl : CServerOnlyPointEntityImpl, CPointPref
             return ref _Handle.AsRef<CHandle<CPointPrefab>>(_AssociatedRelayEntityOffset!.Value);
         }
     }
+    private static nint? _ProceduralRelaySourcesOffset;
+
+    public ref CUtlVector<CHandle<CBaseEntity>> ProceduralRelaySources
+    {
+        get
+        {
+            _ProceduralRelaySourcesOffset = _ProceduralRelaySourcesOffset ?? Schema.GetOffset(0x2C6EB7C6EAD1E93F);
+            return ref _Handle.AsRef<CUtlVector<CHandle<CBaseEntity>>>(_ProceduralRelaySourcesOffset!.Value);
+        }
+    }
 
 }

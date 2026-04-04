@@ -16,6 +16,16 @@ internal partial class CNmBodyGroupEventImpl : CNmEventImpl, CNmBodyGroupEvent
 {
     public CNmBodyGroupEventImpl(nint handle) : base(handle) { }
 
+    private static nint? _TargetOffset;
+
+    public ref CNmEventTargetEntity_t Target
+    {
+        get
+        {
+            _TargetOffset = _TargetOffset ?? Schema.GetOffset(0xBC3A0016FA08A9E8);
+            return ref _Handle.AsRef<CNmEventTargetEntity_t>(_TargetOffset!.Value);
+        }
+    }
     private static nint? _GroupNameOffset;
 
     public string GroupName

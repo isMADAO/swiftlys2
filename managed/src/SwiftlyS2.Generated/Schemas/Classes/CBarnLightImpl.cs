@@ -315,6 +315,16 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
             return ref _Handle.AsRef<Vector>(_BakeSpecularToCubemapsSizeOffset!.Value);
         }
     }
+    private static nint? _BakeSpecularToCubemapsScaleOffset;
+
+    public ref float BakeSpecularToCubemapsScale
+    {
+        get
+        {
+            _BakeSpecularToCubemapsScaleOffset = _BakeSpecularToCubemapsScaleOffset ?? Schema.GetOffset(0xB5E331D19CF21896);
+            return ref _Handle.AsRef<float>(_BakeSpecularToCubemapsScaleOffset!.Value);
+        }
+    }
     private static nint? _CastShadowsOffset;
 
     public ref int CastShadows
@@ -385,16 +395,6 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
             return ref _Handle.AsRef<float>(_BounceScaleOffset!.Value);
         }
     }
-    private static nint? _DynamicBounceOffset;
-
-    public ref bool DynamicBounce
-    {
-        get
-        {
-            _DynamicBounceOffset = _DynamicBounceOffset ?? Schema.GetOffset(0xB5E331D146B4298E);
-            return ref _Handle.AsRef<bool>(_DynamicBounceOffset!.Value);
-        }
-    }
     private static nint? _MinRoughnessOffset;
 
     public ref float MinRoughness
@@ -463,16 +463,6 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
         {
             _FogScaleOffset = _FogScaleOffset ?? Schema.GetOffset(0xB5E331D1CF999E05);
             return ref _Handle.AsRef<float>(_FogScaleOffset!.Value);
-        }
-    }
-    private static nint? _FogMixedShadowsOffset;
-
-    public ref bool FogMixedShadows
-    {
-        get
-        {
-            _FogMixedShadowsOffset = _FogMixedShadowsOffset ?? Schema.GetOffset(0xB5E331D17FAB6DC7);
-            return ref _Handle.AsRef<bool>(_FogMixedShadowsOffset!.Value);
         }
     }
     private static nint? _FadeSizeStartOffset;
@@ -775,6 +765,16 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
             return ref _Handle.AsRef<bool>(_PvsModifyEntityOffset!.Value);
         }
     }
+    private static nint? _TransmitAlwaysOffset;
+
+    public ref bool TransmitAlways
+    {
+        get
+        {
+            _TransmitAlwaysOffset = _TransmitAlwaysOffset ?? Schema.GetOffset(0xB5E331D16D53C408);
+            return ref _Handle.AsRef<bool>(_TransmitAlwaysOffset!.Value);
+        }
+    }
     private static nint? _VisClustersOffset;
 
     public ref CUtlVector<ushort> VisClusters
@@ -815,6 +815,7 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
     public void ShearUpdated() => Schema.Update(_Handle, 0xB5E331D1F044CF2A);
     public void BakeSpecularToCubemapsUpdated() => Schema.Update(_Handle, 0xB5E331D172208D6A);
     public void BakeSpecularToCubemapsSizeUpdated() => Schema.Update(_Handle, 0xB5E331D1A4CF804B);
+    public void BakeSpecularToCubemapsScaleUpdated() => Schema.Update(_Handle, 0xB5E331D19CF21896);
     public void CastShadowsUpdated() => Schema.Update(_Handle, 0xB5E331D151564EBB);
     public void ShadowMapSizeUpdated() => Schema.Update(_Handle, 0xB5E331D1163F44B0);
     public void ShadowPriorityUpdated() => Schema.Update(_Handle, 0xB5E331D115B296B9);
@@ -822,7 +823,6 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
     public void ForceShadowsEnabledUpdated() => Schema.Update(_Handle, 0xB5E331D179F7B762);
     public void BounceLightUpdated() => Schema.Update(_Handle, 0xB5E331D17A8E13D3);
     public void BounceScaleUpdated() => Schema.Update(_Handle, 0xB5E331D1918AF747);
-    public void DynamicBounceUpdated() => Schema.Update(_Handle, 0xB5E331D146B4298E);
     public void MinRoughnessUpdated() => Schema.Update(_Handle, 0xB5E331D1B3A6FDC9);
     public void AlternateColorUpdated() => Schema.Update(_Handle, 0xB5E331D1A6BAD29C);
     public void AlternateColorBrightnessUpdated() => Schema.Update(_Handle, 0xB5E331D14C877943);
@@ -830,7 +830,6 @@ internal partial class CBarnLightImpl : CBaseModelEntityImpl, CBarnLight
     public void FogStrengthUpdated() => Schema.Update(_Handle, 0xB5E331D12DCA8F14);
     public void FogShadowsUpdated() => Schema.Update(_Handle, 0xB5E331D1D0C53238);
     public void FogScaleUpdated() => Schema.Update(_Handle, 0xB5E331D1CF999E05);
-    public void FogMixedShadowsUpdated() => Schema.Update(_Handle, 0xB5E331D17FAB6DC7);
     public void FadeSizeStartUpdated() => Schema.Update(_Handle, 0xB5E331D17D0D6C9C);
     public void FadeSizeEndUpdated() => Schema.Update(_Handle, 0xB5E331D14D20D885);
     public void ShadowFadeSizeStartUpdated() => Schema.Update(_Handle, 0xB5E331D1D2A843D4);

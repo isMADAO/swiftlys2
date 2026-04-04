@@ -26,26 +26,6 @@ internal partial class CBaseAnimGraphControllerImpl : CSkeletonAnimationControll
             return ref _Handle.AsRef<AnimationAlgorithm_t>(_AnimationAlgorithmOffset!.Value);
         }
     }
-    private static nint? _AnimGraphNetworkedVarsOffset;
-
-    public CAnimGraphNetworkedVariables AnimGraphNetworkedVars
-    {
-        get
-        {
-            _AnimGraphNetworkedVarsOffset = _AnimGraphNetworkedVarsOffset ?? Schema.GetOffset(0xFA1FB81EA83A7C39);
-            return new CAnimGraphNetworkedVariablesImpl(_Handle + _AnimGraphNetworkedVarsOffset!.Value);
-        }
-    }
-    private static nint? _AnimGraphInstanceOffset;
-
-    public SchemaUntypedField AnimGraphInstance
-    {
-        get
-        {
-            _AnimGraphInstanceOffset = _AnimGraphInstanceOffset ?? Schema.GetOffset(0xFA1FB81E4E1FC8C9);
-            return new SchemaUntypedField(_Handle + _AnimGraphInstanceOffset!.Value);
-        }
-    }
     private static nint? _NextExternalGraphHandleOffset;
 
     public ExternalAnimGraphHandle_t NextExternalGraphHandle
@@ -226,24 +206,34 @@ internal partial class CBaseAnimGraphControllerImpl : CSkeletonAnimationControll
             return ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmGraphDefinition>>(_GraphDefinitionAG2Offset!.Value);
         }
     }
-    private static nint? _SerializedPoseRecipeAG2Offset;
+    private static nint? _SerializePoseRecipeAG2SlotsOffset;
 
-    public ref CUtlVector<byte> SerializedPoseRecipeAG2
+    public ref CUtlVector<AnimGraph2SerializedPoseRecipe_t> SerializePoseRecipeAG2Slots
     {
         get
         {
-            _SerializedPoseRecipeAG2Offset = _SerializedPoseRecipeAG2Offset ?? Schema.GetOffset(0xFA1FB81E61B92D46);
-            return ref _Handle.AsRef<CUtlVector<byte>>(_SerializedPoseRecipeAG2Offset!.Value);
+            _SerializePoseRecipeAG2SlotsOffset = _SerializePoseRecipeAG2SlotsOffset ?? Schema.GetOffset(0xFA1FB81ED2D78F11);
+            return ref _Handle.AsRef<CUtlVector<AnimGraph2SerializedPoseRecipe_t>>(_SerializePoseRecipeAG2SlotsOffset!.Value);
         }
     }
-    private static nint? _SerializePoseRecipeSizeAG2Offset;
+    private static nint? _SerializePoseRecipeAG2DynamicOffset;
 
-    public ref int SerializePoseRecipeSizeAG2
+    public ref CUtlVector<byte> SerializePoseRecipeAG2Dynamic
     {
         get
         {
-            _SerializePoseRecipeSizeAG2Offset = _SerializePoseRecipeSizeAG2Offset ?? Schema.GetOffset(0xFA1FB81E0121F373);
-            return ref _Handle.AsRef<int>(_SerializePoseRecipeSizeAG2Offset!.Value);
+            _SerializePoseRecipeAG2DynamicOffset = _SerializePoseRecipeAG2DynamicOffset ?? Schema.GetOffset(0xFA1FB81ECBD8C5E5);
+            return ref _Handle.AsRef<CUtlVector<byte>>(_SerializePoseRecipeAG2DynamicOffset!.Value);
+        }
+    }
+    private static nint? _SerializePoseRecipeAG2ActiveSlotOffset;
+
+    public ref ushort SerializePoseRecipeAG2ActiveSlot
+    {
+        get
+        {
+            _SerializePoseRecipeAG2ActiveSlotOffset = _SerializePoseRecipeAG2ActiveSlotOffset ?? Schema.GetOffset(0xFA1FB81E4788E56E);
+            return ref _Handle.AsRef<ushort>(_SerializePoseRecipeAG2ActiveSlotOffset!.Value);
         }
     }
     private static nint? _SerializePoseRecipeVersionAG2Offset;
@@ -316,6 +306,17 @@ internal partial class CBaseAnimGraphControllerImpl : CSkeletonAnimationControll
             return ref _Handle.AsRef<CGlobalSymbol>(_AnimGraph2IdentifierOffset!.Value);
         }
     }
+    private static nint? _GraphInstanceAG2Offset;
+
+    public CNmGraphInstance? GraphInstanceAG2
+    {
+        get
+        {
+            _GraphInstanceAG2Offset = _GraphInstanceAG2Offset ?? Schema.GetOffset(0xFA1FB81E1D1203E0);
+            var ptr = _Handle.Read<nint>(_GraphInstanceAG2Offset!.Value);
+            return ptr.IsValidPtr() ? new CNmGraphInstanceImpl(ptr) : null;
+        }
+    }
     private static nint? _ExternalGraphsOffset;
 
     public ref CUtlVector<ExternalAnimGraph_t> ExternalGraphs
@@ -328,7 +329,6 @@ internal partial class CBaseAnimGraphControllerImpl : CSkeletonAnimationControll
     }
 
     public void AnimationAlgorithmUpdated() => Schema.Update(_Handle, 0xFA1FB81E9E954FFE);
-    public void AnimGraphNetworkedVarsUpdated() => Schema.Update(_Handle, 0xFA1FB81EA83A7C39);
     public void SecondarySkeletonsUpdated() => Schema.Update(_Handle, 0xFA1FB81E1648EB2B);
     public void SecondarySkeletonMasterCountUpdated() => Schema.Update(_Handle, 0xFA1FB81E33016DEB);
     public void SequenceUpdated() => Schema.Update(_Handle, 0xFA1FB81EE0A0598E);
@@ -337,8 +337,9 @@ internal partial class CBaseAnimGraphControllerImpl : CSkeletonAnimationControll
     public void AnimLoopModeUpdated() => Schema.Update(_Handle, 0xFA1FB81E9C9688D9);
     public void PlaybackRateUpdated() => Schema.Update(_Handle, 0xFA1FB81EC396F9D8);
     public void GraphDefinitionAG2Updated() => Schema.Update(_Handle, 0xFA1FB81EBE14922A);
-    public void SerializedPoseRecipeAG2Updated() => Schema.Update(_Handle, 0xFA1FB81E61B92D46);
-    public void SerializePoseRecipeSizeAG2Updated() => Schema.Update(_Handle, 0xFA1FB81E0121F373);
+    public void SerializePoseRecipeAG2SlotsUpdated() => Schema.Update(_Handle, 0xFA1FB81ED2D78F11);
+    public void SerializePoseRecipeAG2DynamicUpdated() => Schema.Update(_Handle, 0xFA1FB81ECBD8C5E5);
+    public void SerializePoseRecipeAG2ActiveSlotUpdated() => Schema.Update(_Handle, 0xFA1FB81E4788E56E);
     public void SerializePoseRecipeVersionAG2Updated() => Schema.Update(_Handle, 0xFA1FB81EC099725C);
     public void ServerGraphInstanceIterationUpdated() => Schema.Update(_Handle, 0xFA1FB81E86F9DE00);
     public void ServerSerializationContextIterationUpdated() => Schema.Update(_Handle, 0xFA1FB81ED9F8A6D4);

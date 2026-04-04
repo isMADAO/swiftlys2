@@ -86,6 +86,16 @@ internal partial class CDecalInstanceImpl : SchemaClass, CDecalInstance
             return ref _Handle.AsRef<Vector>(_PositionLSOffset!.Value);
         }
     }
+    private static nint? _PositionOSOffset;
+
+    public ref Vector PositionOS
+    {
+        get
+        {
+            _PositionOSOffset = _PositionOSOffset ?? Schema.GetOffset(0x88CA447C9524B4F0);
+            return ref _Handle.AsRef<Vector>(_PositionOSOffset!.Value);
+        }
+    }
     private static nint? _NormalLSOffset;
 
     public ref Vector NormalLS
@@ -264,26 +274,6 @@ internal partial class CDecalInstanceImpl : SchemaClass, CDecalInstance
         {
             _DoDecalLightmappingOffset = _DoDecalLightmappingOffset ?? Schema.GetOffset(0x88CA447C8A2CC817);
             return ref _Handle.AsRef<bool>(_DoDecalLightmappingOffset!.Value);
-        }
-    }
-    private static nint? _DecalRtEncodingOffset;
-
-    public ref DecalRtEncoding_t DecalRtEncoding
-    {
-        get
-        {
-            _DecalRtEncodingOffset = _DecalRtEncodingOffset ?? Schema.GetOffset(0x88CA447C192CDE51);
-            return ref _Handle.AsRef<DecalRtEncoding_t>(_DecalRtEncodingOffset!.Value);
-        }
-    }
-    private static nint? _ProjectToBackfacesOffset;
-
-    public ref bool ProjectToBackfaces
-    {
-        get
-        {
-            _ProjectToBackfacesOffset = _ProjectToBackfacesOffset ?? Schema.GetOffset(0x88CA447C78F8B7EA);
-            return ref _Handle.AsRef<bool>(_ProjectToBackfacesOffset!.Value);
         }
     }
 

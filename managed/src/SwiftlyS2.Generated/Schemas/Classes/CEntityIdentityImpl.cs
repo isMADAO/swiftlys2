@@ -16,14 +16,14 @@ internal partial class CEntityIdentityImpl : SchemaClass, CEntityIdentity
 {
     public CEntityIdentityImpl(nint handle) : base(handle) { }
 
-    private static nint? _NameStringableIndexOffset;
+    private static nint? _NameStringTableIndexOffset;
 
-    public ref int NameStringableIndex
+    public ref int NameStringTableIndex
     {
         get
         {
-            _NameStringableIndexOffset = _NameStringableIndexOffset ?? Schema.GetOffset(0xAE42345F9A4938C9);
-            return ref _Handle.AsRef<int>(_NameStringableIndexOffset!.Value);
+            _NameStringTableIndexOffset = _NameStringTableIndexOffset ?? Schema.GetOffset(0xAE42345F85F9915F);
+            return ref _Handle.AsRef<int>(_NameStringTableIndexOffset!.Value);
         }
     }
     private static nint? _NameOffset;
@@ -152,5 +152,5 @@ internal partial class CEntityIdentityImpl : SchemaClass, CEntityIdentity
         }
     }
 
-    public void NameStringableIndexUpdated() => Schema.Update(_Handle, 0xAE42345F9A4938C9);
+    public void NameStringTableIndexUpdated() => Schema.Update(_Handle, 0xAE42345F85F9915F);
 }

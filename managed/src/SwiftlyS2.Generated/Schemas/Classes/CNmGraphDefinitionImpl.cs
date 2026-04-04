@@ -36,6 +36,16 @@ internal partial class CNmGraphDefinitionImpl : SchemaClass, CNmGraphDefinition
             return ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmSkeleton>>(_SkeletonOffset!.Value);
         }
     }
+    private static nint? _SupportedSecondarySkeletonsOffset;
+
+    public ref CUtlVector<CStrongHandle<InfoForResourceTypeCNmSkeleton>> SupportedSecondarySkeletons
+    {
+        get
+        {
+            _SupportedSecondarySkeletonsOffset = _SupportedSecondarySkeletonsOffset ?? Schema.GetOffset(0xE028E08CA49C77FF);
+            return ref _Handle.AsRef<CUtlVector<CStrongHandle<InfoForResourceTypeCNmSkeleton>>>(_SupportedSecondarySkeletonsOffset!.Value);
+        }
+    }
     private static nint? _UserDataOffset;
 
     public CNmGraphVariationUserData? UserData

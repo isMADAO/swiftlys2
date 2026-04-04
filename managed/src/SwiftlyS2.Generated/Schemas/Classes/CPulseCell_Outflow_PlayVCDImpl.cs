@@ -46,5 +46,15 @@ internal partial class CPulseCell_Outflow_PlayVCDImpl : CPulseCell_Outflow_PlayS
             return new CPulse_OutflowConnectionImpl(_Handle + _OnResumedOffset!.Value);
         }
     }
+    private static nint? _OutRequirementsOffset;
+
+    public ref CUtlVector<CPulseCell_Outflow_PlayVCD__VCDRequirementInfo_t> OutRequirements
+    {
+        get
+        {
+            _OutRequirementsOffset = _OutRequirementsOffset ?? Schema.GetOffset(0xB095B4146F0FE0CB);
+            return ref _Handle.AsRef<CUtlVector<CPulseCell_Outflow_PlayVCD__VCDRequirementInfo_t>>(_OutRequirementsOffset!.Value);
+        }
+    }
 
 }

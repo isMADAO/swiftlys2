@@ -36,6 +36,16 @@ internal partial class CParticleFunctionImpl : SchemaClass, CParticleFunction
             return ref _Handle.AsRef<ParticleEndcapMode_t>(_OpEndCapStateOffset!.Value);
         }
     }
+    private static nint? _ToolsStateOffset;
+
+    public ref ParticleToolsState_t ToolsState
+    {
+        get
+        {
+            _ToolsStateOffset = _ToolsStateOffset ?? Schema.GetOffset(0x4E0CACB4FA9C4515);
+            return ref _Handle.AsRef<ParticleToolsState_t>(_ToolsStateOffset!.Value);
+        }
+    }
     private static nint? _OpStartFadeInTimeOffset;
 
     public ref float OpStartFadeInTime

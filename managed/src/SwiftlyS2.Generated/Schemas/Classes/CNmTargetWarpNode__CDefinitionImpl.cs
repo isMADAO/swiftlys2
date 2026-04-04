@@ -46,14 +46,14 @@ internal partial class CNmTargetWarpNode__CDefinitionImpl : CNmPoseNode__CDefini
             return ref _Handle.AsRef<CNmRootMotionData__SamplingMode_t>(_SamplingModeOffset!.Value);
         }
     }
-    private static nint? _AllowTargetUpdateOffset;
+    private static nint? _TargetUpdateRuleOffset;
 
-    public ref bool AllowTargetUpdate
+    public ref CNmTargetWarpNode__TargetUpdateRule_t TargetUpdateRule
     {
         get
         {
-            _AllowTargetUpdateOffset = _AllowTargetUpdateOffset ?? Schema.GetOffset(0xEA16BCF08A9C0712);
-            return ref _Handle.AsRef<bool>(_AllowTargetUpdateOffset!.Value);
+            _TargetUpdateRuleOffset = _TargetUpdateRuleOffset ?? Schema.GetOffset(0xEA16BCF03E2C706F);
+            return ref _Handle.AsRef<CNmTargetWarpNode__TargetUpdateRule_t>(_TargetUpdateRuleOffset!.Value);
         }
     }
     private static nint? _AlignWithTargetAtLastWarpEventOffset;
@@ -114,6 +114,16 @@ internal partial class CNmTargetWarpNode__CDefinitionImpl : CNmPoseNode__CDefini
         {
             _TargetUpdateAngleThresholdRadiansOffset = _TargetUpdateAngleThresholdRadiansOffset ?? Schema.GetOffset(0xEA16BCF09A1C1D31);
             return ref _Handle.AsRef<float>(_TargetUpdateAngleThresholdRadiansOffset!.Value);
+        }
+    }
+    private static nint? _AlignmentBoneIDOffset;
+
+    public ref CGlobalSymbol AlignmentBoneID
+    {
+        get
+        {
+            _AlignmentBoneIDOffset = _AlignmentBoneIDOffset ?? Schema.GetOffset(0xEA16BCF0491318B5);
+            return ref _Handle.AsRef<CGlobalSymbol>(_AlignmentBoneIDOffset!.Value);
         }
     }
 

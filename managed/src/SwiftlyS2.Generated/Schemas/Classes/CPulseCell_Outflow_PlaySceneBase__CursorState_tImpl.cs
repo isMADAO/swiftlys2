@@ -36,5 +36,15 @@ internal partial class CPulseCell_Outflow_PlaySceneBase__CursorState_tImpl : Sch
             return ref _Handle.AsRef<CHandle<CBaseEntity>>(_MainActorOffset!.Value);
         }
     }
+    private static nint? _CursorIDToEventIDOffset;
+
+    public SchemaUntypedField CursorIDToEventID
+    {
+        get
+        {
+            _CursorIDToEventIDOffset = _CursorIDToEventIDOffset ?? Schema.GetOffset(0x16AE3F0209272D0);
+            return new SchemaUntypedField(_Handle + _CursorIDToEventIDOffset!.Value);
+        }
+    }
 
 }

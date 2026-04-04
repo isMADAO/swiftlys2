@@ -16,16 +16,6 @@ internal partial class CCommentarySystemImpl : SchemaClass, CCommentarySystem
 {
     public CCommentarySystemImpl(nint handle) : base(handle) { }
 
-    private static nint? _CommentaryConvarsChangingOffset;
-
-    public ref bool CommentaryConvarsChanging
-    {
-        get
-        {
-            _CommentaryConvarsChangingOffset = _CommentaryConvarsChangingOffset ?? Schema.GetOffset(0x87CBBE6A7FB57A2D);
-            return ref _Handle.AsRef<bool>(_CommentaryConvarsChangingOffset!.Value);
-        }
-    }
     private static nint? _CommentaryEnabledMidGameOffset;
 
     public ref bool CommentaryEnabledMidGame
@@ -74,6 +64,16 @@ internal partial class CCommentarySystemImpl : SchemaClass, CCommentarySystem
         {
             _IsFirstSpawnGroupToLoadOffset = _IsFirstSpawnGroupToLoadOffset ?? Schema.GetOffset(0x87CBBE6A1BDE1032);
             return ref _Handle.AsRef<bool>(_IsFirstSpawnGroupToLoadOffset!.Value);
+        }
+    }
+    private static nint? _ModifiedConvarsOffset;
+
+    public ref CUtlVector<modifiedconvars_t> ModifiedConvars
+    {
+        get
+        {
+            _ModifiedConvarsOffset = _ModifiedConvarsOffset ?? Schema.GetOffset(0x87CBBE6A28C8A4E8);
+            return ref _Handle.AsRef<CUtlVector<modifiedconvars_t>>(_ModifiedConvarsOffset!.Value);
         }
     }
     private static nint? _CurrentNodeOffset;

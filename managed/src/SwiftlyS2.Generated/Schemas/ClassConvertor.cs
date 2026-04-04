@@ -6,7 +6,8 @@ internal static class ClassConvertor
 {
     public static CEntityInstance ConvertEntityByDesignerName( nint address, string designerName )
     {
-        return designerName switch {
+        return designerName switch
+        {
             "func_nav_avoidance_obstacle" => new CFuncNavObstructionImpl(address),
             "script_nav_blocker" => new CScriptNavBlockerImpl(address),
             "wearable_item" => new CEconWearableImpl(address),
@@ -129,6 +130,7 @@ internal static class ClassConvertor
             "info_spawngroup_load_unload" => new CInfoSpawnGroupLoadUnloadImpl(address),
             "info_spawngroup_landmark" => new CInfoSpawnGroupLandmarkImpl(address),
             "info_player_start" => new CInfoPlayerStartImpl(address),
+            "info_choreo_anchor" => new CInfoChoreoAnchorImpl(address),
             "func_guntarget" => new CGunTargetImpl(address),
             "func_timescale" => new CFuncTimescaleImpl(address),
             "func_monitor" => new CFuncMonitorImpl(address),
@@ -260,6 +262,8 @@ internal static class ClassConvertor
             "info_bomb_target_hint_B" => new CInfoInstructorHintBombTargetBImpl(address),
             "info_bomb_target_hint_A" => new CInfoInstructorHintBombTargetAImpl(address),
             "func_bomb_target" => new CBombTargetImpl(address),
+            "end_of_match_lineup_end" => new CCSGO_EndOfMatchLineupEndImpl(address),
+            "end_of_match_lineup_start" => new CCSGO_EndOfMatchLineupStartImpl(address),
             "wingman_intro_counterterrorist" => new CCSGO_WingmanIntroCounterTerroristPositionImpl(address),
             "wingman_intro_terrorist" => new CCSGO_WingmanIntroTerroristPositionImpl(address),
             "team_intro_counterterrorist" => new CCSGO_TeamIntroCounterTerroristPositionImpl(address),
@@ -276,6 +280,7 @@ internal static class ClassConvertor
             "info_player_counterterrorist" => new CInfoPlayerCounterterroristImpl(address),
             "info_player_terrorist" => new CInfoPlayerTerroristImpl(address),
             "grenade" => new CBaseGrenadeImpl(address),
+            "cash_stack" => new CCashStackImpl(address),
             "pulse_game_blackboard" => new CPulseGameBlackboardImpl(address),
             "fog_volume" => new CFogVolumeImpl(address),
             "info_nav_space" => new CNavSpaceInfoImpl(address),

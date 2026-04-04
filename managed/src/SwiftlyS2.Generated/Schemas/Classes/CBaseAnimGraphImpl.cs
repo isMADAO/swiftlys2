@@ -68,36 +68,6 @@ internal partial class CBaseAnimGraphImpl : CBaseModelEntityImpl, CBaseAnimGraph
             return ref _Handle.AsRef<bool>(_AnimGraphUpdateEnabledOffset!.Value);
         }
     }
-    private static nint? _MaxSlopeDistanceOffset;
-
-    public ref float MaxSlopeDistance
-    {
-        get
-        {
-            _MaxSlopeDistanceOffset = _MaxSlopeDistanceOffset ?? Schema.GetOffset(0xE501DB1E531F618D);
-            return ref _Handle.AsRef<float>(_MaxSlopeDistanceOffset!.Value);
-        }
-    }
-    private static nint? _LastSlopeCheckPosOffset;
-
-    public ref Vector LastSlopeCheckPos
-    {
-        get
-        {
-            _LastSlopeCheckPosOffset = _LastSlopeCheckPosOffset ?? Schema.GetOffset(0xE501DB1E586A5E32);
-            return ref _Handle.AsRef<Vector>(_LastSlopeCheckPosOffset!.Value);
-        }
-    }
-    private static nint? _AnimGraphUpdateIdOffset;
-
-    public ref uint AnimGraphUpdateId
-    {
-        get
-        {
-            _AnimGraphUpdateIdOffset = _AnimGraphUpdateIdOffset ?? Schema.GetOffset(0xE501DB1E07E69554);
-            return ref _Handle.AsRef<uint>(_AnimGraphUpdateIdOffset!.Value);
-        }
-    }
     private static nint? _AnimationUpdateScheduledOffset;
 
     public ref bool AnimationUpdateScheduled
@@ -126,6 +96,17 @@ internal partial class CBaseAnimGraphImpl : CBaseModelEntityImpl, CBaseAnimGraph
         {
             _ForceBoneOffset = _ForceBoneOffset ?? Schema.GetOffset(0xE501DB1EDDAC019E);
             return ref _Handle.AsRef<int>(_ForceBoneOffset!.Value);
+        }
+    }
+    private static nint? _RagdollControlOffset;
+
+    public IPhysicsRagdollControl? RagdollControl
+    {
+        get
+        {
+            _RagdollControlOffset = _RagdollControlOffset ?? Schema.GetOffset(0xE501DB1EFF37C12F);
+            var ptr = _Handle.Read<nint>(_RagdollControlOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsRagdollControlImpl(ptr) : null;
         }
     }
     private static nint? _RagdollPoseOffset;

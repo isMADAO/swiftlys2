@@ -26,14 +26,14 @@ internal partial class CPulseCell_Step_CallExternalMethodImpl : CPulseCell_BaseY
             return new SchemaUntypedField(_Handle + _MethodNameOffset!.Value);
         }
     }
-    private static nint? _GameBlackboardOffset;
+    private static nint? _BlackboardIndexOffset;
 
-    public SchemaUntypedField GameBlackboard
+    public PulseRuntimeBlackboardReferenceIndex_t BlackboardIndex
     {
         get
         {
-            _GameBlackboardOffset = _GameBlackboardOffset ?? Schema.GetOffset(0x6A5B3EF536FB1236);
-            return new SchemaUntypedField(_Handle + _GameBlackboardOffset!.Value);
+            _BlackboardIndexOffset = _BlackboardIndexOffset ?? Schema.GetOffset(0x6A5B3EF5C76B0A2C);
+            return new PulseRuntimeBlackboardReferenceIndex_tImpl(_Handle + _BlackboardIndexOffset!.Value);
         }
     }
     private static nint? _ExpectedArgsOffset;

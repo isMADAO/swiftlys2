@@ -96,5 +96,155 @@ internal partial class CTestPulseIOImpl : CLogicalEntityImpl, CTestPulseIO
             return ref _Handle.AsRef<bool>(_AllowEmptyInputsOffset!.Value);
         }
     }
+    private static nint? _TestComponentOffset;
+
+    public CTestPulseIOComponent_Derived TestComponent
+    {
+        get
+        {
+            _TestComponentOffset = _TestComponentOffset ?? Schema.GetOffset(0x3CAD6613AF129060);
+            return new CTestPulseIOComponent_DerivedImpl(_Handle + _TestComponentOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestVoidOffset;
+
+    public ref CEntityIOOutput OnInternalTestVoid
+    {
+        get
+        {
+            _OnInternalTestVoidOffset = _OnInternalTestVoidOffset ?? Schema.GetOffset(0x3CAD6613B078D95B);
+            return ref _Handle.AsRef<CEntityIOOutput>(_OnInternalTestVoidOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestBoolOffset;
+
+    public SchemaUntypedField OnInternalTestBool
+    {
+        get
+        {
+            _OnInternalTestBoolOffset = _OnInternalTestBoolOffset ?? Schema.GetOffset(0x3CAD66133681FCB9);
+            return new SchemaUntypedField(_Handle + _OnInternalTestBoolOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestIntOffset;
+
+    public SchemaUntypedField OnInternalTestInt
+    {
+        get
+        {
+            _OnInternalTestIntOffset = _OnInternalTestIntOffset ?? Schema.GetOffset(0x3CAD66131F6C7CBA);
+            return new SchemaUntypedField(_Handle + _OnInternalTestIntOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestFloatOffset;
+
+    public SchemaUntypedField OnInternalTestFloat
+    {
+        get
+        {
+            _OnInternalTestFloatOffset = _OnInternalTestFloatOffset ?? Schema.GetOffset(0x3CAD66131D74C971);
+            return new SchemaUntypedField(_Handle + _OnInternalTestFloatOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestStringOffset;
+
+    public SchemaUntypedField OnInternalTestString
+    {
+        get
+        {
+            _OnInternalTestStringOffset = _OnInternalTestStringOffset ?? Schema.GetOffset(0x3CAD6613E4A7C6C4);
+            return new SchemaUntypedField(_Handle + _OnInternalTestStringOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestColorOffset;
+
+    public SchemaUntypedField OnInternalTestColor
+    {
+        get
+        {
+            _OnInternalTestColorOffset = _OnInternalTestColorOffset ?? Schema.GetOffset(0x3CAD66131C9FEEAC);
+            return new SchemaUntypedField(_Handle + _OnInternalTestColorOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestVectorOffset;
+
+    public SchemaUntypedField OnInternalTestVector
+    {
+        get
+        {
+            _OnInternalTestVectorOffset = _OnInternalTestVectorOffset ?? Schema.GetOffset(0x3CAD66139609BE76);
+            return new SchemaUntypedField(_Handle + _OnInternalTestVectorOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestEntityNameOffset;
+
+    public SchemaUntypedField OnInternalTestEntityName
+    {
+        get
+        {
+            _OnInternalTestEntityNameOffset = _OnInternalTestEntityNameOffset ?? Schema.GetOffset(0x3CAD66135389CD5D);
+            return new SchemaUntypedField(_Handle + _OnInternalTestEntityNameOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestEntityHandleOffset;
+
+    public SchemaUntypedField OnInternalTestEntityHandle
+    {
+        get
+        {
+            _OnInternalTestEntityHandleOffset = _OnInternalTestEntityHandleOffset ?? Schema.GetOffset(0x3CAD6613FCA25D88);
+            return new SchemaUntypedField(_Handle + _OnInternalTestEntityHandleOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestSchemaEnumOffset;
+
+    public SchemaUntypedField OnInternalTestSchemaEnum
+    {
+        get
+        {
+            _OnInternalTestSchemaEnumOffset = _OnInternalTestSchemaEnumOffset ?? Schema.GetOffset(0x3CAD66132FD6717B);
+            return new SchemaUntypedField(_Handle + _OnInternalTestSchemaEnumOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestFloatStringOffset;
+
+    public SchemaUntypedField OnInternalTestFloatString
+    {
+        get
+        {
+            _OnInternalTestFloatStringOffset = _OnInternalTestFloatStringOffset ?? Schema.GetOffset(0x3CAD661327D7846C);
+            return new SchemaUntypedField(_Handle + _OnInternalTestFloatStringOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestEntityNameStringOffset;
+
+    public SchemaUntypedField OnInternalTestEntityNameString
+    {
+        get
+        {
+            _OnInternalTestEntityNameStringOffset = _OnInternalTestEntityNameStringOffset ?? Schema.GetOffset(0x3CAD6613B4A64210);
+            return new SchemaUntypedField(_Handle + _OnInternalTestEntityNameStringOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestEntityHandleIntOffset;
+
+    public SchemaUntypedField OnInternalTestEntityHandleInt
+    {
+        get
+        {
+            _OnInternalTestEntityHandleIntOffset = _OnInternalTestEntityHandleIntOffset ?? Schema.GetOffset(0x3CAD6613AC4F8F89);
+            return new SchemaUntypedField(_Handle + _OnInternalTestEntityHandleIntOffset!.Value);
+        }
+    }
+    private static nint? _OnInternalTestStringStringStringOffset;
+
+    public SchemaUntypedField OnInternalTestStringStringString
+    {
+        get
+        {
+            _OnInternalTestStringStringStringOffset = _OnInternalTestStringStringStringOffset ?? Schema.GetOffset(0x3CAD66132576EBF8);
+            return new SchemaUntypedField(_Handle + _OnInternalTestStringStringStringOffset!.Value);
+        }
+    }
 
 }

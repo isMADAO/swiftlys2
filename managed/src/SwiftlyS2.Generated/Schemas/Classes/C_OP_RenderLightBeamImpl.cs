@@ -16,6 +16,16 @@ internal partial class C_OP_RenderLightBeamImpl : CParticleFunctionRendererImpl,
 {
     public C_OP_RenderLightBeamImpl(nint handle) : base(handle) { }
 
+    private static nint? _MaxAllowedOffset;
+
+    public ref ushort MaxAllowed
+    {
+        get
+        {
+            _MaxAllowedOffset = _MaxAllowedOffset ?? Schema.GetOffset(0xD8A7845036B011D3);
+            return ref _Handle.AsRef<ushort>(_MaxAllowedOffset!.Value);
+        }
+    }
     private static nint? _ColorBlendOffset;
 
     public CParticleCollectionVecInput ColorBlend
@@ -54,6 +64,26 @@ internal partial class C_OP_RenderLightBeamImpl : CParticleFunctionRendererImpl,
         {
             _CastShadowsOffset = _CastShadowsOffset ?? Schema.GetOffset(0xD8A7845036113167);
             return ref _Handle.AsRef<bool>(_CastShadowsOffset!.Value);
+        }
+    }
+    private static nint? _DynamicBounceOffset;
+
+    public ref bool DynamicBounce
+    {
+        get
+        {
+            _DynamicBounceOffset = _DynamicBounceOffset ?? Schema.GetOffset(0xD8A7845046B4298E);
+            return ref _Handle.AsRef<bool>(_DynamicBounceOffset!.Value);
+        }
+    }
+    private static nint? _BounceScaleOffset;
+
+    public CParticleCollectionFloatInput BounceScale
+    {
+        get
+        {
+            _BounceScaleOffset = _BounceScaleOffset ?? Schema.GetOffset(0xD8A78450918AF747);
+            return new CParticleCollectionFloatInputImpl(_Handle + _BounceScaleOffset!.Value);
         }
     }
     private static nint? _SkirtOffset;

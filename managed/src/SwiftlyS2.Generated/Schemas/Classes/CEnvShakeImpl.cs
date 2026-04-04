@@ -111,6 +111,17 @@ internal partial class CEnvShakeImpl : CPointEntityImpl, CEnvShake
             return ref _Handle.AsRef<Vector>(_MaxForceOffset!.Value);
         }
     }
+    private static nint? _ShakeControllerOffset;
+
+    public IPhysicsMotionController? ShakeController
+    {
+        get
+        {
+            _ShakeControllerOffset = _ShakeControllerOffset ?? Schema.GetOffset(0x10FEA9457B0190A7);
+            var ptr = _Handle.Read<nint>(_ShakeControllerOffset!.Value);
+            return ptr.IsValidPtr() ? new IPhysicsMotionControllerImpl(ptr) : null;
+        }
+    }
     private static nint? _ShakeCallbackOffset;
 
     public CPhysicsShake ShakeCallback

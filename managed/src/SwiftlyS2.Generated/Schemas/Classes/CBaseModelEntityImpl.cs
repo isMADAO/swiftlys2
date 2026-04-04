@@ -37,6 +37,17 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity
             return new CHitboxComponentImpl(_Handle + _CHitboxComponentOffset!.Value);
         }
     }
+    private static nint? _ChoreoComponentOffset;
+
+    public CChoreoComponent? ChoreoComponent
+    {
+        get
+        {
+            _ChoreoComponentOffset = _ChoreoComponentOffset ?? Schema.GetOffset(0x517849F79C0DA7BC);
+            var ptr = _Handle.Read<nint>(_ChoreoComponentOffset!.Value);
+            return ptr.IsValidPtr() ? new CChoreoComponentImpl(ptr) : null;
+        }
+    }
     private static nint? _DestructiblePartInitialStateDestructed0Offset;
 
     public ref HitGroup_t DestructiblePartInitialStateDestructed0
@@ -137,6 +148,56 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity
             return ref _Handle.AsRef<int>(_DestructiblePartInitialStateDestructed4_PartIndexOffset!.Value);
         }
     }
+    private static nint? _DestructiblePartInitialStateDestructed0_GenerateBreakpiecesOffset;
+
+    public ref bool DestructiblePartInitialStateDestructed0_GenerateBreakpieces
+    {
+        get
+        {
+            _DestructiblePartInitialStateDestructed0_GenerateBreakpiecesOffset = _DestructiblePartInitialStateDestructed0_GenerateBreakpiecesOffset ?? Schema.GetOffset(0x517849F772F41162);
+            return ref _Handle.AsRef<bool>(_DestructiblePartInitialStateDestructed0_GenerateBreakpiecesOffset!.Value);
+        }
+    }
+    private static nint? _DestructiblePartInitialStateDestructed1_GenerateBreakpiecesOffset;
+
+    public ref bool DestructiblePartInitialStateDestructed1_GenerateBreakpieces
+    {
+        get
+        {
+            _DestructiblePartInitialStateDestructed1_GenerateBreakpiecesOffset = _DestructiblePartInitialStateDestructed1_GenerateBreakpiecesOffset ?? Schema.GetOffset(0x517849F7867C8105);
+            return ref _Handle.AsRef<bool>(_DestructiblePartInitialStateDestructed1_GenerateBreakpiecesOffset!.Value);
+        }
+    }
+    private static nint? _DestructiblePartInitialStateDestructed2_GenerateBreakpiecesOffset;
+
+    public ref bool DestructiblePartInitialStateDestructed2_GenerateBreakpieces
+    {
+        get
+        {
+            _DestructiblePartInitialStateDestructed2_GenerateBreakpiecesOffset = _DestructiblePartInitialStateDestructed2_GenerateBreakpiecesOffset ?? Schema.GetOffset(0x517849F7A3D6ADC4);
+            return ref _Handle.AsRef<bool>(_DestructiblePartInitialStateDestructed2_GenerateBreakpiecesOffset!.Value);
+        }
+    }
+    private static nint? _DestructiblePartInitialStateDestructed3_GenerateBreakpiecesOffset;
+
+    public ref bool DestructiblePartInitialStateDestructed3_GenerateBreakpieces
+    {
+        get
+        {
+            _DestructiblePartInitialStateDestructed3_GenerateBreakpiecesOffset = _DestructiblePartInitialStateDestructed3_GenerateBreakpiecesOffset ?? Schema.GetOffset(0x517849F7D37A3D87);
+            return ref _Handle.AsRef<bool>(_DestructiblePartInitialStateDestructed3_GenerateBreakpiecesOffset!.Value);
+        }
+    }
+    private static nint? _DestructiblePartInitialStateDestructed4_GenerateBreakpiecesOffset;
+
+    public ref bool DestructiblePartInitialStateDestructed4_GenerateBreakpieces
+    {
+        get
+        {
+            _DestructiblePartInitialStateDestructed4_GenerateBreakpiecesOffset = _DestructiblePartInitialStateDestructed4_GenerateBreakpiecesOffset ?? Schema.GetOffset(0x517849F757044C56);
+            return ref _Handle.AsRef<bool>(_DestructiblePartInitialStateDestructed4_GenerateBreakpiecesOffset!.Value);
+        }
+    }
     private static nint? _DestructiblePartsSystemComponentOffset;
 
     public CDestructiblePartsComponent? DestructiblePartsSystemComponent
@@ -146,6 +207,16 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity
             _DestructiblePartsSystemComponentOffset = _DestructiblePartsSystemComponentOffset ?? Schema.GetOffset(0x517849F77992C14B);
             var ptr = _Handle.Read<nint>(_DestructiblePartsSystemComponentOffset!.Value);
             return ptr.IsValidPtr() ? new CDestructiblePartsComponentImpl(ptr) : null;
+        }
+    }
+    private static nint? _OnDestructibleHitGroupDamageLevelChangedOffset;
+
+    public SchemaUntypedField OnDestructibleHitGroupDamageLevelChanged
+    {
+        get
+        {
+            _OnDestructibleHitGroupDamageLevelChangedOffset = _OnDestructibleHitGroupDamageLevelChangedOffset ?? Schema.GetOffset(0x517849F72743C319);
+            return new SchemaUntypedField(_Handle + _OnDestructibleHitGroupDamageLevelChangedOffset!.Value);
         }
     }
     private static nint? _DissolveStartTimeOffset;
@@ -318,6 +389,16 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity
             return ref _Handle.AsRef<byte>(_ObjectCullingOffset!.Value);
         }
     }
+    private static nint? _BodyGroupChoicesOffset;
+
+    public SchemaUntypedField BodyGroupChoices
+    {
+        get
+        {
+            _BodyGroupChoicesOffset = _BodyGroupChoicesOffset ?? Schema.GetOffset(0x517849F7BA57332C);
+            return new SchemaUntypedField(_Handle + _BodyGroupChoicesOffset!.Value);
+        }
+    }
     private static nint? _ViewOffsetOffset;
 
     public CNetworkViewOffsetVector ViewOffset
@@ -334,6 +415,7 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity
     }
 
     public void CHitboxComponentUpdated() => Schema.Update(_Handle, 0x517849F70E786123);
+    public void ChoreoComponentUpdated() => Schema.Update(_Handle, 0x517849F79C0DA7BC);
     public void DestructiblePartsSystemComponentUpdated() => Schema.Update(_Handle, 0x517849F77992C14B);
     public void RenderModeUpdated() => Schema.Update(_Handle, 0x517849F7679967A6);
     public void RenderFXUpdated() => Schema.Update(_Handle, 0x517849F7E510717F);

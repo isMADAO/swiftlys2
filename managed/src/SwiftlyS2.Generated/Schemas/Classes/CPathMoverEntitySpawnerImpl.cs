@@ -80,6 +80,16 @@ internal partial class CPathMoverEntitySpawnerImpl : CLogicalEntityImpl, CPathMo
             return ref _Handle.AsRef<int>(_MaxActiveOffset!.Value);
         }
     }
+    private static nint? _SpawnNumOffset;
+
+    public ref int SpawnNum
+    {
+        get
+        {
+            _SpawnNumOffset = _SpawnNumOffset ?? Schema.GetOffset(0x384C46FF59316F2C);
+            return ref _Handle.AsRef<int>(_SpawnNumOffset!.Value);
+        }
+    }
     private static nint? _LastSpawnTimeOffset;
 
     public GameTime_t LastSpawnTime
@@ -98,6 +108,46 @@ internal partial class CPathMoverEntitySpawnerImpl : CLogicalEntityImpl, CPathMo
         {
             _EnabledOffset = _EnabledOffset ?? Schema.GetOffset(0x384C46FF6154EB7E);
             return ref _Handle.AsRef<bool>(_EnabledOffset!.Value);
+        }
+    }
+    private static nint? _DestroyMoverOnArrivedAtEndOffset;
+
+    public ref bool DestroyMoverOnArrivedAtEnd
+    {
+        get
+        {
+            _DestroyMoverOnArrivedAtEndOffset = _DestroyMoverOnArrivedAtEndOffset ?? Schema.GetOffset(0x384C46FFD79A547E);
+            return ref _Handle.AsRef<bool>(_DestroyMoverOnArrivedAtEndOffset!.Value);
+        }
+    }
+    private static nint? _QueuedRemovalsOffset;
+
+    public ref CUtlVector<CHandle<CFuncMover>> QueuedRemovals
+    {
+        get
+        {
+            _QueuedRemovalsOffset = _QueuedRemovalsOffset ?? Schema.GetOffset(0x384C46FF4D2E059D);
+            return ref _Handle.AsRef<CUtlVector<CHandle<CFuncMover>>>(_QueuedRemovalsOffset!.Value);
+        }
+    }
+    private static nint? _OnTemplateSpawnedOffset;
+
+    public ref CEntityIOOutput OnTemplateSpawned
+    {
+        get
+        {
+            _OnTemplateSpawnedOffset = _OnTemplateSpawnedOffset ?? Schema.GetOffset(0x384C46FF1B88D298);
+            return ref _Handle.AsRef<CEntityIOOutput>(_OnTemplateSpawnedOffset!.Value);
+        }
+    }
+    private static nint? _OnTemplateGroupSpawnedOffset;
+
+    public ref CEntityIOOutput OnTemplateGroupSpawned
+    {
+        get
+        {
+            _OnTemplateGroupSpawnedOffset = _OnTemplateGroupSpawnedOffset ?? Schema.GetOffset(0x384C46FF68DF3B81);
+            return ref _Handle.AsRef<CEntityIOOutput>(_OnTemplateGroupSpawnedOffset!.Value);
         }
     }
 

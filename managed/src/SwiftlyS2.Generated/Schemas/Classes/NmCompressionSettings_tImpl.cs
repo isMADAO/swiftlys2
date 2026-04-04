@@ -56,6 +56,16 @@ internal partial class NmCompressionSettings_tImpl : SchemaClass, NmCompressionS
             return new NmCompressionSettings_t__QuantizationRange_tImpl(_Handle + _ScaleRangeOffset!.Value);
         }
     }
+    private static nint? _TrackReadOffsetOffset;
+
+    public ref int TrackReadOffset
+    {
+        get
+        {
+            _TrackReadOffsetOffset = _TrackReadOffsetOffset ?? Schema.GetOffset(0xA8EC88177A1647);
+            return ref _Handle.AsRef<int>(_TrackReadOffsetOffset!.Value);
+        }
+    }
     private static nint? _ConstantRotationOffset;
 
     public ref Quaternion ConstantRotation
