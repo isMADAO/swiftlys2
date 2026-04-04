@@ -20,6 +20,8 @@
 
 #include <fmt/format.h>
 #include <unordered_map>
+#include <unordered_set>
+#include <string>
 
 #include <core/entrypoint.h>
 
@@ -192,6 +194,7 @@ void CSDKSchema::DumpEntitySystem()
 #ifdef _WIN32
     auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
     json entitySystemJson;
+    json networkedFieldsJson;
 
     std::vector<std::pair<CEntityClass*, std::string>> entityClasses;
 
@@ -200,8 +203,30 @@ void CSDKSchema::DumpEntitySystem()
         entityClasses.push_back({ GameEntitySystem()->m_entClassesByClassname[i], GameEntitySystem()->m_entClassesByClassname.Key(i) });
     }
 
+    std::unordered_set<std::string> visitedModules;
+
     for (auto& entityClass : entityClasses)
     {
+        auto classInfo = entityClass.first->m_pNetworkSerializerInfo;
+        auto database = classInfo->m_pDatabase;
+        std::string moduleName = database->m_ModuleName.Get();
+        if (visitedModules.find(moduleName) == visitedModules.end())
+        {
+            visitedModules.emplace(moduleName);
+            FOR_EACH_MAP_FAST(database->m_ClassInfos, i)
+            {
+                auto className = database->m_ClassInfos.Key(i);
+                auto classInfo = database->m_ClassInfos[i];
+                auto arr = json::array();
+                FOR_EACH_VEC(classInfo->m_Fields, j)
+                {
+                    auto fieldInfo = classInfo->m_Fields[j];
+                    arr.push_back(fieldInfo->m_pszFieldName.Get());
+                }
+                networkedFieldsJson["classes"][className] = arr;
+            }
+        }
+
         entitySystemJson["entity_classes"].push_back({
             {"class_name", entityClass.first->m_pClassInfo->m_pszCPPClassname},
             {"designer_name", entityClass.second},
@@ -210,6 +235,7 @@ void CSDKSchema::DumpEntitySystem()
 
     logger->Info("SDK", fmt::format("Mapped {} SDK classes to entity classnames.\n", entityClasses.size()));
     WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/entitysystem.json", entitySystemJson);
+    WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/networked_fields.json", networkedFieldsJson);
 #endif
 }
 
