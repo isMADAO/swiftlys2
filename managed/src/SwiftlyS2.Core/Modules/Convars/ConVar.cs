@@ -61,6 +61,12 @@ internal class ConVar : IConVar
     {
         Name = name;
         Type = (EConVarType)NativeConvars.GetConvarType(Name);
+
+        if (Type == EConVarType.EConVarType_Invalid)
+        {
+            throw new Exception($"Convar {Name} is of invalid type.");
+        }
+
         ValuePtr = NativeConvars.GetValuePtr(Name);
         _netMessageService = netMessageService;
     }
