@@ -7,7 +7,7 @@ using SwiftlyS2.Shared.Memory;
 
 namespace SwiftlyS2.Core.Memory;
 
-public static class DelegateCache<TDelegate> where TDelegate : Delegate
+internal static class DelegateCache<TDelegate> where TDelegate : Delegate
 {
     private static readonly ConcurrentDictionary<nint, TDelegate> Cache = new();
 

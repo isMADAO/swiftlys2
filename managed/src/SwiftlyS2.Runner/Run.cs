@@ -6,7 +6,7 @@ using SwiftlyS2.Shared.Natives;
 namespace SwiftlyS2;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CGcBanInformation_t
+internal struct CGcBanInformation_t
 {
     public uint Reason;
     public double Unknown;
@@ -15,7 +15,7 @@ public struct CGcBanInformation_t
 }
 
 [StructLayout(LayoutKind.Explicit, Pack = 8, Size = 0x48)]
-public unsafe struct TraceFilters
+internal unsafe struct TraceFilters
 {
     [FieldOffset(0x0)]
     private nint* _pVTable;
@@ -33,7 +33,7 @@ public unsafe struct TraceFilters
 
 }
 
-public class Program
+internal class Program
 {
     public static void Main()
     {
