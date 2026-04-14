@@ -292,7 +292,7 @@ std::vector<std::string> TokenizeCommand(std::string cmd)
 
     for (const char& c : cmd)
     {
-        if (c == '"' && !single_quote) {
+        if ((c == '"' || c == -30) && !single_quote) {
             double_quote = !double_quote;
             continue;
         }
@@ -300,6 +300,8 @@ std::vector<std::string> TokenizeCommand(std::string cmd)
             single_quote = !single_quote;
             continue;
         }
+
+        if (c < 0) continue;
 
         if (std::isspace(c) && !single_quote && !double_quote) {
             tokens.push_back(tmp_token);
