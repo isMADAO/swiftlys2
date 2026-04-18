@@ -327,23 +327,6 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<int, byte*, byte*, void> _SetClientConvarValueString;
-
-    public unsafe static void SetClientConvarValueString(int playerid, string cvarName, string defaultValue)
-    {
-        if (!NativeBinding.IsMainThread)
-        {
-            throw new InvalidOperationException("This method can only be called from the main thread.");
-        }
-        StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
-        {
-            StringAlloc.CreateCString(defaultValue, defaultValueBufferPtr =>
-            {
-                _SetClientConvarValueString(playerid, (byte*)cvarNameBufferPtr, (byte*)defaultValueBufferPtr);
-            });
-        });
-    }
-
     private unsafe static delegate* unmanaged<byte*, ulong> _GetFlags;
 
     public unsafe static ulong GetFlags(string cvarName)

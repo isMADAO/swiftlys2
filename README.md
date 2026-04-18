@@ -68,6 +68,12 @@ A list of features:
 
 4. **Start your server**
 
+#### Build using Docker (Linux-binary only)
+
+```
+docker run --rm -it -e "FOLDER=swiftlys2" -e "GAME=cs2" -v .:/swiftlys2 ghcr.io/swiftly-solution/swiftly:cross-compiler
+```
+
 ### Your First Plugin
 
 Create your first guide using our comprehensive guide:

@@ -1,4 +1,5 @@
-﻿using SwiftlyS2.Shared.Events;
+﻿using SwiftlyS2.Shared.Engine;
+using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.ProtobufDefinitions;
@@ -58,7 +59,12 @@ public interface IPlayer : IEquatable<IPlayer>
     /// <summary>
     /// Gets the name of the player.
     /// </summary>
-    public string Name { get; }
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets the server-side client associated with the player.
+    /// </summary>
+    public IServerSideClient ServerSideClient { get; }
 
     /// <summary>
     /// Sends a message of the specified type to the player.
@@ -348,6 +354,11 @@ public interface IPlayer : IEquatable<IPlayer>
     /// <param name="player">The identifier of the player whose listen override settings are to be retrieved. Must be a valid player index.</param>
     /// <returns>A ListenOverride object containing the listen override settings for the specified player.</returns>
     public ListenOverride GetListenOverride( int player );
+
+    /// <summary>
+    /// Retrieves userinfo values for convars such as: m_yaw, sensitivity.
+    /// </summary>
+    public string GetClientConvarValue( string convarName );
 
     /// <summary>
     /// Applies damage to the entity based on the specified damage information.

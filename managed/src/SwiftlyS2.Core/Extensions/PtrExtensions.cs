@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Schemas;
 

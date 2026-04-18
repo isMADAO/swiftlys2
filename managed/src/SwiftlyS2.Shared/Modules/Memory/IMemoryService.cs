@@ -1,3 +1,4 @@
+using SwiftlyS2.Shared.Engine;
 using SwiftlyS2.Shared.Schemas;
 
 namespace SwiftlyS2.Shared.Memory;
@@ -86,6 +87,13 @@ public interface IMemoryService
     /// <param name="address">The address of the schema class.</param>
     /// <returns>The schema class.</returns>
     public T ToSchemaClass<T>( nint address ) where T : class, ISchemaClass<T>;
+
+    /// <summary>
+    /// Convert a raw address to a server-side client.
+    /// </summary>
+    /// <param name="address">The address of the server-side client.</param>
+    /// <returns>The server-side client.</returns>
+    public IServerSideClient ToServerSideClient( nint address );
 
     /// <summary>
     /// Allocate a block of memory.

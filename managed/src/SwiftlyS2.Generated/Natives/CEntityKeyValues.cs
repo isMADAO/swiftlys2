@@ -346,4 +346,15 @@ internal static class NativeCEntityKeyValues
             _SetQAngle(keyvalues, (byte*)keyBufferPtr, value);
         });
     }
+
+    private unsafe static delegate* unmanaged<nint, byte*, byte> _HasKey;
+
+    public unsafe static bool HasKey(nint keyvalues, string key)
+    {
+        return StringAlloc.CreateCString(key, keyBufferPtr =>
+        {
+            var ret = _HasKey(keyvalues, (byte*)keyBufferPtr);
+            return ret == 1;
+        });
+    }
 }

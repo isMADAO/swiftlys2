@@ -5,43 +5,10 @@ public sealed class Language : IEquatable<Language>
 {
   public string Value { get; }
 
-  public Language(string value)
+  public Language( string value )
   {
     Value = value;
   }
-
-  internal static readonly List<string> RecognizedLanguages = new() {
-    "ar",
-    "bg",
-    "zh-CN",
-    "zh-TW",
-    "cs",
-    "da",
-    "nl",
-    "en",
-    "fi",
-    "fr",
-    "de",
-    "el",
-    "hu",
-    "id",
-    "it",
-    "ja",
-    "ko",
-    "no",
-    "pl",
-    "pt",
-    "pt-BR",
-    "ro",
-    "ru",
-    "es",
-    "es-419",
-    "sv",
-    "th",
-    "tr",
-    "uk",
-    "vn",
-  };
 
   public static Language Arabic = new("ar");
   public static Language Bulgarian = new("bg");
@@ -76,14 +43,14 @@ public sealed class Language : IEquatable<Language>
 
   public override string ToString() => Value;
 
-  public static implicit operator string(Language language) => language.Value;
+  public static implicit operator string( Language language ) => language.Value;
 
-  public bool Equals(Language? other)
+  public bool Equals( Language? other )
   {
     return Value == other?.Value;
   }
 
-  public override bool Equals(object? obj)
+  public override bool Equals( object? obj )
   {
     return Equals(obj as Language);
   }

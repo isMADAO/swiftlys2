@@ -29,6 +29,7 @@ using SwiftlyS2.Shared.SteamAPI;
 using SwiftlyS2.Core.Menus.OptionsBase;
 using System.Diagnostics;
 using SwiftlyS2.Shared.Convars;
+using SwiftlyS2.Shared.Trace;
 
 namespace TestPlugin;
 
@@ -538,19 +539,22 @@ public class TestPlugin : BasePlugin
         var coords = player.Pawn!.AbsOrigin;
         var otherCoords = targetPlayer!.Pawn!.AbsOrigin;
 
-        var trace = new CGameTrace();
-        Core.Trace.SimpleTrace(coords!.Value, otherCoords!.Value, RayType_t.RAY_TYPE_LINE, RnQueryObjectSet.AllGameEntities, MaskTrace.Player | MaskTrace.Solid, MaskTrace.Empty, MaskTrace.Solid, CollisionGroup.Player, ref trace);
+        var options = TraceParams.Builder()
+            .WithLineRay()
+            .WithObjectQuery(RnQueryObjectSet.AllGameEntities)
+            .InteractWith(MaskTrace.Player | MaskTrace.Solid)
+            .InteractAs(MaskTrace.Solid)
+            .WithCollisionGroup(CollisionGroup.Player)
+            .WithShouldHitEntity(( entity ) =>
+            {
+                Console.WriteLine($"ShouldHitEntity: {entity.DesignerName}");
+                return true;
+            })
+            .Build();
 
-        Console.WriteLine(trace.pEntity != null ? $"! Hit Entity: {trace.Entity.DesignerName}" : "! No entity hit");
-        Console.WriteLine(
-            $"! SurfaceProperties: {(nint)trace.SurfaceProperties}, pEntity: {(nint)trace.pEntity}, HitBox: {(nint)trace.HitBox}({trace.HitBox->m_name.Value}), Body: {(nint)trace.Body}, Shape: {(nint)trace.Shape}, Contents: {trace.Contents}");
-        Console.WriteLine(
-            $"! StartPos: {trace.StartPos}, EndPos: {trace.EndPos}, HitNormal: {trace.HitNormal}, HitPoint: {trace.HitPoint}");
-        Console.WriteLine(
-            $"! HitOffset: {trace.HitOffset}, Fraction: {trace.Fraction}, Triangle: {trace.Triangle}, HitboxBoneIndex: {trace.HitboxBoneIndex}");
-        Console.WriteLine(
-            $"! RayType: {trace.RayType}, StartInSolid: {trace.StartInSolid}, ExactHitPoint: {trace.ExactHitPoint}");
-        Console.WriteLine("\n");
+        var result = Core.Trace.TraceShapeLine(coords!.Value, otherCoords!.Value, options);
+
+        Console.WriteLine(result);
     }
 
     [Command("tt")]
@@ -735,6 +739,12 @@ public class TestPlugin : BasePlugin
         Core.EntitySystem.GetGameRules()!.TerminateRound(RoundEndReason.BombDefused, 10.0f);
     }
 
+    [Command("intermission")]
+    public void TestIntermissionCommand( ICommandContext context )
+    {
+        Core.EntitySystem.GetGameRules()!.GoToIntermission();
+    }
+
     [Command("tt8")]
     public unsafe void TestCommand8( ICommandContext context )
     {
@@ -759,23 +769,19 @@ public class TestPlugin : BasePlugin
         Ray_t ray = new();
         ray.Init(Vector.Zero, Vector.Zero);
 
-        var filter = new CTraceFilter {
-            IterateEntities = true,
-            QueryShapeAttributes = new RnQueryShapeAttr_t {
-                InteractsWith = MaskTrace.Player | MaskTrace.Solid | MaskTrace.Hitbox | MaskTrace.Npc,
-                InteractsExclude = MaskTrace.Empty,
-                InteractsAs = MaskTrace.Player,
-                CollisionGroup = CollisionGroup.PlayerMovement,
-                ObjectSetMask = RnQueryObjectSet.AllGameEntities,
-                HitSolid = true,
-            }
-        };
+        var options = TraceParams.Builder()
+            .WithLineRay()
+            .WithIterateEntities(true)
+            .WithInteraction(MaskTrace.Player | MaskTrace.Solid | MaskTrace.Hitbox | MaskTrace.Npc, MaskTrace.Empty, MaskTrace.Player)
+            .WithCollisionGroup(CollisionGroup.PlayerMovement)
+            .WithObjectQuery(RnQueryObjectSet.AllGameEntities)
+            .HitSolid()
+            .Build();
 
-        var trace = new CGameTrace();
-        Core.Trace.TraceShape(origin, targetOrigin, ray, filter, ref trace);
+        var trace = Core.Trace.TraceShapeLine(origin, targetOrigin, options);
 
-        Console.WriteLine(trace.pEntity != null ? $"! Hit Entity: {trace.Entity.DesignerName}" : "! No entity hit");
-        Console.WriteLine($"! SurfaceProperties: {(nint)trace.SurfaceProperties}, pEntity: {(nint)trace.pEntity}, HitBox: {(nint)trace.HitBox}({trace.HitBox->m_name.Value}), Body: {(nint)trace.Body}, Shape: {(nint)trace.Shape}, Contents: {trace.Contents}");
+        Console.WriteLine(trace.Entity != null ? $"! Hit Entity: {trace.Entity.DesignerName}" : "! No entity hit");
+        Console.WriteLine($"! Contents: {trace.Contents}");
         Console.WriteLine($"! StartPos: {trace.StartPos}, EndPos: {trace.EndPos}, HitNormal: {trace.HitNormal}, HitPoint: {trace.HitPoint}");
         Console.WriteLine($"! HitOffset: {trace.HitOffset}, Fraction: {trace.Fraction}, Triangle: {trace.Triangle}, HitboxBoneIndex: {trace.HitboxBoneIndex}");
         Console.WriteLine($"! RayType: {trace.RayType}, StartInSolid: {trace.StartInSolid}, ExactHitPoint: {trace.ExactHitPoint}");
@@ -794,29 +800,27 @@ public class TestPlugin : BasePlugin
             Maxs = new Vector(16.0f, 16.0f, 72.0f)
         };
 
-        var filter = new CTraceFilter() {
-            IterateEntities = true,
-        };
-        var trace = new CGameTrace();
+        var result = Core.Trace.TracePlayerBBox(start, end, bbox, TraceParams.Builder()
+            .WithIterateEntities(true)
+            .Build());
 
-        unsafe
-        {
-            var filterRef = &filter;
-            Console.WriteLine($"Filter at: {(nint)filterRef:X}");
-        }
+        Console.WriteLine(result.ToString());
 
-        Core.Trace.TracePlayerBBox(start, end, bbox, filter, ref trace);
+        var result2 = Core.Trace.TracePlayerBBox(
+            start,
+            end,
+            bbox,
+            TraceParams.Builder()
+                .WithIterateEntities(true)
+                .WithShouldHitEntity(( entity ) =>
+                {
+                    Console.WriteLine($"ShouldHitEntity: {entity.DesignerName}");
+                    return true;
+                })
+                .Build()
+            );
 
-        var filter2 = new CTraceFilter() {
-            IterateEntities = true,
-            // ShouldHitEntity = ( ent ) =>
-            // {
-            // Console.WriteLine($"ShouldHitEntity: {(ent != null ? ent.DesignerName : "null")}");
-            // return true;
-            // }
-        };
-
-        Core.Trace.TracePlayerBBox(start, end, bbox, filter2, ref trace);
+        Console.WriteLine(result2.ToString());
     }
 
 
@@ -859,7 +863,17 @@ public class TestPlugin : BasePlugin
     {
         var player = context.Sender!;
         var name = player.Name;
-        context.Reply($"Your name is {name} and you ran the stats command!");
+        var steamID = player.ServerSideClient.SteamID;
+        context.Reply($"Your name is {name} and you ran the stats command! Your Steam ID is {steamID.GetSteamID64()}, the one from SwiftlyS2 is {player.SteamID}. Are they equal? {player.SteamID == steamID.GetSteamID64()}");
+    }
+
+    [Command("rnm")]
+    public void RnmCommand( ICommandContext context )
+    {
+        var player = context.Sender!;
+        var name = player.Name;
+        player.Name = context.Args[0];
+        context.Reply($"Your old name was {name} and you new name is {player.Name}!");
     }
 
     [Command("kurotest", registerRaw: true)]
@@ -1604,6 +1618,7 @@ public class TestPlugin : BasePlugin
 
     public override void Unload()
     {
+
         Console.WriteLine("TestPlugin unloaded");
     }
 }

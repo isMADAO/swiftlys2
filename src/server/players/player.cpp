@@ -560,9 +560,3 @@ uint64_t CPlayer::GetSessionID()
 {
     return m_uSessionId;
 }
-
-const char* CPlayer::GetName()
-{
-    return GetServerSideClient(m_iPlayerId)->GetClientName();
-}
-

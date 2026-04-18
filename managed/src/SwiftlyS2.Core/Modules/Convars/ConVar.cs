@@ -11,6 +11,7 @@ using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Core.Extensions;
 using SwiftlyS2.Shared.NetMessages;
 using SwiftlyS2.Shared.ProtobufDefinitions;
+using System.Runtime.CompilerServices;
 
 namespace SwiftlyS2.Core.Convars;
 
@@ -18,7 +19,7 @@ internal delegate void ConVarCallbackDelegate( int playerId, nint name, nint val
 
 internal class ConVar : IConVar
 {
-    private readonly ConcurrentDictionary<int, ConVarCallbackDelegate> callbacks = new();
+    private static readonly ConcurrentDictionary<int, ConVarCallbackDelegate> callbacks = new();
     protected nint MinValuePtrPtr => NativeConvars.GetMinValuePtrPtr(Name);
     protected nint MaxValuePtrPtr => NativeConvars.GetMaxValuePtrPtr(Name);
     private INetMessageService _netMessageService;
@@ -58,9 +59,14 @@ internal class ConVar : IConVar
 
     internal ConVar( string name, INetMessageService netMessageService )
     {
-        callbacks.Clear();
         Name = name;
         Type = (EConVarType)NativeConvars.GetConvarType(Name);
+
+        if (Type == EConVarType.EConVarType_Invalid)
+        {
+            throw new Exception($"Convar {Name} is of invalid type.");
+        }
+
         ValuePtr = NativeConvars.GetValuePtr(Name);
         _netMessageService = netMessageService;
     }
@@ -125,8 +131,9 @@ internal class ConVar : IConVar
 
     public void QueryClient( int clientId, Action<string> callback )
     {
+        var convarName = Name;
         Action? removeSelf = null;
-        void nativeCallback( int playerId, nint namePtr, nint valuePtr )
+        ConVarCallbackDelegate nativeCallback = ( playerId, namePtr, valuePtr ) =>
         {
             if (clientId != playerId)
             {
@@ -134,7 +141,7 @@ internal class ConVar : IConVar
             }
             var name = Marshal.PtrToStringAnsi(namePtr);
 
-            if (name != Name)
+            if (name != convarName)
             {
                 return;
             }
@@ -142,11 +149,11 @@ internal class ConVar : IConVar
 
             callback(value);
             removeSelf?.Invoke();
-        }
+        };
 
-        var callbackPtr = Marshal.GetFunctionPointerForDelegate((ConVarCallbackDelegate)nativeCallback);
+        var callbackPtr = Marshal.GetFunctionPointerForDelegate(nativeCallback);
         var listenerId = NativeConvars.AddQueryClientCvarCallback(callbackPtr);
-        _ = callbacks.AddOrUpdate(listenerId, nativeCallback, ( key, oldValue ) => nativeCallback);
+        callbacks[listenerId] = nativeCallback;
 
         removeSelf = () =>
         {
@@ -154,7 +161,7 @@ internal class ConVar : IConVar
             NativeConvars.RemoveQueryClientCvarCallback(listenerId);
         };
 
-        _ = SchedulerManager.QueueOrNow(() => NativeConvars.QueryClientConvar(clientId, Name));
+        _ = SchedulerManager.QueueOrNow(() => NativeConvars.QueryClientConvar(clientId, convarName));
     }
 
     public void ReplicateToClientAsString( int clientId, string value )
@@ -332,7 +339,7 @@ internal class ConVar<T> : ConVar, IConVar<T>
             throw new ArgumentException($"Invalid type {typeof(T).Name}");
         }
 
-        _ = SchedulerManager.QueueOrNow(() => NativeConvars.SetClientConvarValueString(clientId, Name, val));
+        _ = SchedulerManager.QueueOrNow(() => ReplicateToClientAsString(clientId, val));
     }
 
 
@@ -340,7 +347,7 @@ internal class ConVar<T> : ConVar, IConVar<T>
     {
         unsafe
         {
-            return Type != EConVarType.EConVarType_String ? *(T*)ValuePtr : (T)(object)(*(CUtlString*)ValuePtr).Value;
+            return Type != EConVarType.EConVarType_String ? Unsafe.Read<T>((void*)ValuePtr) : (T)(object)ValuePtr.AsRef<CUtlString>().Value;
         }
     }
 

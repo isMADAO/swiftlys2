@@ -100,7 +100,6 @@ public:
     virtual void SetFirstSpawn(bool state) = 0;
 
     virtual uint64_t GetSessionID() = 0;
-    virtual const char* GetName() = 0;
 };
 
 #endif

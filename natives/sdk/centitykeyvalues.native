@@ -32,3 +32,4 @@ void SetVector = ptr keyvalues, string key, vector value
 void SetVector2D = ptr keyvalues, string key, vector2 value
 void SetVector4D = ptr keyvalues, string key, vector4 value
 void SetQAngle = ptr keyvalues, string key, qangle value
+bool HasKey = ptr keyvalues, string key

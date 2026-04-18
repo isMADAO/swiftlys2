@@ -203,12 +203,6 @@ int Bridge_Convars_GetConvarType(const char* convarName)
     return (int)(convarmanager->GetConvarType(convarName));
 }
 
-void Bridge_Convars_SetClientConvarValueString(int playerid, const char* convarName, const char* value)
-{
-    static auto convarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
-    convarmanager->SetClientConvar(playerid, convarName, value);
-}
-
 uint64_t Bridge_Convars_GetFlags(const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
@@ -461,7 +455,6 @@ DEFINE_NATIVE("Convars.CreateConvarString", Bridge_Convars_CreateConvarString);
 DEFINE_NATIVE("Convars.DeleteConvar", Bridge_Convars_DeleteConvar);
 DEFINE_NATIVE("Convars.ExistsConvar", Bridge_Convars_ExistsConvar);
 DEFINE_NATIVE("Convars.GetConvarType", Bridge_Convars_GetConvarType);
-DEFINE_NATIVE("Convars.SetClientConvarValueString", Bridge_Convars_SetClientConvarValueString);
 DEFINE_NATIVE("Convars.GetFlags", Bridge_Convars_GetFlags);
 DEFINE_NATIVE("Convars.SetFlags", Bridge_Convars_SetFlags);
 DEFINE_NATIVE("Convars.GetMinValuePtrPtr", Bridge_Convars_GetMinValuePtrPtr);

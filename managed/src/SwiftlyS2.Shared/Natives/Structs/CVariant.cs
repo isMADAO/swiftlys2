@@ -298,7 +298,7 @@ public struct CVariant<TAllocator> : IDisposable
     {
         unsafe
         {
-            if (value is null)
+            if (value == null)
             {
                 SetString("");
             }

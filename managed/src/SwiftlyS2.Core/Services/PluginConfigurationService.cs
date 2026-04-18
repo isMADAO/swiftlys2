@@ -148,10 +148,10 @@ internal class PluginConfigurationService : IPluginConfigurationService
       {
         throw new Exception("Base path does not exist in file system. Please call InitializeWithTemplate, InitializeJsonWithModel or InitializeTomlWithModel before using the Manager.");
       }
-      if (_Manager is null)
+      if (_Manager == null)
       {
         _Manager = new ConfigurationManager();
-        _Manager.SetBasePath(BasePath);
+        _ = _Manager.SetBasePath(BasePath);
       }
       return _Manager;
     }

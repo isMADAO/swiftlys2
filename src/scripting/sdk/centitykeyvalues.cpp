@@ -189,6 +189,12 @@ void Bridge_CEntityKeyValues_SetQAngle(void* keyvalues, const char* keyName, QAn
     ((CEntityKeyValues*)keyvalues)->SetQAngle(keyName, value);
 }
 
+bool Bridge_CEntityKeyValues_HasKey(void* keyvalues, const char* keyName)
+{
+    bool attr = false;
+    return ((CEntityKeyValues*)keyvalues)->GetKeyValue(keyName, &attr) != nullptr;
+}
+
 DEFINE_NATIVE("CEntityKeyValues.Allocate", Bridge_CEntityKeyValues_Allocate);
 DEFINE_NATIVE("CEntityKeyValues.Deallocate", Bridge_CEntityKeyValues_Deallocate);
 DEFINE_NATIVE("CEntityKeyValues.GetBool", Bridge_CEntityKeyValues_GetBool);
@@ -221,3 +227,4 @@ DEFINE_NATIVE("CEntityKeyValues.SetVector", Bridge_CEntityKeyValues_SetVector);
 DEFINE_NATIVE("CEntityKeyValues.SetVector2D", Bridge_CEntityKeyValues_SetVector2D);
 DEFINE_NATIVE("CEntityKeyValues.SetVector4D", Bridge_CEntityKeyValues_SetVector4D);
 DEFINE_NATIVE("CEntityKeyValues.SetQAngle", Bridge_CEntityKeyValues_SetQAngle);
+DEFINE_NATIVE("CEntityKeyValues.HasKey", Bridge_CEntityKeyValues_HasKey);

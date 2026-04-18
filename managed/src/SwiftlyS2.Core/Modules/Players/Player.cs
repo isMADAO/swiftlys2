@@ -1,7 +1,9 @@
-﻿using SwiftlyS2.Core.EntitySystem;
+﻿using SwiftlyS2.Core.Engine;
+using SwiftlyS2.Core.EntitySystem;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
 using SwiftlyS2.Core.SchemaDefinitions;
+using SwiftlyS2.Shared.Engine;
 using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Players;
@@ -25,6 +27,7 @@ internal class Player : IPlayer, IDisposable
     }
 
     private bool _disposed = false;
+    private ServerSideClient _serverSideClient = new();
 
     public int PlayerID => Slot;
     public ulong SessionId { get; }
@@ -32,8 +35,6 @@ internal class Player : IPlayer, IDisposable
     public int Slot { get; }
 
     public int UserID { get { ThrowIfDisposed(); return NativePlayer.GetUserID(Slot); } }
-
-    public string Name { get { ThrowIfDisposed(); return NativePlayer.GetName(Slot); } }
 
     public bool IsFakeClient { get { ThrowIfDisposed(); return NativePlayer.IsFakeClient(Slot); } }
 
@@ -73,6 +74,10 @@ internal class Player : IPlayer, IDisposable
 
     Language IPlayer.PlayerLanguage => PlayerLanguage;
 
+    public string Name { get => ServerSideClient.Name; set => ServerSideClient.Name = value; }
+
+    public IServerSideClient ServerSideClient { get { ThrowIfDisposed(); _serverSideClient.SetDangerousHandle(NativePlayer.GetServerSideClient(PlayerID)); return _serverSideClient; } }
+
     public void ChangeTeam( Team team )
     {
         ThrowIfDisposed();
@@ -101,6 +106,12 @@ internal class Player : IPlayer, IDisposable
     {
         ThrowIfDisposed();
         return NativePlayer.IsTransmitEntityBlocked(Slot, entityid);
+    }
+
+    public string GetClientConvarValue( string convarName )
+    {
+        ThrowIfDisposed();
+        return NativePlayer.GetClientConvarValue(Slot, convarName);
     }
 
     public void Kick( string reason, ENetworkDisconnectionReason gameReason )
