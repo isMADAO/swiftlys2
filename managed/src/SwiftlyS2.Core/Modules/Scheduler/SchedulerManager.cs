@@ -33,6 +33,7 @@ internal static class SchedulerManager
 
     private static List<(Action action, CancellationToken ownerToken)> nextTickActions = [];
     private static List<Timer> dueTimers = [];
+    private static List<(Action action, CancellationToken ownerToken)> nextWorldUpdateActions = [];
 
     public static void OnWorldUpdate()
     {
@@ -59,15 +60,13 @@ internal static class SchedulerManager
             }
             catch (Exception ex)
             {
-                AnsiConsole.WriteException(ex);
+                if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
             }
         }
     }
 
     private static void ExecuteOnWorldUpdateTimers()
     {
-        List<(Action action, CancellationToken ownerToken)> nextWorldUpdateActions;
-
         lock (_lock)
         {
             nextWorldUpdateActions = _nextWorldUpdateTasks.ToList();
@@ -89,6 +88,8 @@ internal static class SchedulerManager
                     AnsiConsole.WriteException(ex);
                 }
             }
+
+            nextWorldUpdateActions.Clear();
         }
     }
 

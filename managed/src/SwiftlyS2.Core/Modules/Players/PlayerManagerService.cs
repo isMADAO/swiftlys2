@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Scheduler;
-using SwiftlyS2.Core.SchemaDefinitions;
+using SwiftlyS2.Shared.EntitySystem;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using SwiftlyS2.Shared.SteamAPI;
@@ -12,12 +12,14 @@ namespace SwiftlyS2.Core.Players;
 internal class PlayerManagerService : IPlayerManagerService
 {
     private readonly ITranslationService _translationService;
+    private readonly IEntitySystemService _entitySystemService;
     public static ConcurrentDictionary<int, IPlayer> PlayerObjects { get; } = new();
     public static ConcurrentDictionary<ulong, IPlayer> SessionIdToPlayerObjects { get; } = new();
 
-    public PlayerManagerService( ITranslationService translationService )
+    public PlayerManagerService( ITranslationService translationService, IEntitySystemService entitySystemService )
     {
         _translationService = translationService;
+        _entitySystemService = entitySystemService;
     }
 
     public static void RegisterPlayerObject( int playerid )
@@ -152,8 +154,7 @@ internal class PlayerManagerService : IPlayerManagerService
             }
             else if (target == "@aim")
             {
-                var ccsgamerules = new CCSGameRulesImpl(NativeEntitySystem.GetGameRules());
-                var pickerEntity = ccsgamerules.FindPickerEntity<CCSPlayerPawn>(player.Controller);
+                var pickerEntity = _entitySystemService.GetGameRules()!.FindPickerEntity<CCSPlayerPawn>(player.Controller);
 
                 if (pickerEntity != null && pickerEntity.IsValid && pickerEntity.DesignerName == "player")
                 {

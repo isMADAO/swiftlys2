@@ -593,25 +593,26 @@ internal static class EventPublisher
 
         try
         {
+            List<CSGOUserCmdPB> usercmds = new(numcmds);
+
             unsafe
             {
                 var usercmdPtrs = (nint*)usercmdsPtr;
-                List<CSGOUserCmdPB> usercmds = new(numcmds);
                 for (var i = 0; i < numcmds; i++)
                 {
                     usercmds.Add(new CSGOUserCmdPBImpl(usercmdPtrs[i], false));
                 }
+            }
 
-                OnClientProcessUsercmdsEvent @event = new() {
-                    PlayerId = playerId,
-                    Usercmds = usercmds,
-                    Paused = paused != 0,
-                    Margin = margin
-                };
-                for (var i = 0; i < subscribers.Count; i++)
-                {
-                    subscribers[i].InvokeOnClientProcessUsercmds(ref @event);
-                }
+            OnClientProcessUsercmdsEvent @event = new() {
+                PlayerId = playerId,
+                Usercmds = usercmds,
+                Paused = paused != 0,
+                Margin = margin
+            };
+            for (var i = 0; i < subscribers.Count; i++)
+            {
+                subscribers[i].InvokeOnClientProcessUsercmds(ref @event);
             }
         }
         catch (Exception e)
@@ -660,11 +661,8 @@ internal static class EventPublisher
         }
         catch (Exception e)
         {
-            if (!GlobalExceptionHandler.Handle(ref e))
-            {
-                return 1;
-            }
-            AnsiConsole.WriteException(e);
+            if (GlobalExceptionHandler.Handle(ref e)) AnsiConsole.WriteException(e);
+
             return 1;
         }
     }
@@ -878,7 +876,7 @@ internal static class EventPublisher
 
         try
         {
-            OnConsoleOutputEvent @event = new() { Message = Marshal.PtrToStringUTF8(messagePtr) ?? string.Empty };
+            OnConsoleOutputEvent @event = new() { Message = StringAlloc.CreateCSharpString(messagePtr) };
             for (var i = 0; i < subscribers.Count; i++)
             {
                 subscribers[i].InvokeOnConsoleOutput(ref @event);
