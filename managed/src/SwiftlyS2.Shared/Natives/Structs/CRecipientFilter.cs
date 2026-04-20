@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using SwiftlyS2.Shared.Players;
 
 namespace SwiftlyS2.Shared.Natives;
 
@@ -48,6 +49,32 @@ public struct CRecipientFilter
         foreach (var player in players)
         {
             filter.AddRecipient(player);
+        }
+        return filter;
+    }
+
+    public static CRecipientFilter FromPlayers( params IPlayer[] players )
+    {
+        CRecipientFilter filter = new();
+        foreach (var player in players)
+        {
+            if (player.IsValid)
+            {
+                filter.AddRecipient(player.Slot);
+            }
+        }
+        return filter;
+    }
+
+    public static CRecipientFilter FromPlayers( IEnumerable<IPlayer> players )
+    {
+        CRecipientFilter filter = new();
+        foreach (var player in players)
+        {
+            if (player.IsValid)
+            {
+                filter.AddRecipient(player.Slot);
+            }
         }
         return filter;
     }

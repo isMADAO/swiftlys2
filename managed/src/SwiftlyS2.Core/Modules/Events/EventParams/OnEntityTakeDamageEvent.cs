@@ -9,8 +9,8 @@ namespace SwiftlyS2.Core.Events;
 internal class OnEntityTakeDamageEvent : IOnEntityTakeDamageEvent
 {
     public required CEntityInstance Entity { get; set; }
-    public unsafe nint _infoPtr;
-    public unsafe nint _resultPtr;
+    public nint _infoPtr;
+    public nint _resultPtr;
     public ref CTakeDamageInfo Info => ref _infoPtr.AsRef<CTakeDamageInfo>();
     public ref CTakeDamageResult DamageResult => ref _resultPtr.AsRef<CTakeDamageResult>();
 

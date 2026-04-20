@@ -31,6 +31,10 @@ internal static class SchedulerManager
 
     private static readonly List<(Action action, CancellationToken ownerToken)> _nextWorldUpdateTasks = [];
 
+    private static List<(Action action, CancellationToken ownerToken)> nextTickActions = [];
+    private static List<Timer> dueTimers = [];
+    private static List<(Action action, CancellationToken ownerToken)> nextWorldUpdateActions = [];
+
     public static void OnWorldUpdate()
     {
         try
@@ -56,15 +60,13 @@ internal static class SchedulerManager
             }
             catch (Exception ex)
             {
-                AnsiConsole.WriteException(ex);
+                if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
             }
         }
     }
 
     private static void ExecuteOnWorldUpdateTimers()
     {
-        List<(Action action, CancellationToken ownerToken)> nextWorldUpdateActions;
-
         lock (_lock)
         {
             nextWorldUpdateActions = _nextWorldUpdateTasks.ToList();
@@ -86,6 +88,8 @@ internal static class SchedulerManager
                     AnsiConsole.WriteException(ex);
                 }
             }
+
+            nextWorldUpdateActions.Clear();
         }
     }
 
@@ -123,9 +127,6 @@ internal static class SchedulerManager
 
     private static void ExecuteOnTickTimers()
     {
-        List<(Action action, CancellationToken ownerToken)> nextTickActions;
-        List<Timer> dueTimers = [];
-
         lock (_lock)
         {
             _currentTick++;
@@ -181,6 +182,8 @@ internal static class SchedulerManager
                     if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
                 }
             }
+
+            nextTickActions.Clear();
         }
 
         // Execute due timers outside the lock and reschedule if repeating
@@ -197,10 +200,12 @@ internal static class SchedulerManager
                     if (GlobalExceptionHandler.Handle(ref ex)) AnsiConsole.WriteException(ex);
                 }
             }
+
+            dueTimers.Clear();
         }
     }
 
-    private static void ExecuteTimer( Timer timer )
+    private static void ExecuteTimer( in Timer timer )
     {
         var step = timer.Task(timer.Context);
 
