@@ -20,6 +20,7 @@
 #include <scripting/scripting.h>
 
 #include <entityhandle.h>
+#include "ehandle.h"
 
 typedef void (*CEntityInstance_AcceptInput)(void*, const char*, void*, void*, void*, int, void*);
 typedef void (*CEntitySystem_AddEntityIOEvent)(void*, void*, const char*, void*, void*, void*, float, int, void*, void*);
