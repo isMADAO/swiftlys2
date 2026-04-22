@@ -10,6 +10,7 @@ internal class TranslationService : ITranslationService
     private CoreContext _Context { get; init; }
     private TranslationResource _TranslationResource { get; set; } = new();
     private static Language ServerLanguage = new(NativeServerHelpers.GetServerLanguage());
+    private static Localizer _EmptyLocalizer = new([], []);
 
     public TranslationService( CoreContext context )
     {
@@ -37,7 +38,7 @@ internal class TranslationService : ITranslationService
     public Localizer GetLocalizer()
     {
         return _TranslationResource.Resources.Count == 0
-        ? new Localizer([], [])
+        ? _EmptyLocalizer
         : TranslationFactory.CreateLocalizer(_TranslationResource, GetServerLanguage());
     }
 
@@ -45,7 +46,7 @@ internal class TranslationService : ITranslationService
     {
         if (_TranslationResource.Resources.Count == 0)
         {
-            return new Localizer([], []);
+            return _EmptyLocalizer;
         }
 
         var language = NativeServerHelpers.UsePlayerLanguage() ? player.PlayerLanguage : GetServerLanguage();

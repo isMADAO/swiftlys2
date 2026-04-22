@@ -11,12 +11,12 @@ internal class ProtobufRepeatedFieldValueType<T>( IProtobufAccessor protobuf, st
 
     public T this[int index] {
         get => protobuf.GetRepeated<T>(fieldName, index);
-        set => protobuf.SetRepeated<T>(fieldName, index, value);
+        set => protobuf.SetRepeated(fieldName, index, value);
     }
 
     public void Add( T item )
     {
-        protobuf.Add<T>(fieldName, item);
+        protobuf.Add(fieldName, item);
     }
 
     public void Clear()
@@ -66,7 +66,7 @@ internal class ProtobufRepeatedFieldValueType<T>( IProtobufAccessor protobuf, st
 
     public void Insert( int index, T item )
     {
-        protobuf.Add<T>(fieldName, item);
+        protobuf.Add(fieldName, item);
     }
 
     public bool Remove( T item )

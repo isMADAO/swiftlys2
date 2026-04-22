@@ -11,7 +11,7 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlayerPawn>
 {
     static CCSPlayerPawn ISchemaClass<CCSPlayerPawn>.From(nint handle) => new CCSPlayerPawnImpl(handle);
-    static int ISchemaClass<CCSPlayerPawn>.Size => 7216;
+    static int ISchemaClass<CCSPlayerPawn>.Size => 5024;
     static string? ISchemaClass<CCSPlayerPawn>.ClassName => "player";
 
 
@@ -22,6 +22,8 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public CCSPlayer_BuyServices? BuyServices { get; }
 
     public CCSPlayer_ActionTrackingServices? ActionTrackingServices { get; }
+
+    public CCSPlayer_AimPunchServices? AimPunchServices { get; }
 
     public CCSPlayer_RadioServices? RadioServices { get; }
 
@@ -65,16 +67,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
 
     public ref float LandingTimeSeconds { get; }
 
-    public ref QAngle AimPunchAngle { get; }
-
-    public ref QAngle AimPunchAngleVel { get; }
-
-    public GameTick_t AimPunchTickBase { get; }
-
-    public ref float AimPunchTickFraction { get; }
-
-    public ref CUtlVector<QAngle> AimPunchCache { get; }
-
     public ref bool IsBuyMenuOpen { get; }
 
     public GameTime_t LastLandTime { get; }
@@ -106,8 +98,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public ref byte EconGlovesChanged { get; }
 
     public ref QAngle DeathEyeAngles { get; }
-
-    public ref bool SkipOneHeadConstraintUpdate { get; }
 
     public ref bool LeftHanded { get; }
 
@@ -171,10 +161,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
 
     public ref float VelocityModifier { get; }
 
-    public ref float HitHeading { get; }
-
-    public ref int HitBodyPart { get; }
-
     public ref Vector TotalBulletForce { get; }
 
     public ref bool WaitForNoAttack { get; }
@@ -188,14 +174,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public CCSBot? Bot { get; }
 
     public ref bool BotAllowActive { get; }
-
-    public ref QAngle ThirdPersonHeading { get; }
-
-    public ref float SlopeDropOffset { get; }
-
-    public ref float SlopeDropHeight { get; }
-
-    public ref Vector HeadConstraintOffset { get; }
 
     public ref int LastPickupPriority { get; }
 
@@ -241,10 +219,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
 
     public ISchemaFixedArray<Vector> VelocityHistory { get; }
 
-    public ref CUtlVector<PredictedDamageTag_t> PredictedDamageTags { get; }
-
-    public ref int HighestAppliedDamageTagTick { get; }
-
     public ref bool CommittingSuicideOnTeamChange { get; }
 
     public ref bool WasNotKilledNaturally { get; }
@@ -261,6 +235,7 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public void HostageServicesUpdated();
     public void BuyServicesUpdated();
     public void ActionTrackingServicesUpdated();
+    public void AimPunchServicesUpdated();
     public void HasFemaleVoiceUpdated();
     public void LastPlaceNameUpdated();
     public void InBuyZoneUpdated();
@@ -273,10 +248,6 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public void RetakesMVPBoostItemUpdated();
     public void RetakesMVPBoostExtraUtilityUpdated();
     public void HealthShotBoostExpirationTimeUpdated();
-    public void AimPunchAngleUpdated();
-    public void AimPunchAngleVelUpdated();
-    public void AimPunchTickBaseUpdated();
-    public void AimPunchTickFractionUpdated();
     public void IsBuyMenuOpenUpdated();
     public void TimeOfLastInjuryUpdated();
     public void NextSprayDecalTimeUpdated();
@@ -309,21 +280,14 @@ public partial interface CCSPlayerPawn : CCSPlayerPawnBase, ISchemaClass<CCSPlay
     public void ShotsFiredUpdated();
     public void FlinchStackUpdated();
     public void VelocityModifierUpdated();
-    public void HitHeadingUpdated();
-    public void HitBodyPartUpdated();
     public void WaitForNoAttackUpdated();
     public void KilledByHeadshotUpdated();
-    public void ThirdPersonHeadingUpdated();
-    public void SlopeDropOffsetUpdated();
-    public void SlopeDropHeightUpdated();
-    public void HeadConstraintOffsetUpdated();
     public void ArmorValueUpdated();
     public void CurrentEquipmentValueUpdated();
     public void RoundStartEquipmentValueUpdated();
     public void FreezetimeEndEquipmentValueUpdated();
     public void PlayerPatchEconIndicesUpdated();
     public void GunGameImmunityColorUpdated();
-    public void PredictedDamageTagsUpdated();
     public void ImmuneToGunGameDamageTimeUpdated();
     public void GunGameImmunityUpdated();
     public void MolotovDamageTimeUpdated();

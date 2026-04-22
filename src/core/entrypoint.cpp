@@ -193,12 +193,20 @@ bool SwiftlyCore::Load(BridgeKind_t kind)
             if (gamedata->GetPatches()->Exists(patch))
             {
                 gamedata->GetPatches()->Apply(patch);
-                logger->Info("Patching", fmt::format("Applied patch: {}", patch));
+                logger->Info("Patching", fmt::format("Applied patch: {}\n", patch));
             }
             else
             {
-                logger->Warning("Patching", fmt::format("Couldn't find patch: {}", patch));
+                logger->Warning("Patching", fmt::format("Couldn't find patch: {}\n", patch));
             }
+        }
+
+        if (gamedata->GetPatches()->Exists("SetSchemaHammerUniqueId")) {
+            gamedata->GetPatches()->Apply("SetSchemaHammerUniqueId");
+            logger->Info("Patching", "Applied patch: SetSchemaHammerUniqueId\n");
+        }
+        else {
+            logger->Warning("Patching", "Couldn't find patch: SetSchemaHammerUniqueId\n");
         }
     }
 

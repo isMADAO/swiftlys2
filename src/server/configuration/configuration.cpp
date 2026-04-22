@@ -465,7 +465,7 @@ bool Configuration::Load()
         RegisterConfiguration(wasEdited, config_json, "core", "core", "AutoHotReload", true);
         RegisterConfiguration(wasEdited, config_json, "core", "core", "EnableProfiler", false);
         RegisterConfiguration(wasEdited, config_json, "core", "core", "ConsoleFilter", true);
-        RegisterConfigurationVector<std::string>(wasEdited, config_json, "core", "core", "PatchesToPerform", {}, true, " ");
+        RegisterConfigurationVector<std::string>(wasEdited, config_json, "core", "core", "PatchesToPerform", { }, true, " ");
 
         if (g_SwiftlyCore.GetCurrentGame() == "cs2") RegisterConfiguration(wasEdited, config_json, "core", "core", "CS2ServerGuidelines", "https://blog.counter-strike.net/index.php/server_guidelines/");
         RegisterConfiguration(wasEdited, config_json, "core", "core", fmt::format("Follow{}ServerGuidelines", str_toupper(g_SwiftlyCore.GetCurrentGame())), true);
@@ -499,9 +499,6 @@ bool Configuration::Load()
         RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.InputMode", "button");
 
         RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.ItemsPerPage", 5);
-
-        RegisterConfiguration(wasEdited, config_json, "core", "core", "VGUI.TextBackground.PaddingX", 0.1);
-        RegisterConfiguration(wasEdited, config_json, "core", "core", "VGUI.TextBackground.PaddingY", 0.1);
 
         RegisterConfiguration(wasEdited, config_json, "core", "core", "SteamAuth.Mode", "flexible");
         RegisterConfigurationVector<std::string>(wasEdited, config_json, "core", "core", "SteamAuth.AvailableModes", { "flexible", "strict" }, true, " ");
