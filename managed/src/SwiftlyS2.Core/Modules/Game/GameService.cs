@@ -1,4 +1,5 @@
 using SwiftlyS2.Shared.Misc;
+using SwiftlyS2.Core.SchemaDefinitions;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Natives;
@@ -222,7 +223,7 @@ internal class GameService : IGameService
     private CCSGameRules GetGameRules()
     {
         var gameRules = entitySystemService.GetGameRules();
-        return gameRules?.IsValid ?? false ? gameRules : throw new InvalidOperationException("GameRules not found");
+        return gameRules?.IsValid ?? false ? gameRules : throw new InvalidOperationException("GameRules not found.");
     }
 
     private unsafe CCSMatch* GetCCSMatchPtr()
@@ -242,4 +243,48 @@ internal class GameService : IGameService
         team.ScoreSecondHalfUpdated();
         team.ScoreOvertimeUpdated();
     }
+
+    public void TerminateRound( RoundEndReason reason, float delay )
+    {
+        GetGameRules().TerminateRound(reason, delay);
+    }
+    
+    public void GoToIntermission(bool abortedMatch = false)
+    {
+        GetGameRules().GoToIntermission(abortedMatch);
+    }
+
+    public CHEGrenadeProjectile EmitHEGrenade( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CHEGrenadeProjectileImpl.EmitGrenade(pos, angle, velocity, owner);
+
+    public Task<CHEGrenadeProjectile> EmitHEGrenadeAsync( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CHEGrenadeProjectileImpl.EmitGrenadeAsync(pos, angle, velocity, owner);
+
+    public CFlashbangProjectile EmitFlashbang( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CFlashbangProjectileImpl.EmitGrenade(pos, angle, velocity, owner);
+
+    public Task<CFlashbangProjectile> EmitFlashbangAsync( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CFlashbangProjectileImpl.EmitGrenadeAsync(pos, angle, velocity, owner);
+
+    public CSmokeGrenadeProjectile EmitSmokeGrenade( Vector pos, QAngle angle, Vector velocity, Team team,
+        CBasePlayerPawn? owner )
+        => CSmokeGrenadeProjectileImpl.EmitGrenade(pos, angle, velocity, team, owner);
+
+    public Task<CSmokeGrenadeProjectile> EmitSmokeGrenadeAsync( Vector pos, QAngle angle, Vector velocity, Team team,
+        CBasePlayerPawn? owner )
+        => CSmokeGrenadeProjectileImpl.EmitGrenadeAsync(pos, angle, velocity, team, owner);
+
+    public CMolotovProjectile EmitMolotov( Vector pos, QAngle angle, Vector velocity, Team team,
+        CBasePlayerPawn? owner )
+        => CMolotovProjectileImpl.EmitGrenade(pos, angle, velocity, team, owner);
+
+    public Task<CMolotovProjectile> EmitMolotovAsync( Vector pos, QAngle angle, Vector velocity, Team team,
+        CBasePlayerPawn? owner )
+        => CMolotovProjectileImpl.EmitGrenadeAsync(pos, angle, velocity, team, owner);
+
+    public CDecoyProjectile EmitDecoy( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CDecoyProjectileImpl.EmitGrenade(pos, angle, velocity, owner);
+
+    public Task<CDecoyProjectile> EmitDecoyAsync( Vector pos, QAngle angle, Vector velocity, CBasePlayerPawn? owner )
+        => CDecoyProjectileImpl.EmitGrenadeAsync(pos, angle, velocity, owner);
 }

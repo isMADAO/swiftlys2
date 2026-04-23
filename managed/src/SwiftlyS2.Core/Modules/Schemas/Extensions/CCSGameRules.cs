@@ -34,8 +34,8 @@ public partial interface CCSGameRules
     /// <summary>
     /// Go to the intermission phase of the game.
     /// </summary>
-    /// <param name="bAbortedMatch">Indicates whether the match was aborted</param>
-    public void GoToIntermission(bool bAbortedMatch = false);
+    /// <param name="abortedMatch">Indicates whether the match was aborted</param>
+    public void GoToIntermission(bool abortedMatch = false);
 
     /// <summary>
     /// 
