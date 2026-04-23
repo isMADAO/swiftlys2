@@ -28,18 +28,11 @@ class IMemoryAllocator
 {
 public:
     virtual void* Alloc(uint64_t size) = 0;
-    virtual void* TrackedAlloc(uint64_t size, std::string identifier, std::string details) = 0;
-
     virtual void Free(void* ptr) = 0;
-
     virtual void* Resize(void* ptr, uint64_t newSize) = 0;
-
     virtual uint64_t GetSize(void* ptr) = 0;
 
     virtual uint64_t GetTotalAllocated() = 0;
-    virtual uint64_t GetAllocatedByTrackedIdentifier(std::string identifier) = 0;
-
-    virtual std::vector<std::pair<std::string, void*>> GetTrackedAllocations(std::string identifier) = 0;
 
     virtual bool IsPointerValid(void* ptr) = 0;
 

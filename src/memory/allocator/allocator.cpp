@@ -34,17 +34,6 @@ void* MemoryAllocator::Alloc(uint64_t size)
     return ptr;
 }
 
-void* MemoryAllocator::TrackedAlloc(uint64_t size, std::string identifier, std::string details)
-{
-    QueueLockGuard lock(m_mtxLock);
-    void* ptr = Alloc(size);
-    if (ptr)
-    {
-        trackedAllocations[identifier].push_back({ details, ptr });
-    }
-    return ptr;
-}
-
 void MemoryAllocator::Free(void* ptr)
 {
     QueueLockGuard lock(m_mtxLock);
@@ -53,14 +42,6 @@ void MemoryAllocator::Free(void* ptr)
     {
         totalAllocated -= it->second;
         allocations.erase(it);
-
-        for (auto& [id, vec] : trackedAllocations)
-        {
-            vec.erase(std::remove_if(vec.begin(), vec.end(),
-                [ptr](const std::pair<std::string, void*>& p) { return p.second == ptr; }),
-                vec.end());
-        }
-
         free(ptr);
     }
 }
@@ -78,19 +59,6 @@ void* MemoryAllocator::Resize(void* ptr, uint64_t newSize)
             allocations.erase(it);
             allocations[newPtr] = newSize;
             totalAllocated = totalAllocated - oldSize + newSize;
-
-            for (auto& [id, vec] : trackedAllocations)
-            {
-                for (auto& [details, p] : vec)
-                {
-                    if (p == ptr)
-                    {
-                        p = newPtr;
-                        break;
-                    }
-                }
-            }
-
             return newPtr;
         }
     }
@@ -110,30 +78,6 @@ uint64_t MemoryAllocator::GetSize(void* ptr)
 uint64_t MemoryAllocator::GetTotalAllocated()
 {
     return totalAllocated;
-}
-
-uint64_t MemoryAllocator::GetAllocatedByTrackedIdentifier(std::string identifier)
-{
-    uint64_t total = 0;
-    auto it = trackedAllocations.find(identifier);
-    if (it != trackedAllocations.end())
-    {
-        for (const auto& [details, ptr] : it->second)
-        {
-            total += GetSize(ptr);
-        }
-    }
-    return total;
-}
-
-std::vector<std::pair<std::string, void*>> MemoryAllocator::GetTrackedAllocations(std::string identifier)
-{
-    auto it = trackedAllocations.find(identifier);
-    if (it != trackedAllocations.end())
-    {
-        return it->second;
-    }
-    return {};
 }
 
 bool MemoryAllocator::IsPointerValid(void* ptr)
@@ -164,6 +108,5 @@ MemoryAllocator::~MemoryAllocator()
         free(ptr);
     }
     allocations.clear();
-    trackedAllocations.clear();
     totalAllocated = 0;
 }

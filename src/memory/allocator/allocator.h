@@ -27,7 +27,6 @@ class MemoryAllocator : public IMemoryAllocator
 {
 public:
     virtual void* Alloc(uint64_t size) override;
-    virtual void* TrackedAlloc(uint64_t size, std::string identifier, std::string details) override;
 
     virtual void Free(void* ptr) override;
     virtual void* Resize(void* ptr, uint64_t newSize) override;
@@ -35,9 +34,6 @@ public:
     virtual uint64_t GetSize(void* ptr) override;
 
     virtual uint64_t GetTotalAllocated() override;
-    virtual uint64_t GetAllocatedByTrackedIdentifier(std::string identifier) override;
-
-    virtual std::vector<std::pair<std::string, void*>> GetTrackedAllocations(std::string identifier) override;
 
     virtual bool IsPointerValid(void* ptr) override;
 
@@ -49,7 +45,6 @@ public:
     ~MemoryAllocator();
 private:
     std::map<void*, uint64_t> allocations;
-    std::map<std::string, std::vector<std::pair<std::string, void*>>> trackedAllocations;
     uint64_t totalAllocated = 0;
 
     QueueMutex m_mtxLock;
