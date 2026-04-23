@@ -291,11 +291,22 @@ std::vector<std::string> TokenizeCommand(std::string cmd)
     bool double_quote = false;
     bool token_had_quotes = false;
 
-    for (const char& c : cmd)
+    const auto* bytes = reinterpret_cast<const unsigned char*>(cmd.data());
+    const size_t length = cmd.size();
+
+    for (size_t index = 0; index < length; ++index)
     {
-        if ((c == '"' || c == -30) && !single_quote) {
+        const unsigned char c = bytes[index];
+        // VALVE USE ZWSP FOR QUOTES IN CHAT AND NO ONE KNOWS FUCKING WHY
+        const bool is_replaced_double_quote = c == 0xE2 && index + 2 < length && bytes[index + 1] == 0x80 && bytes[index + 2] == 0x8B;
+
+        if ((c == '"' || is_replaced_double_quote) && !single_quote) {
             double_quote = !double_quote;
             token_had_quotes = true;
+
+            if (is_replaced_double_quote)
+                index += 2;
+
             continue;
         }
         else if (c == '\'' && !double_quote) {
@@ -303,8 +314,6 @@ std::vector<std::string> TokenizeCommand(std::string cmd)
             token_had_quotes = true;
             continue;
         }
-
-        if (c < 0) continue;
 
         if (std::isspace(c) && !single_quote && !double_quote) {
             if (!tmp_token.empty() || token_had_quotes) {
