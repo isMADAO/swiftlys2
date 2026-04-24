@@ -15,7 +15,6 @@ local GITHUB_SHA = os.getenv("GITHUB_SHA") or "Local"
 local SWIFTLY_VERSION = os.getenv("SWIFTLY_VERSION") or "Local"
 
 local sdk_path = "vendor/s2sdk"
-local metamod_path = "vendor/metamod"
 local breakpad_path = "vendor/breakpad/src"
 
 function GetDistDirName()
@@ -67,10 +66,6 @@ target("swiftlys2")
         sdk_path.."/game/shared",
         sdk_path.."/game/server",
         sdk_path.."/common",
-
-        metamod_path,
-        metamod_path.."/core",
-        metamod_path.."/core/sourcehook",
 
         breakpad_path,
     })
@@ -386,14 +381,7 @@ target("swiftlys2")
             os.rmdir("build/package")
         end
         
-        os.mkdir('build/package/addons/metamod')
         os.cp("plugin_files/", 'build/package/addons/swiftlys2')
         os.mkdir('build/package/addons/swiftlys2/bin/'..GetDistDirName())
         os.cp(target:targetfile(), 'build/package/addons/swiftlys2/bin/'..GetDistDirName().."/swiftlys2."..(is_plat("windows") and "dll" or "so"))
-        io.writefile("build/package/addons/metamod/swiftlys2.vdf", [["Metamod Plugin"
-{
-    "alias"	"swiftlys2"
-    "file"	"addons/swiftlys2/bin/]]..GetDistDirName()..[[/swiftlys2"
-}
-]])
     end)

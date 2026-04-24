@@ -29,8 +29,7 @@
 #include <public/tier0/platform.h>
 #include <public/iserver.h>
 #include <igamesystemfactory.h>
-
-#include <core/bridge/metamod.h>
+#include <networksystem/inetworksystem.h>
 
 #include <fmt/format.h>
 

@@ -20,7 +20,6 @@
 
 #include <api/interfaces/manager.h>
 
-#include <core/bridge/metamod.h>
 #include <core/entrypoint.h>
 
 #include "cs_usercmd.pb.h"

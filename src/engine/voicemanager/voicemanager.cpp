@@ -18,8 +18,6 @@
 
 #include "voicemanager.h"
 
-#include <core/bridge/metamod.h>
-
 #include <api/interfaces/manager.h>
 #include <s2binlib/s2binlib.h>
 

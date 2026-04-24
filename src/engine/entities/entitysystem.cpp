@@ -20,8 +20,6 @@
 
 #include <cstdint>
 
-#include <core/bridge/metamod.h>
-
 #include <public/entity2/entitykeyvalues.h>
 #include <public/entity2/entitysystem.h>
 #include <public/iserver.h>

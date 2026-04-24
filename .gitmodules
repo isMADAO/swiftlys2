@@ -1,6 +1,3 @@
-[submodule "vendor/metamod"]
-	path = vendor/metamod
-	url = https://github.com/alliedmodders/metamod-source
 [submodule "vendor/s2sdk"]
 	path = vendor/s2sdk
 	url = https://github.com/swiftly-solution/s2sdk

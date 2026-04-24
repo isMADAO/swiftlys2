@@ -22,8 +22,6 @@
 
 #include <api/shared/string.h>
 
-#include <core/bridge/metamod.h>
-
 #include <cstdio>
 #include <public/icvar.h>
 #include <s2binlib/s2binlib.h>

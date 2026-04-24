@@ -18,7 +18,6 @@
 
 #include <api/interfaces/manager.h>
 #include <core/entrypoint.h>
-#include <core/bridge/metamod.h>
 
 #include <public/tier0/platform.h>
 #include <public/steam/isteamclient.h>
