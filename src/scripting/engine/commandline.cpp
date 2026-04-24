@@ -20,7 +20,22 @@
 #include <public/tier0/icommandline.h>
 #include <public/tier1/utlstringtoken.h>
 
+#include <api/interfaces/manager.h>
+
 #include <string>
+
+static char* Scripting_CommandLine_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
 
 bool Scripting_CommandLine_HasParameter(const char* param)
 {
@@ -39,17 +54,17 @@ int Scripting_CommandLine_GetParameterCount()
     return cmdLine->ParmCount();
 }
 
-int Scripting_CommandLine_GetParameterValueString(char* out, const char* param, const char* defaultValue)
+char* Scripting_CommandLine_GetParameterValueString(int* size, const char* param, const char* defaultValue)
 {
     ICommandLine* cmdLine = CommandLine();
-    if (!cmdLine) return 1;
+    if (!cmdLine)
+    {
+        return Scripting_CommandLine_CopyString("", size);
+    }
 
     CUtlStringToken token(param);
     std::string s = cmdLine->ParmValue(token, defaultValue);
-
-    if (out != nullptr) strcpy(out, s.c_str());
-
-    return s.size();
+    return Scripting_CommandLine_CopyString(s, size);
 }
 
 int Scripting_CommandLine_GetParameterValueInt(const char* param, int defaultValue)
@@ -70,16 +85,16 @@ float Scripting_CommandLine_GetParameterValueFloat(const char* param, float defa
     return cmdLine->ParmValue(token, defaultValue);
 }
 
-int Scripting_CommandLine_GetCommandLine(char* out)
+char* Scripting_CommandLine_GetCommandLine(int* size)
 {
     ICommandLine* cmdLine = CommandLine();
-    if (!cmdLine) return 0;
+    if (!cmdLine)
+    {
+        return Scripting_CommandLine_CopyString("", size);
+    }
 
     std::string s = cmdLine->GetCmdLine();
-
-    if (out != nullptr) strcpy(out, s.c_str());
-
-    return s.size();
+    return Scripting_CommandLine_CopyString(s, size);
 }
 
 bool Scripting_CommandLine_HasParameters()

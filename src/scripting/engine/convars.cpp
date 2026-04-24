@@ -27,6 +27,23 @@
 std::map<std::string, ConVarRefAbstract> convarRefCache;
 extern bool bypassConvarCallbacks;
 
+static char* Bridge_Convars_CopyString(const char* value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = value ? static_cast<int>(strlen(value)) : 0;
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    if (outSize > 0)
+    {
+        memory->Copy(out, (void*)value, outSize);
+    }
+
+    out[outSize] = '\0';
+    return out;
+}
+
 ConVarRefAbstract& GetConVarRef(const char* cvarName)
 {
     std::string name(cvarName);
@@ -325,17 +342,13 @@ bool Bridge_Convars_SetValueAsString(const char* cvarName, const char* value)
     return result;
 }
 
-int Bridge_Convars_GetValueAsString(char* out, const char* cvarName)
+char* Bridge_Convars_GetValueAsString(int* size, const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetValueAsString(buf, CSplitScreenSlot(0));
 
-    if (out != nullptr)
-    {
-        strcpy(out, buf.Get());
-    }
-    return strlen(buf.Get());
+    return Bridge_Convars_CopyString(buf.Get(), size);
 }
 
 bool Bridge_Convars_SetDefaultValueAsString(const char* cvarName, const char* defaultValue)
@@ -349,30 +362,22 @@ bool Bridge_Convars_SetDefaultValueAsString(const char* cvarName, const char* de
     return cvar.GetConVarData()->TypeTraits()->StringToValue(defaultValue, data->m_defaultValue);
 }
 
-int Bridge_Convars_GetDefaultValueAsString(char* out, const char* cvarName)
+char* Bridge_Convars_GetDefaultValueAsString(int* size, const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->DefaultValueToString(buf);
 
-    if (out != nullptr)
-    {
-        strcpy(out, buf.Get());
-    }
-    return strlen(buf.Get());
+    return Bridge_Convars_CopyString(buf.Get(), size);
 }
 
-int Bridge_Convars_GetMinValueAsString(char* out, const char* cvarName)
+char* Bridge_Convars_GetMinValueAsString(int* size, const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->MinValueToString(buf);
 
-    if (out != nullptr)
-    {
-        strcpy(out, buf.Get());
-    }
-    return strlen(buf.Get());
+    return Bridge_Convars_CopyString(buf.Get(), size);
 }
 
 bool Bridge_Convars_SetMinValueAsString(const char* cvarName, const char* minValue)
@@ -386,17 +391,13 @@ bool Bridge_Convars_SetMinValueAsString(const char* cvarName, const char* minVal
     return cvar.GetConVarData()->TypeTraits()->StringToValue(minValue, data->m_minValue);
 }
 
-int Bridge_Convars_GetMaxValueAsString(char* out, const char* cvarName)
+char* Bridge_Convars_GetMaxValueAsString(int* size, const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
     CBufferString buf;
     cvar.GetConVarData()->MaxValueToString(buf);
 
-    if (out != nullptr)
-    {
-        strcpy(out, buf.Get());
-    }
-    return strlen(buf.Get());
+    return Bridge_Convars_CopyString(buf.Get(), size);
 }
 
 bool Bridge_Convars_SetMaxValueAsString(const char* cvarName, const char* maxValue)
@@ -418,14 +419,12 @@ void Bridge_Convars_SetValueInternalAsString(const char* cvarName, const char* v
     cvar.SetValueInternal(0, &v);
 }
 
-int Bridge_Convars_GetDescription(char* out, const char* cvarName)
+char* Bridge_Convars_GetDescription(int* size, const char* cvarName)
 {
     auto& cvar = GetConVarRef(cvarName);
     std::string s = cvar.GetHelpText();
 
-    if (out != nullptr) strcpy(out, s.c_str());
-
-    return s.size();
+    return Bridge_Convars_CopyString(s.c_str(), size);
 }
 
 DEFINE_NATIVE("Convars.QueryClientConvar", Bridge_Convars_QueryClientConvar);

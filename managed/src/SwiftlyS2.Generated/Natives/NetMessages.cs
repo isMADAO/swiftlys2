@@ -412,31 +412,31 @@ internal static class NativeNetMessages
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, byte*, int> _GetString;
+    private unsafe static delegate* unmanaged<int*, nint, byte*, byte*> _GetString;
 
     public unsafe static string GetString(nint netmsg, string fieldName)
     {
         return StringAlloc.CreateCString(fieldName, fieldNameBufferPtr =>
         {
-            var ret = _GetString(null, netmsg, (byte*)fieldNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetString((byte*)retBufferPtr, netmsg, (byte*)fieldNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetString(&length, netmsg, (byte*)fieldNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, byte*, int, int> _GetRepeatedString;
+    private unsafe static delegate* unmanaged<int*, nint, byte*, int, byte*> _GetRepeatedString;
 
     public unsafe static string GetRepeatedString(nint netmsg, string fieldName, int index)
     {
         return StringAlloc.CreateCString(fieldName, fieldNameBufferPtr =>
         {
-            var ret = _GetRepeatedString(null, netmsg, (byte*)fieldNameBufferPtr, index);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetRepeatedString((byte*)retBufferPtr, netmsg, (byte*)fieldNameBufferPtr, index);
-            });
+            var length = 0;
+            var returnedPtr = _GetRepeatedString(&length, netmsg, (byte*)fieldNameBufferPtr, index);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

@@ -19,15 +19,15 @@ internal static class NativeCore
         return ret == 1;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _PluginLoadOrder;
+    private unsafe static delegate* unmanaged<int*, byte*> _PluginLoadOrder;
 
     public unsafe static string PluginLoadOrder()
     {
-        var ret = _PluginLoadOrder(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _PluginLoadOrder((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _PluginLoadOrder(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<byte> _EnableProfilerByDefault;

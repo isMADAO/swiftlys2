@@ -70,15 +70,15 @@ internal static class NativeMemoryHelpers
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, int> _GetObjectPtrVtableName;
+    private unsafe static delegate* unmanaged<int*, nint, byte*> _GetObjectPtrVtableName;
 
     public unsafe static string GetObjectPtrVtableName(nint objptr)
     {
-        var ret = _GetObjectPtrVtableName(null, objptr);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetObjectPtrVtableName((byte*)retBufferPtr, objptr);
-        });
+        var length = 0;
+        var returnedPtr = _GetObjectPtrVtableName(&length, objptr);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<nint, byte> _ObjectPtrHasVtable;

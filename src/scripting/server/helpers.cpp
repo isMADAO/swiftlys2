@@ -19,16 +19,22 @@
 #include <scripting/scripting.h>
 #include <api/interfaces/manager.h>
 
-int Bridge_ServerHelpers_GetServerLanguage(char* out)
+char* Bridge_ServerHelpers_GetServerLanguage(int* size)
 {
     static auto configuration = g_ifaceService.FetchInterface<IConfiguration>(CONFIGURATION_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
 
     static std::string s;
     s = std::get<std::string>(configuration->GetValue("core.Language"));
 
-    if (out != nullptr) strcpy(out, s.c_str());
+    int sz = s.size();
+    *size = sz;
+    char* out = (char*)memory->Alloc(sz + 1);
 
-    return s.size();
+    memory->Copy(out, (void*)s.c_str(), sz);
+    out[sz] = '\0';
+
+    return out;
 }
 
 bool Bridge_ServerHelpers_UsePlayerLanguage()

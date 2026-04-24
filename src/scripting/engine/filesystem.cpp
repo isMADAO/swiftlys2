@@ -21,7 +21,24 @@
 
 #include <public/filesystem.h>
 
-int Bridge_FileSystem_GetSearchPath(char* out, char* pathId, int32_t searchPathType, int32_t searchPathsToGet)
+static char* Bridge_FileSystem_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    if (outSize > 0)
+    {
+        memory->Copy(out, (void*)value.data(), outSize);
+    }
+
+    out[outSize] = '\0';
+    return out;
+}
+
+char* Bridge_FileSystem_GetSearchPath(int* size, char* pathId, int32_t searchPathType, int32_t searchPathsToGet)
 {
     static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
 
@@ -29,10 +46,7 @@ int Bridge_FileSystem_GetSearchPath(char* out, char* pathId, int32_t searchPathT
     filesystem->GetSearchPath(pathId, (GetSearchPathTypes_t)searchPathType, searchPath, searchPathsToGet);
 
     std::string result = searchPath.Get();
-
-    if (out) strcpy(out, result.c_str());
-
-    return result.size();
+    return Bridge_FileSystem_CopyString(result, size);
 }
 
 bool Bridge_FileSystem_FileExists(char* fileName, char* pathId)
@@ -70,21 +84,29 @@ void Bridge_FileSystem_PrintSearchPaths()
     filesystem->PrintSearchPaths();
 }
 
-int Bridge_FileSystem_ReadFile(char* outBuffer, char* fileName, char* pathId)
+char* Bridge_FileSystem_ReadFile(int* size, char* fileName, char* pathId)
 {
     static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
 
     CUtlBuffer buf;
 
-    int size = filesystem->Size(fileName, pathId);
-    buf.EnsureCapacity(size);
+    int fileSize = filesystem->Size(fileName, pathId);
+    if (fileSize <= 0)
+    {
+        return Bridge_FileSystem_CopyString("", size);
+    }
 
-    bool success = filesystem->ReadFile(fileName, pathId, buf, size);
+    buf.EnsureCapacity(fileSize);
 
-    if (!success) return 1;
+    bool success = filesystem->ReadFile(fileName, pathId, buf, fileSize);
 
-    if (outBuffer) strcpy(outBuffer, (char*)buf.Base());
-    return size;
+    if (!success)
+    {
+        return Bridge_FileSystem_CopyString("", size);
+    }
+
+    std::string result((const char*)buf.Base(), fileSize);
+    return Bridge_FileSystem_CopyString(result, size);
 }
 
 bool Bridge_FileSystem_WriteFile(char* fileName, char* pathId, char* inputBuffer)

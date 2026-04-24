@@ -22,14 +22,14 @@ internal static class NativeKeyValuesSystem
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, uint, int> _GetStringForSymbol;
+    private unsafe static delegate* unmanaged<int*, uint, byte*> _GetStringForSymbol;
 
     public unsafe static string GetStringForSymbol(uint symbol)
     {
-        var ret = _GetStringForSymbol(null, symbol);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetStringForSymbol((byte*)retBufferPtr, symbol);
-        });
+        var length = 0;
+        var returnedPtr = _GetStringForSymbol(&length, symbol);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 }

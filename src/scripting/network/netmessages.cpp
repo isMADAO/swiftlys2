@@ -112,6 +112,19 @@
 
 extern INetworkMessages* networkMessages;
 
+static char* Bridge_NetMessages_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 void* Bridge_NetMessages_AllocateNetMessageByID(int msgid)
 {
     auto netmsg = networkMessages->FindNetworkMessageById(msgid);
@@ -502,37 +515,27 @@ void Bridge_NetMessages_AddDouble(void* pmsg, const char* fieldName, double valu
     msg->GetReflection()->AddDouble(msg, field, value);
 }
 
-int Bridge_NetMessages_GetString(char* out, void* pmsg, const char* fieldName)
+char* Bridge_NetMessages_GetString(int* size, void* pmsg, const char* fieldName)
 {
     google::protobuf::Message* msg = (google::protobuf::Message*)pmsg;
-    GETCHECK_FIELD(0);
-    CHECK_FIELD_NOT_REPEATED(0);
+    GETCHECK_FIELD(Bridge_NetMessages_CopyString("", size));
+    CHECK_FIELD_NOT_REPEATED(Bridge_NetMessages_CopyString("", size));
 
     static std::string s;
     s = msg->GetReflection()->GetString(*msg, field);
-    if (out != nullptr)
-    {
-        strcpy(out, s.c_str());
-    }
-
-    return s.size();
+    return Bridge_NetMessages_CopyString(s, size);
 }
 
-int Bridge_NetMessages_GetRepeatedString(char* out, void* pmsg, const char* fieldName, int index)
+char* Bridge_NetMessages_GetRepeatedString(int* size, void* pmsg, const char* fieldName, int index)
 {
     google::protobuf::Message* msg = (google::protobuf::Message*)pmsg;
-    GETCHECK_FIELD(0);
-    CHECK_FIELD_REPEATED(0);
-    CHECK_REPEATED_ELEMENT(index, 0);
+    GETCHECK_FIELD(Bridge_NetMessages_CopyString("", size));
+    CHECK_FIELD_REPEATED(Bridge_NetMessages_CopyString("", size));
+    CHECK_REPEATED_ELEMENT(index, Bridge_NetMessages_CopyString("", size));
 
     static std::string s;
     s = msg->GetReflection()->GetRepeatedString(*msg, field, index);
-    if (out != nullptr)
-    {
-        strcpy(out, s.c_str());
-    }
-
-    return s.size();
+    return Bridge_NetMessages_CopyString(s, size);
 }
 
 void Bridge_NetMessages_SetString(void* pmsg, const char* fieldName, const char* value)

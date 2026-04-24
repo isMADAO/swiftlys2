@@ -111,15 +111,15 @@ internal static class NativePlayer
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, int, int> _GetIPAddress;
+    private unsafe static delegate* unmanaged<int*, int, byte*> _GetIPAddress;
 
     public unsafe static string GetIPAddress(int playerid)
     {
-        var ret = _GetIPAddress(null, playerid);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetIPAddress((byte*)retBufferPtr, playerid);
-        });
+        var length = 0;
+        var returnedPtr = _GetIPAddress(&length, playerid);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<int, byte*, int, void> _Kick;
@@ -202,15 +202,15 @@ internal static class NativePlayer
         _Teleport(playerid, pos, angle, velocity);
     }
 
-    private unsafe static delegate* unmanaged<byte*, int, int> _GetLanguage;
+    private unsafe static delegate* unmanaged<int*, int, byte*> _GetLanguage;
 
     public unsafe static string GetLanguage(int playerid)
     {
-        var ret = _GetLanguage(null, playerid);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetLanguage((byte*)retBufferPtr, playerid);
-        });
+        var length = 0;
+        var returnedPtr = _GetLanguage(&length, playerid);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<int, byte*, void> _SetCenterMenuRender;
@@ -276,17 +276,17 @@ internal static class NativePlayer
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int, byte*, int> _GetClientConvarValue;
+    private unsafe static delegate* unmanaged<int*, int, byte*, byte*> _GetClientConvarValue;
 
     public unsafe static string GetClientConvarValue(int playerid, string convarName)
     {
         return StringAlloc.CreateCString(convarName, convarNameBufferPtr =>
         {
-            var ret = _GetClientConvarValue(null, playerid, (byte*)convarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetClientConvarValue((byte*)retBufferPtr, playerid, (byte*)convarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetClientConvarValue(&length, playerid, (byte*)convarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

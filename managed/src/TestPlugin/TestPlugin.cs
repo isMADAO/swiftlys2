@@ -922,6 +922,10 @@ public class TestPlugin : BasePlugin
     public void GetIpCommand( ICommandContext context )
     {
         context.Reply(SteamGameServer.GetPublicIP().ToString());
+        foreach (var player in Core.PlayerManager.GetAllPlayers())
+        {
+            Console.WriteLine($"{player.Name} - {player.IPAddress}");
+        }
     }
 
     // [Command("i76")]

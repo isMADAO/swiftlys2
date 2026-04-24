@@ -464,17 +464,17 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetValueAsString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetValueAsString;
 
     public unsafe static string GetValueAsString(string cvarName)
     {
         return StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
         {
-            var ret = _GetValueAsString(null, (byte*)cvarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetValueAsString((byte*)retBufferPtr, (byte*)cvarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetValueAsString(&length, (byte*)cvarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -492,17 +492,17 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetDefaultValueAsString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetDefaultValueAsString;
 
     public unsafe static string GetDefaultValueAsString(string cvarName)
     {
         return StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
         {
-            var ret = _GetDefaultValueAsString(null, (byte*)cvarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetDefaultValueAsString((byte*)retBufferPtr, (byte*)cvarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetDefaultValueAsString(&length, (byte*)cvarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -520,17 +520,17 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetMinValueAsString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetMinValueAsString;
 
     public unsafe static string GetMinValueAsString(string cvarName)
     {
         return StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
         {
-            var ret = _GetMinValueAsString(null, (byte*)cvarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetMinValueAsString((byte*)retBufferPtr, (byte*)cvarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetMinValueAsString(&length, (byte*)cvarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -548,17 +548,17 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetMaxValueAsString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetMaxValueAsString;
 
     public unsafe static string GetMaxValueAsString(string cvarName)
     {
         return StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
         {
-            var ret = _GetMaxValueAsString(null, (byte*)cvarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetMaxValueAsString((byte*)retBufferPtr, (byte*)cvarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetMaxValueAsString(&length, (byte*)cvarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -575,17 +575,17 @@ internal static class NativeConvars
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetDescription;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetDescription;
 
     public unsafe static string GetDescription(string cvarName)
     {
         return StringAlloc.CreateCString(cvarName, cvarNameBufferPtr =>
         {
-            var ret = _GetDescription(null, (byte*)cvarNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetDescription((byte*)retBufferPtr, (byte*)cvarNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetDescription(&length, (byte*)cvarNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 }

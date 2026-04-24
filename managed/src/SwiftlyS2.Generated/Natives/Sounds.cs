@@ -48,15 +48,15 @@ internal static class NativeSounds
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, int> _GetName;
+    private unsafe static delegate* unmanaged<int*, nint, byte*> _GetName;
 
     public unsafe static string GetName(nint soundEvent)
     {
-        var ret = _GetName(null, soundEvent);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetName((byte*)retBufferPtr, soundEvent);
-        });
+        var length = 0;
+        var returnedPtr = _GetName(&length, soundEvent);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<nint, int, void> _SetSourceEntityIndex;

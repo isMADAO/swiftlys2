@@ -10,7 +10,7 @@ internal static class StringAlloc
     private static readonly ArrayPool<byte> arrayPool = ArrayPool<byte>.Shared;
     public unsafe delegate void CStringAction( byte* cstr );
 
-    public static void CreateCString( string str, int treshold, Action<nint> action )
+    public static void CreateCString( string str, Action<nint> action )
     {
         var totalByteCount = Encoding.UTF8.GetByteCount(str) + 1;
         var stringBuffer = arrayPool.Rent(totalByteCount);
@@ -29,12 +29,7 @@ internal static class StringAlloc
         arrayPool.Return(stringBuffer);
     }
 
-    public static void CreateCString( string str, Action<nint> action )
-    {
-        CreateCString(str, 256, action);
-    }
-
-    public static T CreateCString<T>( string str, int treshold, Func<nint, T> action )
+    public static T CreateCString<T>( string str, Func<nint, T> action )
     {
         var totalByteCount = Encoding.UTF8.GetByteCount(str) + 1;
         var stringBuffer = arrayPool.Rent(totalByteCount);
@@ -53,12 +48,7 @@ internal static class StringAlloc
         }
     }
 
-    public static T CreateCString<T>( string str, Func<nint, T> action )
-    {
-        return CreateCString(str, 256, action);
-    }
-
-    public static string CreateCSharpString( int length, int treshold, Action<nint> action )
+    public static string CreateCSharpString( int length, Action<nint> action )
     {
         var totalByteCount = length + 1;
         var stringBuffer = arrayPool.Rent(totalByteCount);
@@ -75,13 +65,16 @@ internal static class StringAlloc
         }
     }
 
-    public static string CreateCSharpString( int length, Action<nint> action )
+    public static string CreateCSharpString( nint cstrPtr, int length )
     {
-        return CreateCSharpString(length, 256, action);
+        if (cstrPtr == 0 || length == 0) return "";
+
+        return Marshal.PtrToStringUTF8(cstrPtr, length);
     }
 
     public static string CreateCSharpString( nint cstrPtr )
     {
+        if (cstrPtr == 0) return "";
         return Marshal.PtrToStringUTF8(cstrPtr) ?? "(null)";
     }
 }

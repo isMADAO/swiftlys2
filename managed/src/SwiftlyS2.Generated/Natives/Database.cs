@@ -11,95 +11,95 @@ namespace SwiftlyS2.Core.Natives;
 internal static class NativeDatabase
 {
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetDefaultDriver;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetDefaultDriver;
 
     public unsafe static string GetDefaultDriver()
     {
-        var ret = _GetDefaultDriver(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetDefaultDriver((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetDefaultDriver(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetDefaultConnectionName;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetDefaultConnectionName;
 
     public unsafe static string GetDefaultConnectionName()
     {
-        var ret = _GetDefaultConnectionName(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetDefaultConnectionName((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetDefaultConnectionName(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionDriver;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionDriver;
 
     public unsafe static string GetConnectionDriver(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionDriver(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionDriver((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionDriver(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionHost;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionHost;
 
     public unsafe static string GetConnectionHost(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionHost(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionHost((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionHost(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionDatabase;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionDatabase;
 
     public unsafe static string GetConnectionDatabase(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionDatabase(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionDatabase((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionDatabase(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionUser;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionUser;
 
     public unsafe static string GetConnectionUser(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionUser(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionUser((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionUser(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionPass;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionPass;
 
     public unsafe static string GetConnectionPass(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionPass(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionPass((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionPass(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -125,17 +125,17 @@ internal static class NativeDatabase
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _GetConnectionRawUri;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _GetConnectionRawUri;
 
     public unsafe static string GetConnectionRawUri(string connectionName)
     {
         return StringAlloc.CreateCString(connectionName, connectionNameBufferPtr =>
         {
-            var ret = _GetConnectionRawUri(null, (byte*)connectionNameBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetConnectionRawUri((byte*)retBufferPtr, (byte*)connectionNameBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetConnectionRawUri(&length, (byte*)connectionNameBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

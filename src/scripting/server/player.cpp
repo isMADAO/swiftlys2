@@ -22,6 +22,19 @@
 #include <api/memory/virtual/call.h>
 #include <api/sdk/serversideclient.h>
 
+static char* Bridge_Player_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 void Bridge_Player_SendMessage(int playerid, int kind, const char* message, int duration)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
@@ -132,20 +145,26 @@ void Bridge_Player_PerformCommand(int playerid, const char* command)
     player->PerformCommand(command);
 }
 
-int Bridge_Player_GetIPAddress(char* out, int playerid)
+char* Bridge_Player_GetIPAddress(int* size, int playerid)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
     static std::string s;
     s = player->GetIPAddress();
 
-    if (out != nullptr)
-        strcpy(out, s.c_str());
+    int outSize = s.size();
+    *size = outSize;
+    char* out = (char*)memory->Alloc(outSize + 1);
 
-    return s.size();
+    memory->Copy(out, (void*)s.c_str(), outSize);
+    out[outSize] = '\0';
+
+    return out;
 }
 
 void Bridge_Player_Kick(int playerid, const char* reason, int gamereason)
@@ -276,20 +295,25 @@ void Bridge_Player_Teleport(int playerid, Vector pos, QAngle angle, Vector vel)
     CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CBaseEntity::Teleport"), player->GetPawn(), &pos, &angle, &vel);
 }
 
-int Bridge_Player_GetLanguage(char* out, int playerid)
+char* Bridge_Player_GetLanguage(int* size, int playerid)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
     static std::string s;
     s = player->GetLanguage();
 
-    if (out != nullptr)
-        strcpy(out, s.c_str());
+    int sz = s.size();
+    *size = sz;
+    char* out = (char*)memory->Alloc(sz + 1);
+    memory->Copy(out, (void*)s.c_str(), sz);
+    out[sz] = '\0';
 
-    return s.size();
+    return out;
 }
 
 void Bridge_Player_SetCenterMenuRender(int playerid, const char* text)
@@ -372,20 +396,26 @@ uint64_t Bridge_Player_GetSessionID(int playerid)
     return player->GetSessionID();
 }
 
-int Bridge_Player_GetClientConvarValue(char* out, int playerid, const char* convarName)
+char* Bridge_Player_GetClientConvarValue(int* size, int playerid, const char* convarName)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
     static auto engine = g_ifaceService.FetchInterface<IVEngineServer2>(INTERFACEVERSION_VENGINESERVER);
     auto value = engine->GetClientConVarValue(CPlayerSlot(playerid), convarName);
-    
-    if (out != nullptr)
-        strcpy(out, value);
 
-    return strlen(value);
+    int sz = strlen(value);
+    *size = sz;
+
+    char* out = (char*)memory->Alloc(sz + 1);
+    memory->Copy(out, (void*)value, sz);
+    out[sz] = '\0';
+
+    return out;
 }
 
 CServerSideClient* GetServerSideClient(int playerid);

@@ -8,6 +8,22 @@
 #include <mathlib/vector.h>
 #include <public/Color.h>
 #include <scripting/scripting.h>
+#include <string>
+
+#include <api/interfaces/manager.h>
+
+static char* Bridge_Benchmark_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
 
 // Pattern 1
 void Bridge_Benchmark_VoidToVoid() {}
@@ -81,9 +97,10 @@ void* Bridge_Benchmark_PtrToPtr(void* value)
 }
 
 // Pattern 4
-const char* Bridge_Benchmark_StringToString(const char* value)
+char* Bridge_Benchmark_StringToString(int* size, const char* value)
 {
-    return "test";
+    (void)value;
+    return Bridge_Benchmark_CopyString("test", size);
 }
 void* Bridge_Benchmark_StringToPtr(const char* value)
 {

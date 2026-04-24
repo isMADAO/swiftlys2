@@ -19,6 +19,19 @@
 #include <api/interfaces/manager.h>
 #include <scripting/scripting.h>
 
+static char* Bridge_Sounds_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 void* Bridge_Sounds_CreateSoundEvent()
 {
     auto soundsmanager = g_ifaceService.FetchInterface<ISoundEventManager>(SOUNDEVENTMANAGER_INTERFACE_VERSION);
@@ -41,16 +54,12 @@ void Bridge_Sounds_SetName(void* event, const char* name)
     ((ISoundEvent*)event)->SetName(name);
 }
 
-int Bridge_Sounds_GetName(char* buffer, void* event)
+char* Bridge_Sounds_GetName(int* size, void* event)
 {
     static std::string s;
     s = ((ISoundEvent*)event)->GetName();
 
-    if (buffer != nullptr) {
-        strcpy(buffer, s.c_str());
-    }
-
-    return s.size();
+    return Bridge_Sounds_CopyString(s, size);
 }
 
 void Bridge_Sounds_SetSourceEntityIndex(void* event, int index)

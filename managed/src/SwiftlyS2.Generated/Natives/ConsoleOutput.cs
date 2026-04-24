@@ -74,17 +74,17 @@ internal static class NativeConsoleOutput
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetCounterText;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetCounterText;
 
     /// <summary>
     /// gets the counter text showing how many messages were filtered
     /// </summary>
     public unsafe static string GetCounterText()
     {
-        var ret = _GetCounterText(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetCounterText((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetCounterText(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 }
