@@ -642,7 +642,9 @@ internal static class EventPublisher
                 if (takeDamageResultPtr == 0 && takeDamageInfoPtr != 0)
                 {
                     var damageInfo = (CTakeDamageInfo*)takeDamageInfoPtr;
+
                     emptyTakeDamageResult.OriginatingInfo = damageInfo;
+                    emptyTakeDamageResult.DestructibleHitGroupRequests = damageInfo->DestructiblePartDamageRequests;
                     emptyTakeDamageResult.HealthLost = (int)damageInfo->Damage;
                     emptyTakeDamageResult.DamageDealt = damageInfo->Damage;
                     emptyTakeDamageResult.PreModifiedDamage = damageInfo->Damage;
@@ -650,6 +652,12 @@ internal static class EventPublisher
                     emptyTakeDamageResult.TotalledHealthLost = (int)damageInfo->Damage;
                     emptyTakeDamageResult.TotalledPreModifiedDamage = damageInfo->Damage;
                     emptyTakeDamageResult.DamageFlags = damageInfo->DamageFlags;
+                    emptyTakeDamageResult.WasDamageSuppressed = (byte)(damageInfo->InTakeDamageFlow == 0 ? 1 : 0);
+                    emptyTakeDamageResult.OverrideFlinchHitGroup = damageInfo->ActualHitGroup;
+                    emptyTakeDamageResult.HealthBefore = 0;
+                    emptyTakeDamageResult.NewDamageAccumulatorValue = 0;
+                    emptyTakeDamageResult.SuppressFlinch = 0;
+
                     fixed (CTakeDamageResult* resultPtr = &emptyTakeDamageResult)
                     {
                         takeDamageResultPtr = (nint)resultPtr;
