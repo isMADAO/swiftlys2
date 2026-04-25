@@ -72,14 +72,14 @@ public interface EventPlayerHurt : IGameEvent<EventPlayerHurt>
     /// <br/>
     /// type: byte
     /// </summary>
-    byte Health { get; set; }
+    int Health { get; set; }
 
     /// <summary>
     /// remaining armor points
     /// <br/>
     /// type: byte
     /// </summary>
-    byte Armor { get; set; }
+    int Armor { get; set; }
 
     /// <summary>
     /// weapon name attacker used, if not the world
@@ -93,14 +93,14 @@ public interface EventPlayerHurt : IGameEvent<EventPlayerHurt>
     /// <br/>
     /// type: short
     /// </summary>
-    short DmgHealth { get; set; }
+    int DmgHealth { get; set; }
 
     /// <summary>
     /// damage done to armor
     /// <br/>
     /// type: byte
     /// </summary>
-    byte DmgArmor { get; set; }
+    int DmgArmor { get; set; }
 
     /// <summary>
     /// hitgroup that was damaged

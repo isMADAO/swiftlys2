@@ -126,12 +126,12 @@ internal class EventPlayerDeathImpl : GameEvent<EventPlayerDeath>, EventPlayerDe
     { get => Accessor.GetFloat("distance"); set => Accessor.SetFloat("distance", value); }
 
     // damage done to health
-    public short DmgHealth
-    { get => (short)Accessor.GetInt32("dmg_health"); set => Accessor.SetInt32("dmg_health", value); }
+    public int DmgHealth
+    { get => Accessor.GetInt32("dmg_health"); set => Accessor.SetInt32("dmg_health", value); }
 
     // damage done to armor
-    public byte DmgArmor
-    { get => (byte)Accessor.GetInt32("dmg_armor"); set => Accessor.SetInt32("dmg_armor", value); }
+    public int DmgArmor
+    { get => Accessor.GetInt32("dmg_armor"); set => Accessor.SetInt32("dmg_armor", value); }
 
     // hitgroup that was damaged
     public byte HitGroup

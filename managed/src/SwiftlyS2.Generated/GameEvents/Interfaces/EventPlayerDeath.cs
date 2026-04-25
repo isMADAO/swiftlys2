@@ -201,14 +201,14 @@ public interface EventPlayerDeath : IGameEvent<EventPlayerDeath>
     /// <br/>
     /// type: short
     /// </summary>
-    short DmgHealth { get; set; }
+    int DmgHealth { get; set; }
 
     /// <summary>
     /// damage done to armor
     /// <br/>
     /// type: byte
     /// </summary>
-    byte DmgArmor { get; set; }
+    int DmgArmor { get; set; }
 
     /// <summary>
     /// hitgroup that was damaged
