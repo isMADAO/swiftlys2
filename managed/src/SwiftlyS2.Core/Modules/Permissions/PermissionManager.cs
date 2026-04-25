@@ -273,4 +273,9 @@ internal class PermissionManager : IPermissionManager
 
         _queryCache = _queryCache.Clear();
     }
+
+    IEnumerable<string> IPermissionManager.GetPlayerPermissions( ulong steamId )
+    {
+        return GetPlayerPermissions(steamId);
+    }
 }
