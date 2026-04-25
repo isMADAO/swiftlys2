@@ -103,6 +103,9 @@ internal class PlayerManagerService : IPlayerManagerService
         var players = GetAllValidPlayers();
         foreach (var targetPlayer in players)
         {
+            if (searchMode.HasFlag(TargetSearchMode.NoMultipleTargets) && allPlayers.Any())
+                break;
+
             if (searchMode.HasFlag(TargetSearchMode.NoBots) && targetPlayer.IsFakeClient)
                 continue;
 
