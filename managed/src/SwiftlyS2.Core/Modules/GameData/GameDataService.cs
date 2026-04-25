@@ -13,6 +13,11 @@ namespace SwiftlyS2.Core.Services;
 internal record Offset( int windows, int linux );
 internal record Signature( string lib, string windows, string linux );
 internal record Patch( string signature, string windows, string linux );
+internal sealed class AppliedPatch
+{
+    public nint Address { get; init; }
+    public byte[] OriginalBytes { get; init; } = [];
+}
 
 internal class GameDataService : IGameDataService
 {
@@ -22,6 +27,8 @@ internal class GameDataService : IGameDataService
     private ConcurrentDictionary<string, nint> _Signatures = [];
     private ConcurrentDictionary<string, int> _Offsets = [];
     private ConcurrentDictionary<string, Patch> _Patches = [];
+    private static readonly ConcurrentDictionary<string, AppliedPatch> _AppliedPatches = [];
+    private static readonly object _AppliedPatchesLock = new();
 
     private static readonly OSPlatform _Platform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? OSPlatform.Windows : OSPlatform.Linux;
 
@@ -143,11 +150,44 @@ internal class GameDataService : IGameDataService
                   .Select(x => byte.Parse(x, NumberStyles.HexNumber, CultureInfo.InvariantCulture))
                   .ToArray();
 
-            _ = MemoryPatch.SetMemAccess(address, bytes.Length);
-            address.CopyFrom(bytes);
+            lock (_AppliedPatchesLock)
+            {
+                if (_AppliedPatches.ContainsKey(patchName))
+                {
+                    return;
+                }
+
+                var oldBytes = new byte[bytes.Length];
+                Marshal.Copy(address, oldBytes, 0, oldBytes.Length);
+                _AppliedPatches[patchName] = new AppliedPatch {
+                    Address = address,
+                    OriginalBytes = oldBytes,
+                };
+
+                _ = MemoryPatch.SetMemAccess(address, bytes.Length);
+                address.CopyFrom(bytes);
+            }
+
             return;
         }
         NativePatches.Apply(patchName);
     }
 
+    public void RevertPatch( string patchName )
+    {
+        if (_Patches.ContainsKey(patchName))
+        {
+            lock (_AppliedPatchesLock)
+            {
+                if (_AppliedPatches.TryRemove(patchName, out var appliedPatch))
+                {
+                    _ = MemoryPatch.SetMemAccess(appliedPatch.Address, appliedPatch.OriginalBytes.Length);
+                    appliedPatch.Address.CopyFrom(appliedPatch.OriginalBytes);
+                }
+            }
+            return;
+        }
+
+        NativePatches.Revert(patchName);
+    }
 }
