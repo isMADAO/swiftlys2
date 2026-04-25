@@ -199,23 +199,23 @@ public interface EventPlayerDeath : IGameEvent<EventPlayerDeath>
     /// <summary>
     /// damage done to health
     /// <br/>
-    /// type: short
+    /// type: short (overridden to int)
     /// </summary>
-    short DmgHealth { get; set; }
+    int DmgHealth { get; set; }
 
     /// <summary>
     /// damage done to armor
     /// <br/>
-    /// type: byte
+    /// type: byte (overridden to int)
     /// </summary>
-    byte DmgArmor { get; set; }
+    int DmgArmor { get; set; }
 
     /// <summary>
     /// hitgroup that was damaged
     /// <br/>
-    /// type: byte
+    /// type: byte (overridden to HitGroup_t)
     /// </summary>
-    byte HitGroup { get; set; }
+    HitGroup_t HitGroup { get; set; }
 
     /// <summary>
     /// attacker was in midair
