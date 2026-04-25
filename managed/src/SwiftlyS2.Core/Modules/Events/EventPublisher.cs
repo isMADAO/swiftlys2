@@ -17,6 +17,7 @@ internal static class EventPublisher
 {
     private static readonly List<EventSubscriber> subscribers = [];
     private static readonly Lock subscribersLock = new();
+    private static CTakeDamageResult emptyTakeDamageResult = new();
 
     public static void Subscribe( EventSubscriber subscriber )
     {
@@ -640,17 +641,19 @@ internal static class EventPublisher
             {
                 if (takeDamageResultPtr == 0 && takeDamageInfoPtr != 0)
                 {
-                    var newTakeDamageResult = new CTakeDamageResult();
                     var damageInfo = (CTakeDamageInfo*)takeDamageInfoPtr;
-                    newTakeDamageResult.OriginatingInfo = damageInfo;
-                    newTakeDamageResult.HealthLost = (int)damageInfo->Damage;
-                    newTakeDamageResult.DamageDealt = damageInfo->Damage;
-                    newTakeDamageResult.PreModifiedDamage = damageInfo->Damage;
-                    newTakeDamageResult.TotalledDamageDealt = damageInfo->Damage;
-                    newTakeDamageResult.TotalledHealthLost = (int)damageInfo->Damage;
-                    newTakeDamageResult.TotalledPreModifiedDamage = damageInfo->Damage;
-                    newTakeDamageResult.DamageFlags = damageInfo->DamageFlags;
-                    takeDamageResultPtr = (nint)(&newTakeDamageResult);
+                    emptyTakeDamageResult.OriginatingInfo = damageInfo;
+                    emptyTakeDamageResult.HealthLost = (int)damageInfo->Damage;
+                    emptyTakeDamageResult.DamageDealt = damageInfo->Damage;
+                    emptyTakeDamageResult.PreModifiedDamage = damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledDamageDealt = damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledHealthLost = (int)damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledPreModifiedDamage = damageInfo->Damage;
+                    emptyTakeDamageResult.DamageFlags = damageInfo->DamageFlags;
+                    fixed (CTakeDamageResult* resultPtr = &emptyTakeDamageResult)
+                    {
+                        takeDamageResultPtr = (nint)resultPtr;
+                    }
                 }
 
                 OnEntityTakeDamageEvent @event = new() {

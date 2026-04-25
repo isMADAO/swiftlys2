@@ -25,11 +25,6 @@
             "Use": "e"
         },
         "InputMode": "button",
-        // "KindSettings": {
-        //     "Center": {
-        //         "ItemsPerPage": 4
-        //     }
-        // },
         "NavigationPrefix": "➤",
         "Sound": {
             "Exit": {
