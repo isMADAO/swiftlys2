@@ -70,16 +70,36 @@ public interface EventPlayerHurt : IGameEvent<EventPlayerHurt>
     /// <summary>
     /// remaining health points
     /// <br/>
-    /// type: byte (overridden to int)
+    /// type: byte
+    /// <br/>
+    /// See <see cref="ActualHealth"/>.
     /// </summary>
-    int Health { get; set; }
+    [Obsolete("The declared type may not match the actual value. Use ActualHealth instead.")]
+    byte Health { get; set; }
+
+    /// <summary>
+    /// remaining health points
+    /// <br/>
+    /// type: int
+    /// </summary>
+    int ActualHealth { get; set; }
 
     /// <summary>
     /// remaining armor points
     /// <br/>
-    /// type: byte (overridden to int)
+    /// type: byte
+    /// <br/>
+    /// See <see cref="ActualArmor"/>.
     /// </summary>
-    int Armor { get; set; }
+    [Obsolete("The declared type may not match the actual value. Use ActualArmor instead.")]
+    byte Armor { get; set; }
+
+    /// <summary>
+    /// remaining armor points
+    /// <br/>
+    /// type: int
+    /// </summary>
+    int ActualArmor { get; set; }
 
     /// <summary>
     /// weapon name attacker used, if not the world
@@ -91,21 +111,51 @@ public interface EventPlayerHurt : IGameEvent<EventPlayerHurt>
     /// <summary>
     /// damage done to health
     /// <br/>
-    /// type: short (overridden to int)
+    /// type: short
+    /// <br/>
+    /// See <see cref="ActualDmgHealth"/>.
     /// </summary>
-    int DmgHealth { get; set; }
+    [Obsolete("The declared type may not match the actual value. Use ActualDmgHealth instead.")]
+    short DmgHealth { get; set; }
+
+    /// <summary>
+    /// damage done to health
+    /// <br/>
+    /// type: int
+    /// </summary>
+    int ActualDmgHealth { get; set; }
 
     /// <summary>
     /// damage done to armor
     /// <br/>
-    /// type: byte (overridden to int)
+    /// type: byte
+    /// <br/>
+    /// See <see cref="ActualDmgArmor"/>.
     /// </summary>
-    int DmgArmor { get; set; }
+    [Obsolete("The declared type may not match the actual value. Use ActualDmgArmor instead.")]
+    byte DmgArmor { get; set; }
+
+    /// <summary>
+    /// damage done to armor
+    /// <br/>
+    /// type: int
+    /// </summary>
+    int ActualDmgArmor { get; set; }
 
     /// <summary>
     /// hitgroup that was damaged
     /// <br/>
-    /// type: byte (overridden to HitGroup_t)
+    /// type: byte
+    /// <br/>
+    /// See <see cref="ActualHitGroup"/>.
     /// </summary>
-    HitGroup_t HitGroup { get; set; }
+    [Obsolete("The declared type may not match the actual value. Use ActualHitGroup instead.")]
+    byte HitGroup { get; set; }
+
+    /// <summary>
+    /// hitgroup that was damaged
+    /// <br/>
+    /// type: HitGroup_t
+    /// </summary>
+    HitGroup_t ActualHitGroup { get; set; }
 }
