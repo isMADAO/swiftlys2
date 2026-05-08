@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Spectre.Console;
 using SwiftlyS2.Shared.Misc;
+using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Core.Scheduler;
@@ -16,6 +17,7 @@ internal static class EventPublisher
 {
     private static readonly List<EventSubscriber> subscribers = [];
     private static readonly Lock subscribersLock = new();
+    private static CTakeDamageResult emptyTakeDamageResult = new();
 
     public static void Subscribe( EventSubscriber subscriber )
     {
@@ -637,6 +639,31 @@ internal static class EventPublisher
         {
             unsafe
             {
+                if (takeDamageResultPtr == 0 && takeDamageInfoPtr != 0)
+                {
+                    var damageInfo = (CTakeDamageInfo*)takeDamageInfoPtr;
+
+                    emptyTakeDamageResult.OriginatingInfo = damageInfo;
+                    emptyTakeDamageResult.DestructibleHitGroupRequests = damageInfo->DestructiblePartDamageRequests;
+                    emptyTakeDamageResult.HealthLost = (int)damageInfo->Damage;
+                    emptyTakeDamageResult.DamageDealt = damageInfo->Damage;
+                    emptyTakeDamageResult.PreModifiedDamage = damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledDamageDealt = damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledHealthLost = (int)damageInfo->Damage;
+                    emptyTakeDamageResult.TotalledPreModifiedDamage = damageInfo->Damage;
+                    emptyTakeDamageResult.DamageFlags = damageInfo->DamageFlags;
+                    emptyTakeDamageResult.WasDamageSuppressed = (byte)(damageInfo->InTakeDamageFlow == 0 ? 1 : 0);
+                    emptyTakeDamageResult.OverrideFlinchHitGroup = damageInfo->ActualHitGroup;
+                    emptyTakeDamageResult.HealthBefore = 0;
+                    emptyTakeDamageResult.NewDamageAccumulatorValue = 0;
+                    emptyTakeDamageResult.SuppressFlinch = 0;
+
+                    fixed (CTakeDamageResult* resultPtr = &emptyTakeDamageResult)
+                    {
+                        takeDamageResultPtr = (nint)resultPtr;
+                    }
+                }
+
                 OnEntityTakeDamageEvent @event = new() {
                     Entity = EntityManager.GetEntityByAddress(entityPtr) ?? new CEntityInstanceImpl(entityPtr),
                     _infoPtr = takeDamageInfoPtr,

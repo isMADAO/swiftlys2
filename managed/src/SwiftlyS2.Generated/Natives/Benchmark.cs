@@ -146,17 +146,17 @@ internal static class NativeBenchmark
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int> _StringToString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*> _StringToString;
 
     public unsafe static string StringToString(string value)
     {
         return StringAlloc.CreateCString(value, valueBufferPtr =>
         {
-            var ret = _StringToString(null, (byte*)valueBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _StringToString((byte*)retBufferPtr, (byte*)valueBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _StringToString(&length, (byte*)valueBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

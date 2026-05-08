@@ -55,17 +55,17 @@ internal static class NativeGameEvents
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, byte*, int> _GetString;
+    private unsafe static delegate* unmanaged<int*, nint, byte*, byte*> _GetString;
 
     public unsafe static string GetString(nint _event, string key)
     {
         return StringAlloc.CreateCString(key, keyBufferPtr =>
         {
-            var ret = _GetString(null, _event, (byte*)keyBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetString((byte*)retBufferPtr, _event, (byte*)keyBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetString(&length, _event, (byte*)keyBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

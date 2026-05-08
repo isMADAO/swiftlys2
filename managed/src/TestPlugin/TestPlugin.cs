@@ -145,6 +145,8 @@ public class TestPlugin : BasePlugin
 {
     private IConVar<bool>? _autobunnyhopping;
 
+    private delegate nint ReflectPawnStateType( nint a1, nint a2 );
+
     public TestPlugin( ISwiftlyCore core ) : base(core)
     {
         _autobunnyhopping = Core.ConVar.Find<bool>("sv_autobunnyhopping");
@@ -157,6 +159,28 @@ public class TestPlugin : BasePlugin
         };
 
         // throw new InvalidOperationException("TestPlugin constructor exception");
+
+        // var addr = Core.Memory.GetAddressBySignature("server", "48 89 5C 24 ? 56 57 41 56 48 83 EC ? 48 8D 05 ? ? ? ? 48 C7 44 24");
+        // var func = Core.Memory.GetUnmanagedFunctionByAddress<ReflectPawnStateType>(addr!.Value);
+        // _ = func.AddHook(next =>
+        // {
+        //     return ( a1, a2 ) =>
+        //     {
+        //         var ret = next()(a1, a2);
+        //         var controller = Helper.AsSchema<CCS2PawnGraphController>(a1);
+
+        //         //    controller.FlinchIsOnFire.Value = true;
+        //         //    controller.Action.Value = "action_crouch";
+        //         //    controller.AirHeightAboveGround.Value = 1f;
+        //         //    controller.Char = "action_celebrate";
+        //         //    controller.MoveSpeedY.Value = 0.1f;
+        //         // controller.IsWalking.Value = false;
+        //         // controller.AimPitchAngle.Value = 90f;
+        //         controller.CrouchAmount.Value = 1 * MathF.Sin(Core.Engine.GlobalVars.TickCount);
+        //         // Console.WriteLine(ret+"\n");
+        //         return ret;
+        //     };
+        // });
     }
 
     [Command("selfmute")]
@@ -169,8 +193,15 @@ public class TestPlugin : BasePlugin
     [Command("be")]
     public void Test2Command( ICommandContext context )
     {
-        var entity = context.Sender!.RequiredPawn;
-        entity.TakeDamage(100, DamageTypes_t.DMG_GENERIC);
+        var controller = context.Sender!.Pawn.GraphControllerManager.Controllers[0].Value.As<CCS2PawnGraphController>();
+        unsafe
+        {
+            fixed (void* ptr = &controller.Action)
+            {
+                Console.WriteLine("PTR: " + (nint)ptr);
+            }
+        }
+
     }
 
     [Command("CommandAliasTest")]
@@ -480,6 +511,7 @@ public class TestPlugin : BasePlugin
         // Core.Event.OnEntityTakeDamage += ( @event ) =>
         // {
         //     Console.WriteLine(@event.Entity.DesignerName);
+        //     Console.WriteLine($"OnEntityTakeDamage>> DamageResult.DamageDealt[{@event.DamageResult.DamageDealt}]");
         //     @event.Info.DamageFlags = TakeDamageFlags_t.DFLAG_SUPPRESS_BREAKABLES;
         //     @event.Result = HookResult.Stop;
         // };
@@ -584,17 +616,7 @@ public class TestPlugin : BasePlugin
     public void TestCommand1( ICommandContext context )
     {
         var player = context.Sender!;
-        for (var i = 0; i < 10000; i++)
-        {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(100);
-                Core.Scheduler.NextTick(() =>
-                {
-                    player.PlayerPawn!.SetModel("characters/models/tm_jumpsuit/tm_jumpsuit_varianta.vmdl");
-                });
-            });
-        }
+        player.PlayerPawn!.SetModel("agents/models/ctm_fbi/ctm_fbi_varianta.vmdl");
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -922,6 +944,10 @@ public class TestPlugin : BasePlugin
     public void GetIpCommand( ICommandContext context )
     {
         context.Reply(SteamGameServer.GetPublicIP().ToString());
+        foreach (var player in Core.PlayerManager.GetAllPlayers())
+        {
+            Console.WriteLine($"{player.Name} - {player.IPAddress}");
+        }
     }
 
     // [Command("i76")]
@@ -1170,6 +1196,18 @@ public class TestPlugin : BasePlugin
     {
         var player = @event.UserIdPlayer;
         Console.WriteLine($"{player.Controller!.PlayerName} broke a prop!");
+        return HookResult.Continue;
+    }
+
+    [GameEventHandler(HookMode.Post)]
+    public HookResult OnPlayerHurtPost( EventPlayerHurt @event )
+    {
+        if (@event.UserIdPlayer is not { IsValid: true }) return HookResult.Continue;
+        var pawnHealth = @event.UserIdPlayer.PlayerPawn!.Health;
+        var eventHealth = @event.Health;
+        Core.PlayerManager.SendChat($"OnPlayerHurt>> pawnHealth[{pawnHealth}], eventHealth[{eventHealth}], ActualHealth[{@event.ActualHealth}], ActualHitGroup[{@event.ActualHitGroup}]");
+        @event.ActualHitGroup = HitGroup_t.HITGROUP_HEAD;
+        Core.PlayerManager.SendChat($"OnPlayerHurt>> newActualHitGroup[{@event.ActualHitGroup}]");
         return HookResult.Continue;
     }
 

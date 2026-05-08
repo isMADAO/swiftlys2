@@ -13,6 +13,7 @@
     "ManualLoadPlugins": false,
     "PluginLoadOrder": [],
     "DotnetCrashTracerLevel": 0,
+    "WindowsFullDump": false,
     "Menu": {
         "AvailableInputModes": [
             "button",
@@ -25,11 +26,6 @@
             "Use": "e"
         },
         "InputMode": "button",
-        // "KindSettings": {
-        //     "Center": {
-        //         "ItemsPerPage": 4
-        //     }
-        // },
         "NavigationPrefix": "➤",
         "Sound": {
             "Exit": {

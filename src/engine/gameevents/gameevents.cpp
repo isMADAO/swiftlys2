@@ -18,8 +18,6 @@
 
 #include "gameevents.h"
 
-#include <core/bridge/metamod.h>
-
 #include <api/interfaces/manager.h>
 
 #include <api/shared/files.h>

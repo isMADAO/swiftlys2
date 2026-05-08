@@ -38,15 +38,15 @@ internal static class NativeStringTable
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, int> _GetTableName;
+    private unsafe static delegate* unmanaged<int*, nint, byte*> _GetTableName;
 
     public unsafe static string GetTableName(nint table)
     {
-        var ret = _GetTableName(null, table);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetTableName((byte*)retBufferPtr, table);
-        });
+        var length = 0;
+        var returnedPtr = _GetTableName(&length, table);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<nint, int> _GetNumStrings;
@@ -76,15 +76,15 @@ internal static class NativeStringTable
         return ret == 1;
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, int, int> _GetString;
+    private unsafe static delegate* unmanaged<int*, nint, int, byte*> _GetString;
 
     public unsafe static string GetString(nint table, int index)
     {
-        var ret = _GetString(null, table, index);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetString((byte*)retBufferPtr, table, index);
-        });
+        var length = 0;
+        var returnedPtr = _GetString(&length, table, index);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<nint, int, nint> _GetStringUserData;

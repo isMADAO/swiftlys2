@@ -22,6 +22,19 @@
 
 extern std::thread::id g_mainThreadId;
 
+static char* Bridge_Core_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 uint8_t Bridge_Core_PluginManualLoadState()
 {
     static auto config = g_ifaceService.FetchInterface<IConfiguration>(CONFIGURATION_INTERFACE_VERSION);
@@ -32,15 +45,21 @@ uint8_t Bridge_Core_PluginManualLoadState()
     return 0;
 }
 
-int Bridge_Core_PluginLoadOrder(char* out)
+char* Bridge_Core_PluginLoadOrder(int* size)
 {
     static auto config = g_ifaceService.FetchInterface<IConfiguration>(CONFIGURATION_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     if (std::string* vec = std::get_if<std::string>(&config->GetValue("core.PluginLoadOrder")))
     {
-        if (out != nullptr) strcpy(out, vec->c_str());
-        return static_cast<int>(vec->size());
+        int stringSize = vec->size();
+        *size = stringSize;
+        void* buffer = memory->Alloc(stringSize + 1);
+        memory->Copy(buffer, (void*)vec->c_str(), stringSize);
+        return (char*)buffer;
     }
-    return 0;
+
+    return Bridge_Core_CopyString("", size);
 }
 
 uint8_t Bridge_Core_EnableProfilerByDefault()

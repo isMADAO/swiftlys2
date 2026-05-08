@@ -11,15 +11,15 @@ namespace SwiftlyS2.Core.Natives;
 internal static class NativeServerHelpers
 {
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetServerLanguage;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetServerLanguage;
 
     public unsafe static string GetServerLanguage()
     {
-        var ret = _GetServerLanguage(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetServerLanguage((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetServerLanguage(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<byte> _UsePlayerLanguage;

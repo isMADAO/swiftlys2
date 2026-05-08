@@ -19,20 +19,6 @@ internal static class NativeAllocator
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<ulong, byte*, byte*, nint> _TrackedAlloc;
-
-    public unsafe static nint TrackedAlloc(ulong size, string identifier, string details)
-    {
-        return StringAlloc.CreateCString(identifier, identifierBufferPtr =>
-        {
-            return StringAlloc.CreateCString(details, detailsBufferPtr =>
-            {
-                var ret = _TrackedAlloc(size, (byte*)identifierBufferPtr, (byte*)detailsBufferPtr);
-                return ret;
-            });
-        });
-    }
-
     private unsafe static delegate* unmanaged<nint, void> _Free;
 
     public unsafe static void Free(nint pointer)
@@ -65,17 +51,6 @@ internal static class NativeAllocator
     {
         var ret = _GetTotalAllocated();
         return ret;
-    }
-
-    private unsafe static delegate* unmanaged<byte*, ulong> _GetAllocatedByTrackedIdentifier;
-
-    public unsafe static ulong GetAllocatedByTrackedIdentifier(string identifier)
-    {
-        return StringAlloc.CreateCString(identifier, identifierBufferPtr =>
-        {
-            var ret = _GetAllocatedByTrackedIdentifier((byte*)identifierBufferPtr);
-            return ret;
-        });
     }
 
     private unsafe static delegate* unmanaged<nint, byte> _IsPointerValid;

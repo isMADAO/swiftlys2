@@ -21,6 +21,19 @@
 #include <scripting/scripting.h>
 #include <sstream>
 
+static char* Bridge_StringTable_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 INetworkStringTable* Bridge_StringTable_ContainerFindTable(const char* tableName)
 {
     static auto container = g_ifaceService.FetchInterface<INetworkStringTableContainer>(SOURCE2ENGINETOSERVERSTRINGTABLE_INTERFACE_VERSION);
@@ -38,11 +51,15 @@ int Bridge_StringTable_GetTableId(INetworkStringTable* table)
     return table->GetTableId();
 }
 
-int Bridge_StringTable_GetTableName(char* out, INetworkStringTable* table)
+char* Bridge_StringTable_GetTableName(int* size, INetworkStringTable* table)
 {
+    if (!table)
+    {
+        return Bridge_StringTable_CopyString("", size);
+    }
+
     std::string s = table->GetTableName();
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    return Bridge_StringTable_CopyString(s, size);
 }
 
 int Bridge_StringTable_GetNumStrings(INetworkStringTable* table)
@@ -60,16 +77,21 @@ bool Bridge_StringTable_IsStringIndexValid(INetworkStringTable* table, int index
     return table->GetString(index) != nullptr;
 }
 
-int Bridge_StringTable_GetString(char* out, INetworkStringTable* table, int index)
+char* Bridge_StringTable_GetString(int* size, INetworkStringTable* table, int index)
 {
-    auto ptr = table->GetString(index);
-    if (!ptr) {
-        if (!out) return 1;
-        out[0] = '\0';
+    if (!table)
+    {
+        return Bridge_StringTable_CopyString("", size);
     }
+
+    auto ptr = table->GetString(index);
+    if (!ptr)
+    {
+        return Bridge_StringTable_CopyString("", size);
+    }
+
     std::string s = ptr;
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    return Bridge_StringTable_CopyString(s, size);
 }
 
 const void* Bridge_StringTable_GetStringUserData(INetworkStringTable* table, int index)

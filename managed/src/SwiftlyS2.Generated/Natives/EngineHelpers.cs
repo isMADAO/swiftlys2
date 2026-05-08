@@ -11,15 +11,15 @@ namespace SwiftlyS2.Core.Natives;
 internal static class NativeEngineHelpers
 {
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetIP;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetIP;
 
     public unsafe static string GetIP()
     {
-        var ret = _GetIP(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetIP((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetIP(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<byte*, byte> _IsMapValid;
@@ -79,37 +79,37 @@ internal static class NativeEngineHelpers
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetCurrentGame;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetCurrentGame;
 
     public unsafe static string GetCurrentGame()
     {
-        var ret = _GetCurrentGame(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetCurrentGame((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetCurrentGame(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetNativeVersion;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetNativeVersion;
 
     public unsafe static string GetNativeVersion()
     {
-        var ret = _GetNativeVersion(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetNativeVersion((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetNativeVersion(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetMenuSettings;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetMenuSettings;
 
     public unsafe static string GetMenuSettings()
     {
-        var ret = _GetMenuSettings(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetMenuSettings((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetMenuSettings(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<nint> _GetGlobalVars;
@@ -128,37 +128,37 @@ internal static class NativeEngineHelpers
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetCSGODirectoryPath;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetCSGODirectoryPath;
 
     public unsafe static string GetCSGODirectoryPath()
     {
-        var ret = _GetCSGODirectoryPath(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetCSGODirectoryPath((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetCSGODirectoryPath(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetGameDirectoryPath;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetGameDirectoryPath;
 
     public unsafe static string GetGameDirectoryPath()
     {
-        var ret = _GetGameDirectoryPath(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetGameDirectoryPath((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetGameDirectoryPath(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetWorkshopId;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetWorkshopId;
 
     public unsafe static string GetWorkshopId()
     {
-        var ret = _GetWorkshopId(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetWorkshopId((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetWorkshopId(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<byte*, uint, nint, byte, nint, byte, int, ulong, void> _DispatchParticleEffect;

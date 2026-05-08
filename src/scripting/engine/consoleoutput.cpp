@@ -21,6 +21,19 @@
 
 #include <api/shared/string.h>
 
+static char* Bridge_ConsoleOutput_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 uint64_t Bridge_ConsoleOutput_AddConsoleListener(void* callback)
 {
     auto consoleOutput = g_ifaceService.FetchInterface<IConsoleOutput>(CONSOLEOUTPUT_INTERFACE_VERSION);
@@ -59,15 +72,12 @@ bool Bridge_ConsoleOutput_NeedsFiltering(const char* text)
     return consoleOutput->NeedsFiltering(std::string(text));
 }
 
-int Bridge_ConsoleOutput_GetCounterText(char* out)
+char* Bridge_ConsoleOutput_GetCounterText(int* size)
 {
-    static std::string counterText;
     auto consoleOutput = g_ifaceService.FetchInterface<IConsoleOutput>(CONSOLEOUTPUT_INTERFACE_VERSION);
+    std::string counterText = consoleOutput->GetCounterText();
 
-    if (out != nullptr) strcpy(out, counterText.c_str());
-    else counterText = consoleOutput->GetCounterText();
-
-    return counterText.size();
+    return Bridge_ConsoleOutput_CopyString(counterText, size);
 }
 
 DEFINE_NATIVE("ConsoleOutput.AddConsoleListener", Bridge_ConsoleOutput_AddConsoleListener);

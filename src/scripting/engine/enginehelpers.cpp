@@ -20,6 +20,7 @@
 #include <api/shared/files.h>
 #include <api/shared/string.h>
 #include <api/shared/plat.h>
+#include <api/utils/mutex.h>
 
 #include <core/entrypoint.h>
 #include <scripting/scripting.h>
@@ -29,8 +30,7 @@
 #include <public/tier0/platform.h>
 #include <public/iserver.h>
 #include <igamesystemfactory.h>
-
-#include <core/bridge/metamod.h>
+#include <networksystem/inetworksystem.h>
 
 #include <fmt/format.h>
 
@@ -41,6 +41,20 @@ struct CBaseGameSystemFactory_t : public IGameSystemFactory {
     const char* m_pName;
     void** reallocating_ptr;
 };
+
+static char* Bridge_EngineHelpers_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+
+    return out;
+}
 
 bool Bridge_EngineHelpers_IsMapValid(const char* map_name)
 {
@@ -99,43 +113,34 @@ void* Bridge_EngineHelpers_GetTraceManager()
     return g_pTraceManager;
 }
 
-int Bridge_EngineHelpers_GetCSGODirectoryPath(char* out)
+char* Bridge_EngineHelpers_GetCSGODirectoryPath(int* size)
 {
-    static std::string s;
-    s = fmt::format("{}{}csgo", Plat_GetGameDirectory(), WIN_LINUX("\\", "/"));
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    std::string s = fmt::format("{}{}csgo", Plat_GetGameDirectory(), WIN_LINUX("\\", "/"));
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
-int Bridge_EngineHelpers_GetGameDirectoryPath(char* out)
+char* Bridge_EngineHelpers_GetGameDirectoryPath(int* size)
 {
-    static std::string s;
-    s = Plat_GetGameDirectory();
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    std::string s = Plat_GetGameDirectory();
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
-int Bridge_EngineHelpers_GetCurrentGame(char* out)
+char* Bridge_EngineHelpers_GetCurrentGame(int* size)
 {
-    static std::string s;
-    s = g_SwiftlyCore.GetCurrentGame();
-
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    std::string s = g_SwiftlyCore.GetCurrentGame();
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
-int Bridge_EngineHelpers_GetNativeVersion(char* out)
+char* Bridge_EngineHelpers_GetNativeVersion(int* size)
 {
-    static std::string s;
-    s = g_SwiftlyCore.GetVersion();
+    std::string s = g_SwiftlyCore.GetVersion();
 
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
-int Bridge_EngineHelpers_GetMenuSettings(char* out)
+char* Bridge_EngineHelpers_GetMenuSettings(int* size)
 {
-    static std::string s;
+    std::string s;
 
     auto configuration = g_ifaceService.FetchInterface<IConfiguration>(CONFIGURATION_INTERFACE_VERSION);
     try {
@@ -163,8 +168,7 @@ int Bridge_EngineHelpers_GetMenuSettings(char* out)
         printf("Exception: %s\n", e.what());
     }
 
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
 void* Bridge_EngineHelpers_GetGlobalVars()
@@ -180,24 +184,23 @@ void* Bridge_EngineHelpers_GetNetworkGameServer()
     return g_ifaceService.FetchInterface<INetworkServerService>(NETWORKSERVERSERVICE_INTERFACE_VERSION)->GetIGameServer();
 }
 
-int Bridge_EngineHelpers_GetIP(char* out)
+char* Bridge_EngineHelpers_GetIP(int* size)
 {
     auto networksystem = g_ifaceService.FetchInterface<INetworkSystem>(NETWORKSYSTEM_INTERFACE_VERSION);
 
     auto& addr = networksystem->GetPublicAdr();
     std::string s = fmt::format("{}.{}.{}.{}", addr.ip[0], addr.ip[1], addr.ip[2], addr.ip[3]);
 
-    if (out != nullptr) strcpy(out, s.c_str());
-    return s.size();
+    return Bridge_EngineHelpers_CopyString(s, size);
 }
 
 extern std::string workshop_map;
+extern QueueMutex g_qmMapLoadQueue;
 
-int Bridge_EngineHelpers_GetWorkshopId(char* out)
+char* Bridge_EngineHelpers_GetWorkshopId(int* size)
 {
-    if (out != nullptr) strcpy(out, workshop_map.c_str());
-
-    return workshop_map.size();
+    QueueLockGuard lock(g_qmMapLoadQueue);
+    return Bridge_EngineHelpers_CopyString(workshop_map, size);
 }
 
 void Bridge_EngineHelpers_DispatchParticleEffect(const char* particleName, uint attachmentType, void* entity, byte attachmentPoint, const char* attachmentName, bool resetAllParticlesOnEntity, int splitScreenSlot, uint64_t filtermask)
@@ -208,6 +211,7 @@ void Bridge_EngineHelpers_DispatchParticleEffect(const char* particleName, uint 
     *(uint64_t*)(a.GetRecipients().Base()) = filtermask;
     reinterpret_cast<void(*)(const char*, uint, void*, byte, CUtlSymbolLarge, bool, int, CRecipientFilter, byte)>(func)(particleName, attachmentType, entity, attachmentPoint, CUtlSymbolLarge(attachmentName), resetAllParticlesOnEntity, splitScreenSlot, a, 0);
 }
+
 DEFINE_NATIVE("EngineHelpers.GetIP", Bridge_EngineHelpers_GetIP);
 DEFINE_NATIVE("EngineHelpers.IsMapValid", Bridge_EngineHelpers_IsMapValid);
 DEFINE_NATIVE("EngineHelpers.ExecuteCommand", Bridge_EngineHelpers_ExecuteCommand);

@@ -49,13 +49,19 @@ public interface IGameDataService
     /// <summary>
     /// Check if a patch exists.
     /// </summary>
-    /// <param name="patchName">Patch name defined in `patchs.jsonc` file.</param>
+    /// <param name="patchName">Patch name defined in `patches.jsonc` file.</param>
     /// <returns>Whether the patch exists.</returns>
     public bool HasPatch( string patchName );
 
     /// <summary>
     /// Apply a patch by name.
     /// </summary>
-    /// <param name="patchName">Patch name defined in `patchs.jsonc` file.</param>
+    /// <param name="patchName">Patch name defined in `patches.jsonc` file.</param>
     public void ApplyPatch( string patchName );
+
+    /// <summary>
+    /// Revert a patch by name.
+    /// </summary>
+    /// <param name="patchName">Patch name defined in `patches.jsonc` file.</param>
+    public void RevertPatch( string patchName );
 }

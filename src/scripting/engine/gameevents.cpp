@@ -26,6 +26,19 @@
 
 typedef IGameEventListener2* (*GetLegacyGameEventListener)(CPlayerSlot slot);
 
+static char* Bridge_GameEvents_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 bool Bridge_GameEvents_GetBool(void* event, const char* key)
 {
     if (!event) return false;
@@ -50,15 +63,15 @@ float Bridge_GameEvents_GetFloat(void* event, const char* key)
     return ((IGameEvent*)event)->GetFloat(key);
 }
 
-int Bridge_GameEvents_GetString(char* out, void* event, const char* key)
+char* Bridge_GameEvents_GetString(int* size, void* event, const char* key)
 {
-    if (!event) return 1;
-    static std::string s;
-    s = ((IGameEvent*)event)->GetString(key);
+    if (!event)
+    {
+        return Bridge_GameEvents_CopyString("", size);
+    }
 
-    if (out != nullptr) strcpy(out, s.c_str());
-
-    return s.size();
+    std::string s = ((IGameEvent*)event)->GetString(key);
+    return Bridge_GameEvents_CopyString(s, size);
 }
 
 void* Bridge_GameEvents_GetPtr(void* event, const char* key)

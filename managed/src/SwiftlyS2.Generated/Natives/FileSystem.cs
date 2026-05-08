@@ -11,17 +11,17 @@ namespace SwiftlyS2.Core.Natives;
 internal static class NativeFileSystem
 {
 
-    private unsafe static delegate* unmanaged<byte*, byte*, int, int, int> _GetSearchPath;
+    private unsafe static delegate* unmanaged<int*, byte*, int, int, byte*> _GetSearchPath;
 
     public unsafe static string GetSearchPath(string pathId, int searchPathType, int searchPathsToGet)
     {
         return StringAlloc.CreateCString(pathId, pathIdBufferPtr =>
         {
-            var ret = _GetSearchPath(null, (byte*)pathIdBufferPtr, searchPathType, searchPathsToGet);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetSearchPath((byte*)retBufferPtr, (byte*)pathIdBufferPtr, searchPathType, searchPathsToGet);
-            });
+            var length = 0;
+            var returnedPtr = _GetSearchPath(&length, (byte*)pathIdBufferPtr, searchPathType, searchPathsToGet);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 
@@ -91,7 +91,7 @@ internal static class NativeFileSystem
         _PrintSearchPaths();
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, byte*, int> _ReadFile;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*, byte*> _ReadFile;
 
     public unsafe static string ReadFile(string fileName, string pathId)
     {
@@ -99,11 +99,11 @@ internal static class NativeFileSystem
         {
             return StringAlloc.CreateCString(pathId, pathIdBufferPtr =>
             {
-                var ret = _ReadFile(null, (byte*)fileNameBufferPtr, (byte*)pathIdBufferPtr);
-                return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-                {
-                    _ = _ReadFile((byte*)retBufferPtr, (byte*)fileNameBufferPtr, (byte*)pathIdBufferPtr);
-                });
+                var length = 0;
+                var returnedPtr = _ReadFile(&length, (byte*)fileNameBufferPtr, (byte*)pathIdBufferPtr);
+                var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+                NativeAllocator.Free((nint)returnedPtr);
+                return outString;
             });
         });
     }

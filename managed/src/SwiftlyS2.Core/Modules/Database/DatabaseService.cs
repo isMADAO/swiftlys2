@@ -18,18 +18,18 @@ internal class DatabaseService : IDatabaseService
     {
     }
 
-    public DatabaseService( ILogger<DatabaseService> logger )
+    public DatabaseService(ILogger<DatabaseService> logger)
     {
         this.logger = logger;
         this.connectionFactories.Clear();
     }
 
-    private string ResolveConnectionName( string connectionName )
+    private string ResolveConnectionName(string connectionName)
     {
         return NativeDatabase.ConnectionExists(connectionName) ? connectionName : NativeDatabase.GetDefaultConnectionName();
     }
 
-    private Func<IDbConnection> GetOrCreateConnectionFactory( string connectionName )
+    private Func<IDbConnection> GetOrCreateConnectionFactory(string connectionName)
     {
         var resolvedName = ResolveConnectionName(connectionName);
 
@@ -56,7 +56,7 @@ internal class DatabaseService : IDatabaseService
         }
     }
 
-    private static Func<IDbConnection> CreateConnectionFactory( string connectionName )
+    private static Func<IDbConnection> CreateConnectionFactory(string connectionName)
     {
         var driver = NativeDatabase.GetConnectionDriver(connectionName);
         var host = NativeDatabase.GetConnectionHost(connectionName);
@@ -66,7 +66,8 @@ internal class DatabaseService : IDatabaseService
         var timeout = NativeDatabase.GetConnectionTimeout(connectionName);
         var port = NativeDatabase.GetConnectionPort(connectionName);
 
-        return driver switch {
+        return driver switch
+        {
             "sqlite" => CreateSqliteFactory(database),
             "mysql" => CreateMySqlFactory(host, port, database, user, pass, timeout),
             "postgresql" => CreatePostgresFactory(host, port, database, user, pass, timeout),
@@ -74,15 +75,16 @@ internal class DatabaseService : IDatabaseService
         };
     }
 
-    private static Func<IDbConnection> CreateSqliteFactory( string database )
+    private static Func<IDbConnection> CreateSqliteFactory(string database)
     {
         var connStr = $"Data Source={database}";
         return () => new SQLiteConnection(connStr);
     }
 
-    private static Func<IDbConnection> CreateMySqlFactory( string host, ushort port, string database, string user, string pass, uint timeout )
+    private static Func<IDbConnection> CreateMySqlFactory(string host, ushort port, string database, string user, string pass, uint timeout)
     {
-        var builder = new MySqlConnectionStringBuilder {
+        var builder = new MySqlConnectionStringBuilder
+        {
             Server = host,
             Port = port > 0 ? port : 3306u,
             Database = database,
@@ -99,9 +101,10 @@ internal class DatabaseService : IDatabaseService
         return () => new MySqlConnection(connStr);
     }
 
-    private static Func<IDbConnection> CreatePostgresFactory( string host, ushort port, string database, string user, string pass, uint timeout )
+    private static Func<IDbConnection> CreatePostgresFactory(string host, ushort port, string database, string user, string pass, uint timeout)
     {
-        var builder = new NpgsqlConnectionStringBuilder {
+        var builder = new NpgsqlConnectionStringBuilder
+        {
             Host = host,
             Port = port > 0 ? port : 5432,
             Database = database,
@@ -118,12 +121,12 @@ internal class DatabaseService : IDatabaseService
         return () => new NpgsqlConnection(connStr);
     }
 
-    public string GetConnectionString( string connectionName )
+    public string GetConnectionString(string connectionName)
     {
         return GetConnectionInfo(connectionName).ToString();
     }
 
-    public DatabaseConnectionInfo GetConnectionInfo( string connectionName )
+    public DatabaseConnectionInfo GetConnectionInfo(string connectionName)
     {
         var resolvedName = ResolveConnectionName(connectionName);
         return new DatabaseConnectionInfo(
@@ -138,7 +141,7 @@ internal class DatabaseService : IDatabaseService
         );
     }
 
-    public IDbConnection GetConnection( string connectionName )
+    public IDbConnection GetConnection(string connectionName)
     {
         return GetOrCreateConnectionFactory(connectionName)();
     }

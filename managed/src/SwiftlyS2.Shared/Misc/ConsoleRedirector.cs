@@ -3,7 +3,7 @@ using SwiftlyS2.Core.Natives;
 
 namespace SwiftlyS2.Shared.Misc;
 
-class ConsoleRedirector : TextWriter
+internal class ConsoleRedirector : TextWriter
 {
     private readonly TextWriter originalOut;
     private readonly Lock lockObject = new();
@@ -28,8 +28,25 @@ class ConsoleRedirector : TextWriter
             try
             {
                 isRedirecting = true;
-                string v = value ?? "(null)";
-                NativeEngineHelpers.SendMessageToConsole(v + (v.EndsWith("\n") ? "" : "\n"));
+                var v = value ?? "(null)";
+                if (!v.EndsWith('\n'))
+                {
+                    v += "\n";
+                }
+
+                if (v.Length >= 512) // maximum console output length per message
+                {
+                    var chunks = v.Chunk(512);
+                    foreach (var chunk in chunks)
+                    {
+                        var chunkStr = new string(chunk);
+                        NativeEngineHelpers.SendMessageToConsole(chunkStr);
+                    }
+                }
+                else
+                {
+                    NativeEngineHelpers.SendMessageToConsole(v);
+                }
             }
             finally
             {
@@ -50,7 +67,21 @@ class ConsoleRedirector : TextWriter
             try
             {
                 isRedirecting = true;
-                NativeEngineHelpers.SendMessageToConsole(value ?? "(null)");
+
+                var v = value ?? "(null)";
+                if (v.Length >= 512) // maximum console output length per message
+                {
+                    var chunks = v.Chunk(512);
+                    foreach (var chunk in chunks)
+                    {
+                        var chunkStr = new string(chunk);
+                        NativeEngineHelpers.SendMessageToConsole(chunkStr);
+                    }
+                }
+                else
+                {
+                    NativeEngineHelpers.SendMessageToConsole(v);
+                }
             }
             finally
             {

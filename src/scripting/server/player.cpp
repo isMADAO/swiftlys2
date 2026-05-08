@@ -22,6 +22,19 @@
 #include <api/memory/virtual/call.h>
 #include <api/sdk/serversideclient.h>
 
+static char* Bridge_Player_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 void Bridge_Player_SendMessage(int playerid, int kind, const char* message, int duration)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
@@ -132,20 +145,18 @@ void Bridge_Player_PerformCommand(int playerid, const char* command)
     player->PerformCommand(command);
 }
 
-int Bridge_Player_GetIPAddress(char* out, int playerid)
+char* Bridge_Player_GetIPAddress(int* size, int playerid)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
-    static std::string s;
-    s = player->GetIPAddress();
+    std::string s = player->GetIPAddress();
 
-    if (out != nullptr)
-        strcpy(out, s.c_str());
-
-    return s.size();
+    return Bridge_Player_CopyString(s, size);
 }
 
 void Bridge_Player_Kick(int playerid, const char* reason, int gamereason)
@@ -236,8 +247,11 @@ void Bridge_Player_ChangeTeam(int playerid, int newteam)
     if (!player)
         return;
 
+    auto controller = player->GetController();
+    if (!controller) return;
+
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
-    CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CCSPlayerController::ChangeTeam"), player->GetController(), newteam);
+    CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CCSPlayerController::ChangeTeam"), controller, newteam);
 }
 
 void Bridge_Player_SwitchTeam(int playerid, int newteam)
@@ -247,11 +261,14 @@ void Bridge_Player_SwitchTeam(int playerid, int newteam)
     if (!player)
         return;
 
+    auto controller = player->GetController();
+    if (!controller) return;
+
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
     if (newteam == 0 || newteam == 1)
-        CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CCSPlayerController::ChangeTeam"), player->GetController(), newteam);
+        CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CCSPlayerController::ChangeTeam"), controller, newteam);
     else
-        reinterpret_cast<void (*)(void*, int)>(gamedata->GetSignatures()->Fetch("CCSPlayerController::SwitchTeam"))(player->GetController(), newteam);
+        reinterpret_cast<void (*)(void*, int)>(gamedata->GetSignatures()->Fetch("CCSPlayerController::SwitchTeam"))(controller, newteam);
 }
 
 void Bridge_Player_TakeDamage(int playerid, void* dmginfo)
@@ -261,8 +278,11 @@ void Bridge_Player_TakeDamage(int playerid, void* dmginfo)
     if (!player)
         return;
 
+    auto pawn = player->GetPawn();
+    if (!pawn) return;
+
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
-    reinterpret_cast<int64_t(*)(void*, void*, void*)>(gamedata->GetSignatures()->Fetch("CBaseEntity::TakeDamage"))(player->GetPawn(), dmginfo, 0);
+    reinterpret_cast<int64_t(*)(void*, void*, void*)>(gamedata->GetSignatures()->Fetch("CBaseEntity::TakeDamage"))(pawn, dmginfo, 0);
 }
 
 void Bridge_Player_Teleport(int playerid, Vector pos, QAngle angle, Vector vel)
@@ -272,24 +292,24 @@ void Bridge_Player_Teleport(int playerid, Vector pos, QAngle angle, Vector vel)
     if (!player)
         return;
 
+    auto pawn = player->GetPawn();
+    if (!pawn) return;
+
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
-    CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CBaseEntity::Teleport"), player->GetPawn(), &pos, &angle, &vel);
+    CALL_VIRTUAL(void, gamedata->GetOffsets()->Fetch("CBaseEntity::Teleport"), pawn, &pos, &angle, &vel);
 }
 
-int Bridge_Player_GetLanguage(char* out, int playerid)
+char* Bridge_Player_GetLanguage(int* size, int playerid)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
-    static std::string s;
-    s = player->GetLanguage();
-
-    if (out != nullptr)
-        strcpy(out, s.c_str());
-
-    return s.size();
+    std::string s = player->GetLanguage();
+    return Bridge_Player_CopyString(s, size);
 }
 
 void Bridge_Player_SetCenterMenuRender(int playerid, const char* text)
@@ -372,20 +392,18 @@ uint64_t Bridge_Player_GetSessionID(int playerid)
     return player->GetSessionID();
 }
 
-int Bridge_Player_GetClientConvarValue(char* out, int playerid, const char* convarName)
+char* Bridge_Player_GetClientConvarValue(int* size, int playerid, const char* convarName)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
     auto player = playerManager->GetPlayer(playerid);
     if (!player)
-        return 0;
+        return Bridge_Player_CopyString("", size);
 
     static auto engine = g_ifaceService.FetchInterface<IVEngineServer2>(INTERFACEVERSION_VENGINESERVER);
     auto value = engine->GetClientConVarValue(CPlayerSlot(playerid), convarName);
-    
-    if (out != nullptr)
-        strcpy(out, value);
-
-    return strlen(value);
+    return Bridge_Player_CopyString(value, size);
 }
 
 CServerSideClient* GetServerSideClient(int playerid);

@@ -21,7 +21,6 @@ internal static class GameFunctions
     public static unsafe delegate* unmanaged< nint, uint, nint, byte, CUtlSymbolLarge, byte, int, nint, nint, void > pDispatchParticleEffect;
     public static unsafe delegate* unmanaged< nint, float, uint, nint, void > pTerminateRoundWindows;
     public static unsafe delegate* unmanaged< nint, uint, nint, float, void > pTerminateRoundLinux;
-    public static unsafe delegate* unmanaged< nint, Vector*, QAngle*, Vector*, void > pTeleport;
     public static unsafe delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, int, nint > pCSmokeGrenadeProjectileEmitGrenade;
     public static unsafe delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint > pCFlashbangProjectileEmitGrenade;
     public static unsafe delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint > pCHEGrenadeProjectileEmitGrenade;
@@ -84,7 +83,6 @@ internal static class GameFunctions
             pSetOrAddAttribute = (delegate* unmanaged< nint, IntPtr, float, void >)NativeSignatures.Fetch("CAttributeList::SetOrAddAttributeValueByName");
             pGetWeaponCSDataFromKey = (delegate* unmanaged< int, nint, nint >)NativeSignatures.Fetch("GetWeaponCSDataFromKey");
             pDispatchParticleEffect = (delegate* unmanaged< nint, uint, nint, byte, CUtlSymbolLarge, byte, int, nint, nint, void >)NativeSignatures.Fetch("DispatchParticleEffect");
-            pTeleport = (delegate* unmanaged< nint, Vector*, QAngle*, Vector*, void >)((void**)NativeMemoryHelpers.GetVirtualTableAddress("server", "CBaseEntity"))[TeleportOffset];
             pCSmokeGrenadeProjectileEmitGrenade = (delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, int, nint >)NativeSignatures.Fetch("CSmokeGrenadeProjectile::EmitGrenade");
             pCFlashbangProjectileEmitGrenade = (delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint >)NativeSignatures.Fetch("CFlashbangProjectile::EmitGrenade");
             pCHEGrenadeProjectileEmitGrenade = (delegate* unmanaged< Vector*, QAngle*, Vector*, Vector*, nint, uint, nint >)NativeSignatures.Fetch("CHEGrenadeProjectile::EmitGrenade");
@@ -141,7 +139,7 @@ internal static class GameFunctions
             AnsiConsole.WriteException(e);
         }
     }
-    
+
     public static void GoToIntermission( nint gameRules, bool bAbortedMatch )
     {
         try
@@ -165,17 +163,10 @@ internal static class GameFunctions
         {
             unsafe
             {
-                var pool = ArrayPool<byte>.Shared;
-                var keyLength = Encoding.UTF8.GetByteCount(key);
-                var keyBuffer = pool.Rent(keyLength + 1);
-                _ = Encoding.UTF8.GetBytes(key, keyBuffer);
-                keyBuffer[keyLength] = 0;
-                fixed (byte* pKey = keyBuffer)
+                return StringAlloc.CreateCString(key, pKey =>
                 {
-                    var weaponCSData = pGetWeaponCSDataFromKey(unknown, (nint)pKey);
-                    pool.Return(keyBuffer);
-                    return weaponCSData;
-                }
+                    return pGetWeaponCSDataFromKey(unknown, pKey);
+                });
             }
         }
         catch (Exception e)
@@ -260,19 +251,14 @@ internal static class GameFunctions
         try
         {
             CheckPtr(pEntity, nameof(pEntity));
-            unsafe
+
+            StringAlloc.CreateCString(model, pModel =>
             {
-                var pool = ArrayPool<byte>.Shared;
-                var modelLength = Encoding.UTF8.GetByteCount(model);
-                var modelBuffer = pool.Rent(modelLength + 1);
-                _ = Encoding.UTF8.GetBytes(model, modelBuffer);
-                modelBuffer[modelLength] = 0;
-                fixed (byte* pModel = modelBuffer)
+                unsafe
                 {
-                    _ = pSetModel(pEntity, (IntPtr)pModel);
-                    pool.Return(modelBuffer);
+                    _ = pSetModel(pEntity, pModel);
                 }
-            }
+            });
         }
         catch (Exception e)
         {
@@ -292,6 +278,7 @@ internal static class GameFunctions
             CheckPtr(pEntity, nameof(pEntity));
             unsafe
             {
+                var pTeleport = (delegate* unmanaged< nint, Vector*, QAngle*, Vector*, void >)GetVirtualFunction(pEntity, TeleportOffset);
                 pTeleport(pEntity, vecPosition, vecAngle, vecVelocity);
             }
         }
@@ -445,17 +432,10 @@ internal static class GameFunctions
                 CheckPtr(pThis, nameof(pThis));
                 var ppVTable = (void***)pThis;
                 var pGiveNamedItem = (delegate* unmanaged< nint, nint, nint >)ppVTable[0][GiveNamedItemOffset];
-                var pool = ArrayPool<byte>.Shared;
-                var nameLength = Encoding.UTF8.GetByteCount(name);
-                var nameBuffer = pool.Rent(nameLength + 1);
-                _ = Encoding.UTF8.GetBytes(name, nameBuffer);
-                nameBuffer[nameLength] = 0;
-                fixed (byte* pName = nameBuffer)
+                return StringAlloc.CreateCString(name, pName =>
                 {
-                    var ptr = pGiveNamedItem(pThis, (IntPtr)pName);
-                    pool.Return(nameBuffer);
-                    return ptr;
-                }
+                    return pGiveNamedItem(pThis, pName);
+                });
             }
         }
         catch (Exception e)
@@ -525,17 +505,11 @@ internal static class GameFunctions
             unsafe
             {
                 CheckPtr(pThis, nameof(pThis));
-                var pool = ArrayPool<byte>.Shared;
-                var pathLength = Encoding.UTF8.GetByteCount(path);
-                var pathBuffer = pool.Rent(pathLength + 1);
-                _ = Encoding.UTF8.GetBytes(path, pathBuffer);
-                pathBuffer[pathLength] = 0;
                 var pAddResource = (delegate* unmanaged< nint, nint, void >)GetVirtualFunction(pThis, AddResourceOffset);
-                fixed (byte* pPath = pathBuffer)
+                StringAlloc.CreateCString(path, pPath =>
                 {
-                    pAddResource(pThis, (IntPtr)pPath);
-                    pool.Return(pathBuffer);
-                }
+                    pAddResource(pThis, pPath);
+                });
             }
         }
         catch (Exception e)
@@ -551,16 +525,10 @@ internal static class GameFunctions
             unsafe
             {
                 CheckPtr(handle, nameof(handle));
-                var pool = ArrayPool<byte>.Shared;
-                var nameLength = Encoding.UTF8.GetByteCount(name);
-                var nameBuffer = pool.Rent(nameLength + 1);
-                _ = Encoding.UTF8.GetBytes(name, nameBuffer);
-                nameBuffer[nameLength] = 0;
-                fixed (byte* pName = nameBuffer)
+                StringAlloc.CreateCString(name, pName =>
                 {
                     pSetOrAddAttribute(handle, (nint)pName, value);
-                    pool.Return(nameBuffer);
-                }
+                });
             }
         }
         catch (Exception e)

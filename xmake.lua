@@ -15,7 +15,6 @@ local GITHUB_SHA = os.getenv("GITHUB_SHA") or "Local"
 local SWIFTLY_VERSION = os.getenv("SWIFTLY_VERSION") or "Local"
 
 local sdk_path = "vendor/s2sdk"
-local metamod_path = "vendor/metamod"
 local breakpad_path = "vendor/breakpad/src"
 
 function GetDistDirName()
@@ -67,10 +66,6 @@ target("swiftlys2")
         sdk_path.."/game/shared",
         sdk_path.."/game/server",
         sdk_path.."/common",
-
-        metamod_path,
-        metamod_path.."/core",
-        metamod_path.."/core/sourcehook",
 
         breakpad_path,
     })
@@ -124,12 +119,19 @@ target("swiftlys2")
     add_cxxflags("cl::/Ox")
     add_cxxflags("cl::/Zo")
     add_cxxflags("cl::/Oy-")
-    add_cxxflags("cl::/Z7")
     add_cxxflags("cl::/TP")
     add_cxxflags("cl::/W3")
-    add_cxxflags("cl::/Z7")
     add_cxxflags("cl::/EHsc")
-    add_cxxflags("cl::/IGNORE:4101,4267,4244,4005,4003,4530,D9025")
+    add_cxxflags("cl::/wd4003")
+    add_cxxflags("cl::/wd4005")
+    add_cxxflags("cl::/wd4018")
+    add_cxxflags("cl::/wd4101")
+    add_cxxflags("cl::/wd4146")
+    add_cxxflags("cl::/wd4267")
+    add_cxxflags("cl::/wd4244")
+    add_cxxflags("cl::/wd4530")
+    add_cxxflags("cl::/wd4828")
+    add_cxxflags("cl::/wd4834")
 
     set_runtimes("MT")
 
@@ -386,14 +388,7 @@ target("swiftlys2")
             os.rmdir("build/package")
         end
         
-        os.mkdir('build/package/addons/metamod')
         os.cp("plugin_files/", 'build/package/addons/swiftlys2')
         os.mkdir('build/package/addons/swiftlys2/bin/'..GetDistDirName())
         os.cp(target:targetfile(), 'build/package/addons/swiftlys2/bin/'..GetDistDirName().."/swiftlys2."..(is_plat("windows") and "dll" or "so"))
-        io.writefile("build/package/addons/metamod/swiftlys2.vdf", [["Metamod Plugin"
-{
-    "alias"	"swiftlys2"
-    "file"	"addons/swiftlys2/bin/]]..GetDistDirName()..[[/swiftlys2"
-}
-]])
     end)

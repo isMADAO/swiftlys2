@@ -30,7 +30,7 @@ internal static class NativeCommandLine
         return ret;
     }
 
-    private unsafe static delegate* unmanaged<byte*, byte*, byte*, int> _GetParameterValueString;
+    private unsafe static delegate* unmanaged<int*, byte*, byte*, byte*> _GetParameterValueString;
 
     public unsafe static string GetParameterValueString(string parameter, string defaultValue)
     {
@@ -38,11 +38,11 @@ internal static class NativeCommandLine
         {
             return StringAlloc.CreateCString(defaultValue, defaultValueBufferPtr =>
             {
-                var ret = _GetParameterValueString(null, (byte*)parameterBufferPtr, (byte*)defaultValueBufferPtr);
-                return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-                {
-                    _ = _GetParameterValueString((byte*)retBufferPtr, (byte*)parameterBufferPtr, (byte*)defaultValueBufferPtr);
-                });
+                var length = 0;
+                var returnedPtr = _GetParameterValueString(&length, (byte*)parameterBufferPtr, (byte*)defaultValueBufferPtr);
+                var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+                NativeAllocator.Free((nint)returnedPtr);
+                return outString;
             });
         });
     }
@@ -69,15 +69,15 @@ internal static class NativeCommandLine
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, int> _GetCommandLine;
+    private unsafe static delegate* unmanaged<int*, byte*> _GetCommandLine;
 
     public unsafe static string GetCommandLine()
     {
-        var ret = _GetCommandLine(null);
-        return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-        {
-            _ = _GetCommandLine((byte*)retBufferPtr);
-        });
+        var length = 0;
+        var returnedPtr = _GetCommandLine(&length);
+        var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+        NativeAllocator.Free((nint)returnedPtr);
+        return outString;
     }
 
     private unsafe static delegate* unmanaged<byte> _HasParameters;

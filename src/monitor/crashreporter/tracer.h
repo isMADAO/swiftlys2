@@ -28,7 +28,7 @@ bool setEnvVar(const std::string& key, const std::string& value) {
     }
 #endif
     return false;
-}
+    }
 
 void TracerDump(const std::string& corePath, const char* path)
 {

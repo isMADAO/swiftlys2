@@ -46,7 +46,7 @@ internal static class GlobalLocalization
         }
 
         var languageFile = Path.Combine(translationsDir, $"{language}.jsonc");
-        
+
         if (!File.Exists(languageFile))
         {
             throw new Exception($"No translation file found for language: {language}");

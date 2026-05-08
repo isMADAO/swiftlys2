@@ -20,18 +20,28 @@
 #include <public/tier1/IKeyValuesSystem.h>
 #include <scripting/scripting.h>
 
+static char* Bridge_KeyValuesSystem_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 uint32_t Bridge_KeyValuesSystem_GetSymbolForString(const char* str)
 {
     return KeyValuesSystem()->GetSymbolForString(str, true).Get();
 }
 
-int Bridge_KeyValuesSystem_GetStringForSymbol(char* out, int32_t symbol)
+char* Bridge_KeyValuesSystem_GetStringForSymbol(int* size, int32_t symbol)
 {
     std::string str = KeyValuesSystem()->GetStringForSymbol(HKeySymbol(symbol));
-
-    if (out != nullptr) strcpy(out, str.c_str());
-
-    return str.size();
+    return Bridge_KeyValuesSystem_CopyString(str, size);
 }
 
 DEFINE_NATIVE("KeyValuesSystem.GetSymbolForString", Bridge_KeyValuesSystem_GetSymbolForString);

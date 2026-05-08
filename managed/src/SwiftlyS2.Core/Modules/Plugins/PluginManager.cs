@@ -385,9 +385,9 @@ internal class PluginManager : IPluginManager
             _ = _plugins.Remove(context);
             return true;
         }
-        catch
+        catch(Exception ex)
         {
-            if (!silent) _logger.LogWarning("Failed to unload plugin: {Id}", id);
+            if (!silent) _logger.LogWarning(ex, "Failed to unload plugin: {Id}", id);
             context.Status = PluginStatus.Indeterminate;
             return false;
         }
@@ -618,13 +618,7 @@ internal class PluginManager : IPluginManager
                     _logger.LogWarning("Failed to reload plugin: {Name}", directoryName);
                 }
             }
-            catch (Exception ex)
-            {
-                if (GlobalExceptionHandler.Handle(ref ex))
-                {
-                    AnsiConsole.WriteException(ex);
-                }
-            }
+            catch (Exception) { }
         }, cts.Token);
     }
 

@@ -23,6 +23,19 @@
 
 #include <s2binlib/s2binlib.h>
 
+static char* Bridge_MemoryHelpers_CopyString(const std::string& value, int* size)
+{
+    static auto memory = g_ifaceService.FetchInterface<IMemoryAllocator>(MEMORYALLOCATOR_INTERFACE_VERSION);
+
+    int outSize = static_cast<int>(value.size());
+    *size = outSize;
+
+    char* out = (char*)memory->Alloc(outSize + 1);
+    memory->Copy(out, (void*)value.c_str(), outSize);
+    out[outSize] = '\0';
+    return out;
+}
+
 void* Bridge_MemoryHelpers_FetchInterfaceByName(const char* iface_name)
 {
     return g_ifaceService.FetchInterface<void>(iface_name);
@@ -71,20 +84,16 @@ void* Bridge_MemoryHelpers_GetAddressBySignature(const char* binary, const char*
     return FindSignature(binary, rawBytes ? BytesToIdaSignature(reinterpret_cast<const unsigned char*>(signature), len) : signature);
 }
 
-int Bridge_MemoryHelpers_GetObjectPtrVtableName(char* out, void* objptr)
+char* Bridge_MemoryHelpers_GetObjectPtrVtableName(int* size, void* objptr)
 {
     char buffer[1024] = { 0 };
     int ret = s2binlib_get_object_ptr_vtable_name(objptr, buffer, sizeof(buffer));
-    if (ret != 0) {
-        if (out != nullptr) {
-            strcpy(out, "");
-        }
-        return 1;
+    if (ret != 0)
+    {
+        return Bridge_MemoryHelpers_CopyString("", size);
     }
-    if (out != nullptr) {
-        strcpy(out, buffer);
-    }
-    return strlen(buffer);
+
+    return Bridge_MemoryHelpers_CopyString(buffer, size);
 }
 
 bool Bridge_MemoryHelpers_ObjectPtrHasVtable(void* objptr)

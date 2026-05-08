@@ -103,17 +103,17 @@ internal static class NativeCEntityKeyValues
         });
     }
 
-    private unsafe static delegate* unmanaged<byte*, nint, byte*, int> _GetString;
+    private unsafe static delegate* unmanaged<int*, nint, byte*, byte*> _GetString;
 
     public unsafe static string GetString(nint keyvalues, string key)
     {
         return StringAlloc.CreateCString(key, keyBufferPtr =>
         {
-            var ret = _GetString(null, keyvalues, (byte*)keyBufferPtr);
-            return StringAlloc.CreateCSharpString(ret, retBufferPtr =>
-            {
-                _ = _GetString((byte*)retBufferPtr, keyvalues, (byte*)keyBufferPtr);
-            });
+            var length = 0;
+            var returnedPtr = _GetString(&length, keyvalues, (byte*)keyBufferPtr);
+            var outString = StringAlloc.CreateCSharpString((nint)returnedPtr, length);
+            NativeAllocator.Free((nint)returnedPtr);
+            return outString;
         });
     }
 

@@ -25,8 +25,7 @@
 
 enum class BridgeKind_t
 {
-    Metamod = 0,
-    SwiftlyLoader = 1,
+    SwiftlyLoader = 0,
 };
 
 class SwiftlyCore
